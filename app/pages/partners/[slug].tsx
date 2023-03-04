@@ -10,7 +10,7 @@ import SectionContainer from '~/components/SectionContainer'
 import supabase from '~/lib/supabase'
 import { Partner } from '~/types/partners'
 import Error404 from '../404'
-
+//test
 function Partner({ partner }: { partner: Partner }) {
   if (!partner) return <Error404 />
 
