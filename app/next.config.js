@@ -2,7 +2,7 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: process.env.SUPABASE_HOSTNAME,
+    domains: [process.env.SUPABASE_HOSTNAME],
   },
   async redirects() {
     return [
