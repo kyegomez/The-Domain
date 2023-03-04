@@ -8,10 +8,6 @@
       "name": "nextjs-app",
       "path": "app"
     },
-    {
-      "name": "supabase-functions",
-      "path": "supabase/functions"
-    }
   ],
   "settings": {
     "files.exclude": {
