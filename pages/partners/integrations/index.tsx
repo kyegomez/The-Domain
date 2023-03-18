@@ -4,28 +4,13 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useDebounce } from 'use-debounce'
-// import BecomeAPartner from '~/components/BecomeAPartner'
-// import BecomeAPartner from '@/components/BecomeAPartner'
 
-// import Layout from '~/components/Layout'
-// import Layout from '@/components/layout/index'
-
-
-
-// import PartnerLinkBox from '~/components/PartnerLinkBox'/
 import PartnerLinkBox from '@/components/PartnerLinkBox'
-
-// import PartnerTileGrid from '~/components/PartnerTileGrid'
 import PartnerTileGrid from '@/components/PartnerTileGrid'
-
-// import SectionContainer from '~/components/SectionContainer'
 import SectionContainer from '@/components/SectionContainer'
 
-
-// import supabase from '~/lib/supabase'
 import supabase from '@/lib/supabase'
 
-// import { Partner } from '~/types/partners'
 import { Partner } from 'types/partners'
 import Footer from '@/components/Footer'
 import { PropsWithChildren } from 'react'

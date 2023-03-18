@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 // import { IconChevronLeft, IconExternalLink } from '@supabase/ui'
 // import { marked } from 'marked'
 // import { GetStaticPaths, GetStaticProps } from 'next'
@@ -284,31 +285,16 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-// import { Swiper, SwiperSlide } from 'swiper/react'
-// import Layout from '~/components/Layout'
-
-// import SectionContainer from '~/components/SectionContainer'
 import SectionContainer from '@/components/SectionContainer'
-
-// import supabase from '~/lib/supabase'
 import supabase from '@/lib/supabase'
 import { PropsWithChildren } from 'react'
-import { Navigation, Pagination } from 'swiper';
-// Direct React component imports
-// import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
-// import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
-import Swiper from 'swiper/react'
-import SwiperSlide from 'swiper/react';
+import * as Slider from '@radix-ui/react-slider';
 
+// import { Swiper, SwiperSlide} from "swiper/react";
+// import * as Slider from '@radix-ui/react-slider';
 
-
-
-// Styles must use direct files imports
-
-
-
-
-
+import { Transition } from '@headlessui/react';
+import React from 'react'
 
 export interface Partner {
   id: number
@@ -365,182 +351,230 @@ export const Layout = ({
 
 
 function Partner({ partner }: { partner: Partner }) {
+  const [activeImage, setActiveImage] = React.useState(0);
 
-  return (
-    <>
-      <Head>
-        <title>{partner.title} | Supabase Partner Gallery Example</title>
-        <meta name="description" content={partner.description}></meta>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+  const handleSliderChange = (event: React.FormEvent<HTMLDivElement>) => {
+    const value = (event.target as HTMLInputElement).valueAsNumber;
+    setActiveImage(value);
+  };
+  
+  return <>
+    <Head>
+      <title>{partner.title} | Supabase Partner Gallery Example</title>
+      <meta name="description" content={partner.description}></meta>
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
 
-      <Layout>
-        <SectionContainer>
-          <div className="col-span-12 mx-auto mb-2 max-w-5xl space-y-12 lg:col-span-2">
-            {/* Back button */}
-            <Link
-              href={`/partners/${
-                partner.type === 'technology' ? 'integrations' : 'experts'
-              }`}
-            >
-              <a className="flex cursor-pointer items-center text-scale-1200 transition-colors hover:text-scale-1000">
-                <IconChevronLeft style={{ padding: 0 }} />
-                Back
-              </a>
-            </Link>
+    <Layout>
+      <SectionContainer>
+        <div className="col-span-12 mx-auto mb-2 max-w-5xl space-y-12 lg:col-span-2">
+          {/* Back button */}
+          <Link
+            href={`/partners/${
+              partner.type === 'technology' ? 'integrations' : 'experts'
+            }`}
+            className="flex cursor-pointer items-center text-scale-1200 transition-colors hover:text-scale-1000">
 
-            <div className="flex items-center space-x-4">
-              <Image
-                layout="fixed"
-                width={56}
-                height={56}
-                className="flex-shrink-f0 h-14 w-14 rounded-full bg-scale-400"
-                src={partner.logo}
-                alt={partner.title}
-              />
-              <h1 className="h1" style={{ marginBottom: 0 }}>
-                {partner.title}
-              </h1>
-            </div>
+            <IconChevronLeft style={{ padding: 0 }} />Back
+          </Link>
 
-            <div
-              className="bg-scale-300 py-6"
-              style={{
-                marginLeft: 'calc(50% - 50vw)',
-                marginRight: 'calc(50% - 50vw)',
+          <div className="flex items-center space-x-4">
+            <Image
+              layout="fixed"
+              width={56}
+              height={56}
+              className="flex-shrink-f0 h-14 w-14 rounded-full bg-scale-400"
+              src={partner.logo}
+              alt={partner.title}
+            />
+            <h1 className="h1" style={{ marginBottom: 0 }}>
+              {partner.title}
+            </h1>
+          </div>
+
+          <div
+            className="bg-scale-300 py-6"
+            style={{
+              marginLeft: 'calc(50% - 50vw)',
+              marginRight: 'calc(50% - 50vw)',
+            }}
+          >
+            {/* <Swiper
+              initialSlide={0}
+              spaceBetween={0}
+              slidesPerView={4}
+              speed={300}
+              // slidesOffsetBefore={300}
+              centerInsufficientSlides={true}
+              breakpoints={{
+                320: {
+                  slidesPerView: 1,
+                },
+                720: {
+                  slidesPerView: 2,
+                },
+                920: {
+                  slidesPerView: 3,
+                },
+                1024: {
+                  slidesPerView: 4,
+                },
+                1208: {
+                  slidesPerView: 5,
+                },
               }}
-            >
-              <Swiper
-                initialSlide={0}
-                spaceBetween={0}
-                slidesPerView={4}
-                speed={300}
-                // slidesOffsetBefore={300}
-                centerInsufficientSlides={true}
-                breakpoints={{
-                  320: {
-                    slidesPerView: 1,
-                  },
-                  720: {
-                    slidesPerView: 2,
-                  },
-                  920: {
-                    slidesPerView: 3,
-                  },
-                  1024: {
-                    slidesPerView: 4,
-                  },
-                  1208: {
-                    slidesPerView: 5,
-                  },
-                }}
+            > */}
+              {/* {partner.images.map((image: any, i: number) => {
+                return (
+                  <SwiperSlide key={i}>
+                    <div className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md">
+                      <Image
+                        layout="responsive"
+                        objectFit="contain"
+                        width={1460}
+                        height={960}
+                        src={image}
+                        alt={partner.title}
+                      />
+                    </div>
+                  </SwiperSlide>
+                )
+              })} */}
+              {/* {partner.images && partner.images.map((image: any, i: number) => {
+                return (
+                  <SwiperSlide key={i}>
+                    <div className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md">
+                      <Image src={image} alt={`Partner Image ${i + 1}`} width={800} height={450} layout="responsive" />
+                    </div>
+                  </SwiperSlide>
+                )
+              })} */}
+              {/* {partner.images && partner.images.map((image: any, i: number) => {
+                return (
+                  <SwiperSlide key={i}>
+                    <div className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md">
+                      <Image src={image} alt={`Partner Image ${i + 1}`} width={800} height={450} layout="responsive" />
+                    </div>
+                  </SwiperSlide>
+                )
+              })}
+            </Swiper> */}
+            {partner.images && partner.images.map((image: any, i: number) => {
+              <Transition
+                key={i}
+                show={activeImage === i}
+                enter="transition-opacity duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity duration-300"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
               >
-                {/* {partner.images.map((image: any, i: number) => {
-                  return (
-                    <SwiperSlide key={i}>
-                      <div className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md">
-                        <Image
-                          layout="responsive"
-                          objectFit="contain"
-                          width={1460}
-                          height={960}
-                          src={image}
-                          alt={partner.title}
-                        />
-                      </div>
-                    </SwiperSlide>
-                  )
-                })} */}
-                {partner.images && partner.images.map((image: any, i: number) => {
-                  return (
-                    <SwiperSlide key={i}>
-                      <div className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md">
-                        <Image src={image} alt={`Partner Image ${i + 1}`} width={800} height={450} layout="responsive" />
-                      </div>
-                    </SwiperSlide>
-                  )
-                })}
-              </Swiper>
+                <div
+                  className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md"
+                  style={{ display: activeImage === i ? 'block' : 'none' }}
+                >
+                  <Image
+                    src={image}
+                    alt={`Partner Image ${i + 1}`}
+                    width={800}
+                    height={450}
+                    layout="responsive"
+                  />
+                </div>
+              </Transition>
+            })}
+            <Slider.Root
+              value={[activeImage]}
+              onChange={handleSliderChange}
+              max={partner.images ? partner.images.length - 1 : 0}
+            >
+              <div>
+                <Slider.Track className="w-full h-2 bg-gray-400 rounded">
+                  <Slider.Range className="h-2 bg-blue-500 rounded" />
+                </Slider.Track>
+                <Slider.Thumb className="w-6 h-6 bg-blue-500 rounded-full cursor-pointer" />
+              </div>
+            </Slider.Root>
+          </div>
+
+          <div className="grid gap-3 space-y-16 lg:grid-cols-4 lg:space-y-0">
+            <div className="lg:col-span-3">
+              <h2
+                className="text-scale-1200"
+                style={{ fontSize: '1.5rem', marginBottom: '1rem' }}
+              >
+                Overview
+              </h2>
+
+              <div
+                className="prose"
+                dangerouslySetInnerHTML={{ __html: partner.overview }}
+              />
             </div>
 
-            <div className="grid gap-3 space-y-16 lg:grid-cols-4 lg:space-y-0">
-              <div className="lg:col-span-3">
-                <h2
-                  className="text-scale-1200"
-                  style={{ fontSize: '1.5rem', marginBottom: '1rem' }}
-                >
-                  Overview
-                </h2>
+            <div>
+              <h2
+                className="text-scale-1200"
+                style={{ fontSize: '1.5rem', marginBottom: '1rem' }}
+              >
+                Details
+              </h2>
 
-                <div
-                  className="prose"
-                  dangerouslySetInnerHTML={{ __html: partner.overview }}
-                />
-              </div>
+              <div className="divide-y text-scale-1200">
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-scale-900">Developer</span>
+                  <span className="text-scale-1200">{partner.developer}</span>
+                </div>
 
-              <div>
-                <h2
-                  className="text-scale-1200"
-                  style={{ fontSize: '1.5rem', marginBottom: '1rem' }}
-                >
-                  Details
-                </h2>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-scale-900">Category</span>
+                  <Link
+                    href={`/partners/${
+                      partner.type === 'technology'
+                        ? 'integrations'
+                        : 'experts'
+                    }#${partner.category.toLowerCase()}`}
+                    className="text-brand-900 transition-colors hover:text-brand-800">
 
-                <div className="divide-y text-scale-1200">
-                  <div className="flex items-center justify-between py-2">
-                    <span className="text-scale-900">Developer</span>
-                    <span className="text-scale-1200">{partner.developer}</span>
-                  </div>
+                    {partner.category}
 
-                  <div className="flex items-center justify-between py-2">
-                    <span className="text-scale-900">Category</span>
-                    <Link
-                      href={`/partners/${
-                        partner.type === 'technology'
-                          ? 'integrations'
-                          : 'experts'
-                      }#${partner.category.toLowerCase()}`}
-                    >
-                      <a className="text-brand-900 transition-colors hover:text-brand-800">
-                        {partner.category}
-                      </a>
-                    </Link>
-                  </div>
+                  </Link>
+                </div>
 
-                  <div className="flex items-center justify-between py-2">
-                    <span className="text-scale-900">Website</span>
-                    <a
-                      href={partner.website}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-brand-900 transition-colors hover:text-brand-800"
-                    >
-                      {new URL(partner.website).host}
-                    </a>
-                  </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-scale-900">Website</span>
+                  <a
+                    href={partner.website}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-brand-900 transition-colors hover:text-brand-800"
+                  >
+                    {new URL(partner.website).host}
+                  </a>
+                </div>
 
-                  <div className="flex items-center justify-between py-2">
-                    <span className="text-scale-900">Documentation</span>
-                    <a
-                      href={partner.docs}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-brand-900 transition-colors hover:text-brand-800"
-                    >
-                      <span className="flex items-center space-x-1">
-                        <span>Learn</span>
-                        <IconExternalLink size="small" />
-                      </span>
-                    </a>
-                  </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-scale-900">Documentation</span>
+                  <a
+                    href={partner.docs}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-brand-900 transition-colors hover:text-brand-800"
+                  >
+                    <span className="flex items-center space-x-1">
+                      <span>Learn</span>
+                      <IconExternalLink size="small" />
+                    </span>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-        </SectionContainer>
-      </Layout>
-    </>
-  )
+        </div>
+      </SectionContainer>
+    </Layout>
+  </>;
 }
 
 // This function gets called at build time
