@@ -17,10 +17,11 @@ export default function PartnerTileGrid({
         <div className="grid  gap-5 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 lg:max-w-none">
           {partnersByCategory[category].map((p) => (
             (<Link
-              key={p.slug}
-              href={`/partners/${p.slug}`}
-              className="
-            ">
+            key={p.slug}
+            href={`/partners/${p.slug}`}
+            className="
+          "
+            legacyBehavior>
 
               <div
                 className="
