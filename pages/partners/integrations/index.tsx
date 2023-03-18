@@ -54,7 +54,7 @@ export const Layout = ({
   return (
     <>
       {/* {!hideHeader && <Nav />} */}
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
         <main>{children}</main>
       </div>
       {/* {!hideFooter && <Footer />} */}
@@ -166,7 +166,8 @@ function IntegrationPartnersPage(props: Props) {
             <h2 className="text-xl text-scale-900">{meta_description}</h2>
           </div>
           {/* Title */}
-          <div className="grid space-y-12 md:gap-8 lg:grid-cols-12 lg:gap-16 lg:space-y-0 xl:gap-16">
+          {/* class="fixed h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100" */}
+          <div className="grid space-y-12 md:gap-8 lg:grid-cols-12 lg:gap-16 lg:space-y-0 xl:gap-16 bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
             <div className="lg:col-span-4 xl:col-span-3">
               {/* Horizontal link menu */}
               <div className="space-y-6">

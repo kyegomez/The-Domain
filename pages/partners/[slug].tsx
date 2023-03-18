@@ -84,7 +84,7 @@ function PartnerPage({ partner }: { partner: any }) {
 
     <Layout>
       <SectionContainer>
-        <div className="col-span-12 mx-auto mb-2 max-w-5xl space-y-12 lg:col-span-2">
+        <div className="col-span-12 mx-auto mb-2 max-w-5xl space-y-12 lg:col-span-2 bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
           {/* Back button */}
           <Link
             href={`/partners/${
