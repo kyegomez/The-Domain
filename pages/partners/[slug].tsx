@@ -25,7 +25,7 @@ const Nav = () => {
 
   return (
     <nav className="w-full border-b bg-scale-300 p-4">
-      <Link href="https://supabase.com/">
+      <Link href="https://landing.apac.ai">
         <a className="flex">
           <Image
             src={
@@ -286,10 +286,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 // export default Partner
 
-// export default function PartnerPage(props: JSX.IntrinsicAttributes & { partner: any }) {
-//   return (
-//     <Layout>
-//       <Partner {...props} />
-//     </Layout>
-//   )
-// }
+export default function PartnerPage(props: JSX.IntrinsicAttributes & { partner: any }) {
+  return (
+    <Layout>
+      <Partner {...props} />
+    </Layout>
+  )
+}
