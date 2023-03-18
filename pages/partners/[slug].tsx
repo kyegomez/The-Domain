@@ -12,7 +12,7 @@ import { Partner } from 'types/partners';
 
 
 
-function Partner({ partner }: { partner: Partner }) {
+function Partner({ partner }: { partner: any }) {
 
 
   return <>
