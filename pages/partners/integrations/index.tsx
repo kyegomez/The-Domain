@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 import { IconLoader, IconSearch, Input } from '@supabase/ui'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -7,7 +8,9 @@ import { useDebounce } from 'use-debounce'
 // import BecomeAPartner from '@/components/BecomeAPartner'
 
 // import Layout from '~/components/Layout'
-import Layout from '@/components/layout/index'
+// import Layout from '@/components/layout/index'
+
+
 
 // import PartnerLinkBox from '~/components/PartnerLinkBox'/
 import PartnerLinkBox from '@/components/PartnerLinkBox'
@@ -24,6 +27,73 @@ import supabase from '@/lib/supabase'
 
 // import { Partner } from '~/types/partners'
 import { Partner } from 'types/partners'
+import Footer from '@/components/Footer'
+import { PropsWithChildren } from 'react'
+import { useTheme } from '@/components/theme'
+import Image from 'next/image'
+import Link from 'next/link'
+
+
+
+type LayoutProps = {
+  hideHeader?: boolean
+  hideFooter?: boolean
+}
+
+
+const Nav = () => {
+  const { isDarkMode } = useTheme()
+
+  return (
+    <nav className="w-full border-b bg-scale-300 p-4">
+      <Link href="https://landing.apac.ai">
+        <a className="flex">
+          <Image
+            src={
+              isDarkMode
+                ? '/images/supabase-logo-wordmark--dark.svg'
+                : '/images/supabase-logo-wordmark--light.svg'
+            }
+            alt="Supabase Logo"
+            height={24}
+            width={120}
+          />
+        </a>
+      </Link>
+    </nav>
+  )
+}
+
+
+
+export const Layout = ({
+  hideHeader = false,
+  hideFooter = false,
+  children,
+}: PropsWithChildren<LayoutProps>) => {
+  useEffect(() => {
+    const key = localStorage.getItem('supabaseDarkMode')
+    if (!key) {
+      // Default to dark mode if no preference config
+      document.documentElement.className = 'dark'
+    } else {
+      document.documentElement.className = key === 'true' ? 'dark' : ''
+    }
+  }, [])
+
+  return (
+    <>
+      {!hideHeader && <Nav />}
+      <div className="min-h-screen">
+        <main>{children}</main>
+      </div>
+      {!hideFooter && <Footer />}
+    </>
+  )
+}
+
+
+
 
 export async function getStaticProps() {
   const { data: partners } = await supabase
@@ -115,7 +185,7 @@ function IntegrationPartnersPage(props: Props) {
   return (
     <>
       <Head>
-        <title>{meta_title} | Supabase Partner Gallery Example</title>
+        <title>{meta_title} |Domain integrations</title>
         <meta name="description" content={meta_description}></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>

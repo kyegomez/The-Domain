@@ -1,7 +1,7 @@
 import Head from 'next/head'
 // import BecomeAPartner from '~/components/BecomeAPartner'
 // import BecomeAPartner from '@/components/BecomeAPartner';
-import Layout from '@/components/layout'
+// import Layout from 'pages/partners/[slug]';
 // import PartnerLinkBox from '~/components/PartnerLinkBox'
 import PartnerLinkBox from '@/components/PartnerLinkBox'
 
@@ -13,7 +13,103 @@ import PartnerTileGrid from '@/components/PartnerTileGrid'
 import SectionContainer from '@/components/SectionContainer'
 
 import supabase from '@/lib/supabase';
-import { Partner } from 'types/partners'
+// import { Partner } from 'types/partners'
+
+
+import Footer from '@/components/Footer'
+import { PropsWithChildren } from 'react'
+import { useTheme } from '@/components/theme'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect } from 'react';
+
+
+
+type LayoutProps = {
+  hideHeader?: boolean
+  hideFooter?: boolean
+}
+
+
+const Nav = () => {
+  const { isDarkMode } = useTheme()
+
+  return (
+    <nav className="w-full border-b bg-scale-300 p-4">
+      <Link href="https://landing.apac.ai">
+        <a className="flex">
+          <Image
+            src={
+              isDarkMode
+                ? '/images/supabase-logo-wordmark--dark.svg'
+                : '/images/supabase-logo-wordmark--light.svg'
+            }
+            alt="Supabase Logo"
+            height={24}
+            width={120}
+          />
+        </a>
+      </Link>
+    </nav>
+  )
+}
+
+
+
+export const Layout = ({
+  hideHeader = false,
+  hideFooter = false,
+  children,
+}: PropsWithChildren<LayoutProps>) => {
+  useEffect(() => {
+    const key = localStorage.getItem('supabaseDarkMode')
+    if (!key) {
+      // Default to dark mode if no preference config
+      document.documentElement.className = 'dark'
+    } else {
+      document.documentElement.className = key === 'true' ? 'dark' : ''
+    }
+  }, [])
+
+  return (
+    <>
+      {!hideHeader && <Nav />}
+      <div className="min-h-screen">
+        <main>{children}</main>
+      </div>
+      {!hideFooter && <Footer />}
+    </>
+  )
+}
+export interface Partner {
+  id: number
+  slug: string
+  type: 'technology' | 'expert'
+  category: string
+  developer: string
+  title: string
+  description: string
+  logo: string
+  images: string[]
+  overview: string
+  website: string
+  docs: string
+  approved: boolean
+}
+
+export interface PartnerContact {
+  type: 'technology' | 'expert'
+  company: string
+  country: string
+  details?: string
+  email: string
+  first: string
+  last: string
+  phone?: string
+  size?: number
+  title?: string
+  website: string
+}
 
 
 export async function getStaticProps() {

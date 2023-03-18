@@ -45,7 +45,7 @@ const Nav = () => {
 
 
 
-const Layout = ({
+export const Layout = ({
   hideHeader = false,
   hideFooter = false,
   children,
@@ -72,7 +72,7 @@ const Layout = ({
 }
 
 
-function Partner({ partner }: { partner: any }) {
+function PartnerPage({ partner }: { partner: any }) {
 
 
   return <>
@@ -286,10 +286,19 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 // export default Partner
 
-export default function PartnerPage(props: JSX.IntrinsicAttributes & { partner: any }) {
-  return (
-    <Layout>
-      <Partner {...props} />
-    </Layout>
-  )
-}
+// export default function PartnerPage(props: JSX.IntrinsicAttributes & { partner: any }) {
+//   return (
+//     <Layout>
+//       <Partner {...props} />
+//     </Layout>
+//   )
+// }
+
+// export default function PartnerWrapper(props: JSX.IntrinsicAttributes & { partner: any }) {
+//   return (
+//     <Layout>
+//       <PartnerPage partner={props.partner} />
+//     </Layout>
+//   )
+// }
+export default PartnerPage;
