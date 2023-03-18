@@ -41,53 +41,45 @@ type LayoutProps = {
 }
 
 
-const Nav = () => {
-  const { isDarkMode } = useTheme()
+// const Nav = () => {
+//   const { isDarkMode } = useTheme()
 
-  return (
-    <nav className="w-full border-b bg-scale-300 p-4">
-      <Link href="https://landing.apac.ai">
-        <a className="flex">
-          <Image
-            src={
-              isDarkMode
-                ? '/images/supabase-logo-wordmark--dark.svg'
-                : '/images/supabase-logo-wordmark--light.svg'
-            }
-            alt="Supabase Logo"
-            height={24}
-            width={120}
-          />
-        </a>
-      </Link>
-    </nav>
-  )
-}
+//   return (
+//     <nav className="w-full border-b bg-scale-300 p-4">
+//       <Link href="https://landing.apac.ai" className="flex">
+
+//         <Image
+//           src={
+//             isDarkMode
+//               ? '/images/supabase-logo-wordmark--dark.svg'
+//               : '/images/supabase-logo-wordmark--light.svg'
+//           }
+//           alt="Supabase Logo"
+//           height={24}
+//           width={120}
+//         />
+
+//       </Link>
+//     </nav>
+//   );
+// }
 
 
 
 export const Layout = ({
-  hideHeader = false,
-  hideFooter = false,
+  hideHeader = true,
+  hideFooter = true,
   children,
 }: PropsWithChildren<LayoutProps>) => {
-  useEffect(() => {
-    const key = localStorage.getItem('supabaseDarkMode')
-    if (!key) {
-      // Default to dark mode if no preference config
-      document.documentElement.className = 'dark'
-    } else {
-      document.documentElement.className = key === 'true' ? 'dark' : ''
-    }
-  }, [])
+
 
   return (
     <>
-      {!hideHeader && <Nav />}
+      {/* {!hideHeader && <Nav />} */}
       <div className="min-h-screen">
         <main>{children}</main>
       </div>
-      {!hideFooter && <Footer />}
+      {/* {!hideFooter && <Footer />} */}
     </>
   )
 }
@@ -291,7 +283,12 @@ function IntegrationPartnersPage(props: Props) {
             <div className="lg:col-span-8 xl:col-span-9">
               {/* Partner Tiles */}
               <div className="grid space-y-10">
-                {partners.length ? (
+                {/* {partners.length ? (
+                  <PartnerTileGrid partnersByCategory={partnersByCategory} />
+                ) : (
+                  <h2 className="h2">No Partners Found</h2>
+                )} */}
+                {Object.keys(partnersByCategory).length ? (
                   <PartnerTileGrid partnersByCategory={partnersByCategory} />
                 ) : (
                   <h2 className="h2">No Partners Found</h2>

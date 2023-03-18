@@ -25,22 +25,22 @@ const Nav = () => {
 
   return (
     <nav className="w-full border-b bg-scale-300 p-4">
-      <Link href="https://landing.apac.ai">
-        <a className="flex">
-          <Image
-            src={
-              isDarkMode
-                ? '/images/supabase-logo-wordmark--dark.svg'
-                : '/images/supabase-logo-wordmark--light.svg'
-            }
-            alt="Supabase Logo"
-            height={24}
-            width={120}
-          />
-        </a>
+      <Link href="https://landing.apac.ai" className="flex">
+
+        <Image
+          src={
+            isDarkMode
+              ? '/images/supabase-logo-wordmark--dark.svg'
+              : '/images/supabase-logo-wordmark--light.svg'
+          }
+          alt="Supabase Logo"
+          height={24}
+          width={120}
+        />
+
       </Link>
     </nav>
-  )
+  );
 }
 
 
@@ -90,7 +90,8 @@ function PartnerPage({ partner }: { partner: any }) {
             href={`/partners/${
               partner.type === 'technology' ? 'integrations' : 'experts'
             }`}
-            className="flex cursor-pointer items-center text-scale-1200 transition-colors hover:text-scale-1000">
+            className="flex cursor-pointer items-center text-scale-1200 transition-colors hover:text-scale-1000"
+            legacyBehavior>
 
             <IconChevronLeft style={{ padding: 0 }} />Back
           </Link>
@@ -197,7 +198,8 @@ function PartnerPage({ partner }: { partner: any }) {
                         ? 'integrations'
                         : 'experts'
                     }#${partner.category.toLowerCase()}`}
-                    className="text-brand-900 transition-colors hover:text-brand-800">
+                    className="text-brand-900 transition-colors hover:text-brand-800"
+                    legacyBehavior>
 
                     {partner.category}
 
