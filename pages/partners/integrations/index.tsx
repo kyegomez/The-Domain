@@ -203,7 +203,7 @@ function IntegrationPartnersPage(props: Props) {
                       {category}
                       </button>
                     ))} */}
-                    {allCategories && allCategories.length > 0 ? (
+                    {/* {allCategories && allCategories.length > 0 ? (
                       allCategories.map((category) => (
                         <button
                           key={category}
@@ -215,7 +215,18 @@ function IntegrationPartnersPage(props: Props) {
                       ))
                     ) : (
                       <div>No categories found</div>
-                    )}
+                    )} */}
+                  {allCategories && allCategories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() =>
+                        router.push(`#${category.toLowerCase()}`)
+                      }
+                      className="block text-base text-scale-1100"
+                    >
+                      {category}
+                    </button>
+                  ))}
                   </div>
                 </div>
                 <div className="space-y-4">
