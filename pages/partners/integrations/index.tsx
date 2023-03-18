@@ -213,15 +213,15 @@ function IntegrationPartnersPage(props: Props) {
                 <div className="hidden lg:block">
                   <div className="mb-2 text-sm text-scale-900">Categories</div>
                   <div className="space-y-1">
-                    {allCategories.map((category) => (
-                      <button
-                        key={category}
-                        onClick={() =>
-                          router.push(`#${category.toLowerCase()}`)
-                        }
-                        className="block text-base text-scale-1100"
-                      >
-                        {category}
+                  {allCategories && allCategories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() =>
+                        router.push(`#${category.toLowerCase()}`)
+                      }
+                      className="block text-base text-scale-1100"
+                    >
+                      {category}
                       </button>
                     ))}
                   </div>
