@@ -13,12 +13,12 @@ import PartnerTileGrid from '@/components/PartnerTileGrid'
 import SectionContainer from '@/components/SectionContainer'
 
 import supabase from '@/lib/supabase';
-// import { Partner } from '~/types/partners'
 import { Partner } from 'types/partners'
+
 
 export async function getStaticProps() {
   const { data: partners } = await supabase
-    .from<Partner>('partners')
+    .from('partners')
     .select('*')
     .eq('approved', true)
     .eq('type', 'expert')
