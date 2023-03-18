@@ -111,6 +111,7 @@ function IntegrationPartnersPage(props: Props) {
   const [search, setSearch] = useState('')
   const [debouncedSearchTerm] = useDebounce(search, 300)
   const [isSearching, setIsSearching] = useState(false)
+  console.log('partnersByCategory:', partnersByCategory);
 
   useEffect(() => {
     const searchPartners = async () => {
@@ -291,6 +292,11 @@ function IntegrationPartnersPage(props: Props) {
                 ) : (
                   <h2 className="h2">No Partners Found</h2>
                 )} */}
+              {/* {partnersByCategory && Object.keys(partnersByCategory).length > 0 ? (
+                <PartnerTileGrid partnersByCategory={partnersByCategory} />
+              ) : (
+                <h2 className="h2">No Partners Found</h2>
+              )} */}
               {partnersByCategory && Object.keys(partnersByCategory).length > 0 ? (
                 <PartnerTileGrid partnersByCategory={partnersByCategory} />
               ) : (
