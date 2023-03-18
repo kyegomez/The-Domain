@@ -41,28 +41,6 @@ type LayoutProps = {
 }
 
 
-// const Nav = () => {
-//   const { isDarkMode } = useTheme()
-
-//   return (
-//     <nav className="w-full border-b bg-scale-300 p-4">
-//       <Link href="https://landing.apac.ai" className="flex">
-
-//         <Image
-//           src={
-//             isDarkMode
-//               ? '/images/supabase-logo-wordmark--dark.svg'
-//               : '/images/supabase-logo-wordmark--light.svg'
-//           }
-//           alt="Supabase Logo"
-//           height={24}
-//           width={120}
-//         />
-
-//       </Link>
-//     </nav>
-//   );
-// }
 
 
 
@@ -213,7 +191,7 @@ function IntegrationPartnersPage(props: Props) {
                 <div className="hidden lg:block">
                   <div className="mb-2 text-sm text-scale-900">Categories</div>
                   <div className="space-y-1">
-                  {allCategories && allCategories.map((category) => (
+                  {/* {allCategories && allCategories.map((category) => (
                     <button
                       key={category}
                       onClick={() =>
@@ -223,7 +201,20 @@ function IntegrationPartnersPage(props: Props) {
                     >
                       {category}
                       </button>
-                    ))}
+                    ))} */}
+                    {allCategories && allCategories.length > 0 ? (
+                      allCategories.map((category) => (
+                        <button
+                          key={category}
+                          onClick={() => router.push(`#${category.toLowerCase()}`)}
+                          className="block text-base text-scale-1100"
+                        >
+                          {category}
+                        </button>
+                      ))
+                    ) : (
+                      <div>No categories found</div>
+                    )}
                   </div>
                 </div>
                 <div className="space-y-4">
