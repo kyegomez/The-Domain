@@ -103,7 +103,7 @@ function IntegrationPartnersPage(props: Props) {
       return
     }
 
-    searchPartners().then((partners) => {
+    searchPartners().then((partners: any) => {
       if (partners) {
         setPartners(partners)
       }
