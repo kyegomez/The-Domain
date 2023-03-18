@@ -291,7 +291,7 @@ function IntegrationPartnersPage(props: Props) {
                 ) : (
                   <h2 className="h2">No Partners Found</h2>
                 )} */}
-              {partnersByCategory && Object.keys(partnersByCategory).length ? (
+              {partnersByCategory && Object.keys(partnersByCategory).length > 0 ? (
                 <PartnerTileGrid partnersByCategory={partnersByCategory} />
               ) : (
                 <h2 className="h2">No Partners Found</h2>
