@@ -141,7 +141,7 @@ function Partner({ partner }: { partner: any }) {
                 },
               }}
             >
-              {partner.images.map((image: any, i: number) => {
+              {partner.images && partner.images.map((image: any, i: number) => {
                 return (
                   <SwiperSlide key={i}>
                     <div className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md">
