@@ -7,22 +7,22 @@ const Nav = () => {
 
   return (
     <nav className="w-full border-b bg-scale-300 p-4">
-      <Link href="https://supabase.com/">
-        <a className="flex">
-          <Image
-            src={
-              isDarkMode
-                ? '/images/supabase-logo-wordmark--dark.svg'
-                : '/images/supabase-logo-wordmark--light.svg'
-            }
-            alt="Supabase Logo"
-            height={24}
-            width={120}
-          />
-        </a>
+      <Link href="https://supabase.com/" className="flex">
+
+        <Image
+          src={
+            isDarkMode
+              ? '/images/supabase-logo-wordmark--dark.svg'
+              : '/images/supabase-logo-wordmark--light.svg'
+          }
+          alt="Supabase Logo"
+          height={24}
+          width={120}
+        />
+
       </Link>
     </nav>
-  )
+  );
 }
 
 export default Nav
