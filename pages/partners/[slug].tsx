@@ -5,11 +5,71 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import Layout from '@/components/layout'
+// import Layout from '@/components/layout'
 import SectionContainer from '@/components/SectionContainer'
 import supabase from '@/lib/supabase'
-import { Partner } from 'types/partners';
+// import { Partner } from 'types/partners';
+import { PropsWithChildren, useEffect } from 'react'
+import Footer from '@/components/Footer'
+import { useTheme } from '@/components/theme'
 
+
+type LayoutProps = {
+  hideHeader?: boolean
+  hideFooter?: boolean
+}
+
+
+const Nav = () => {
+  const { isDarkMode } = useTheme()
+
+  return (
+    <nav className="w-full border-b bg-scale-300 p-4">
+      <Link href="https://supabase.com/">
+        <a className="flex">
+          <Image
+            src={
+              isDarkMode
+                ? '/images/supabase-logo-wordmark--dark.svg'
+                : '/images/supabase-logo-wordmark--light.svg'
+            }
+            alt="Supabase Logo"
+            height={24}
+            width={120}
+          />
+        </a>
+      </Link>
+    </nav>
+  )
+}
+
+
+
+const Layout = ({
+  hideHeader = false,
+  hideFooter = false,
+  children,
+}: PropsWithChildren<LayoutProps>) => {
+  useEffect(() => {
+    const key = localStorage.getItem('supabaseDarkMode')
+    if (!key) {
+      // Default to dark mode if no preference config
+      document.documentElement.className = 'dark'
+    } else {
+      document.documentElement.className = key === 'true' ? 'dark' : ''
+    }
+  }, [])
+
+  return (
+    <>
+      {!hideHeader && <Nav />}
+      <div className="min-h-screen">
+        <main>{children}</main>
+      </div>
+      {!hideFooter && <Footer />}
+    </>
+  )
+}
 
 
 function Partner({ partner }: { partner: any }) {
@@ -224,4 +284,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 }
 
-export default Partner
+// export default Partner
+
+// export default function PartnerPage(props: JSX.IntrinsicAttributes & { partner: any }) {
+//   return (
+//     <Layout>
+//       <Partner {...props} />
+//     </Layout>
+//   )
+// }

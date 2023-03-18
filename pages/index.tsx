@@ -1,5 +1,5 @@
 import Card from "@/components/home/card";
-import Layout from "@/components/layout";
+import Layout from "@/components/layout/index";
 import Balancer from "react-wrap-balancer";
 import { motion } from "framer-motion";
 import { DEPLOY_URL, FADE_DOWN_ANIMATION_VARIANTS } from "@/lib/constants";

@@ -7,7 +7,7 @@ import { useDebounce } from 'use-debounce'
 // import BecomeAPartner from '@/components/BecomeAPartner'
 
 // import Layout from '~/components/Layout'
-import Layout from '@/components/layout'
+import Layout from '@/components/layout/index'
 
 // import PartnerLinkBox from '~/components/PartnerLinkBox'/
 import PartnerLinkBox from '@/components/PartnerLinkBox'
@@ -27,7 +27,7 @@ import { Partner } from 'types/partners'
 
 export async function getStaticProps() {
   const { data: partners } = await supabase
-    .from<Partner>('partners')
+    .from('partners')
     .select('*')
     .eq('approved', true)
     .eq('type', 'technology')
@@ -66,7 +66,7 @@ function IntegrationPartnersPage(props: Props) {
   const router = useRouter()
 
   const meta_title = 'Find an Integration'
-  const meta_description = `Use your favorite tools with Supabase.`
+  const meta_description = `Integrate your favorite tools with the Domain.`
 
   const [search, setSearch] = useState('')
   const [debouncedSearchTerm] = useDebounce(search, 300)
@@ -77,7 +77,7 @@ function IntegrationPartnersPage(props: Props) {
       setIsSearching(true)
 
       let query = supabase
-        .from<Partner>('partners')
+        .from('partners')
         .select('*')
         .eq('approved', true)
         .order('category')
