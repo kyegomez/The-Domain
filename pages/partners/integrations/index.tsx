@@ -25,15 +25,13 @@ type LayoutProps = {
 }
 
 export const Layout = ({
-  hideHeader = false,
-  hideFooter = false,
   children,
 }: PropsWithChildren<LayoutProps>) => {
 
 
   return (
     <>
-      {!hideHeader }
+      {/* {!hideHeader } */}
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
         <main>{children}</main>
       </div>
@@ -161,7 +159,7 @@ function IntegrationPartnersPage(props: Props) {
           </div>
           {/* Title */}
           {/* class="fixed h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100" */}
-          <div className="grid space-y-12 md:gap-8 lg:grid-cols-12 lg:gap-16 lg:space-y-0 xl:gap-16 bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
+          <div className="grid space-y-12 md:gap-8 lg:grid-cols-12 lg:gap-16 lg:space-y-0 xl:gap-16">
             <div className="lg:col-span-4 xl:col-span-3">
               {/* Horizontal link menu */}
               <div className="space-y-6">
@@ -201,10 +199,10 @@ function IntegrationPartnersPage(props: Props) {
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <div className="mb-2 text-sm text-scale-900">
+                  {/* <div className="mb-2 text-sm text-scale-900">
                     Explore more
-                  </div>
-                  <div className="grid grid-cols-2 gap-8 lg:grid-cols-1">
+                  </div> */}
+                  {/* <div className="grid grid-cols-2 gap-8 lg:grid-cols-1">
                     <PartnerLinkBox
                       title="Experts"
                       color="blue"
@@ -250,7 +248,7 @@ function IntegrationPartnersPage(props: Props) {
                         </svg>
                       }
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
