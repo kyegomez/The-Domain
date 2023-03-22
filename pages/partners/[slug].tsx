@@ -393,12 +393,9 @@ function Partner({ partner }: { partner: Partner }) {
           </div>
 
           <div
-            className="bg-scale-300 py-6"
-            style={{
-              marginLeft: 'calc(50% - 50vw)',
-              marginRight: 'calc(50% - 50vw)',
-            }}
+            className="bg-scale-300 py-6" style={{ marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',}}
           >
+
             {/* <Swiper
               initialSlide={0}
               spaceBetween={0}
@@ -460,29 +457,31 @@ function Partner({ partner }: { partner: Partner }) {
               })}
             </Swiper> */}
             {partner.images && partner.images.map((image: any, i: number) => {
-              <Transition
-                key={i}
-                show={activeImage === i}
-                enter="transition-opacity duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="transition-opacity duration-300"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <div
-                  className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md"
-                  style={{ display: activeImage === i ? 'block' : 'none' }}
+              return (
+                <Transition
+                  key={i}
+                  show={activeImage === i}
+                  enter="transition-opacity duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-300"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
                 >
-                  <Image
-                    src={image}
-                    alt={`Partner Image ${i + 1}`}
-                    width={800}
-                    height={450}
-                    layout="responsive"
-                  />
-                </div>
-              </Transition>
+                  <div
+                    className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md"
+                    style={{ display: activeImage === i ? 'block' : 'none' }}
+                  >
+                    <Image
+                      src={image}
+                      alt={`Partner Image ${i + 1}`}
+                      width={800}
+                      height={450}
+                      layout="responsive"
+                    />
+                  </div>
+                </Transition>
+              );
             })}
             <Slider.Root
               value={[activeImage]}
