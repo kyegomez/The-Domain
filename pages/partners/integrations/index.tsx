@@ -89,14 +89,17 @@ function IntegrationPartnersPage(props: Props) {
     new Set(initialPartners.map((p) => p.category))
   )
 
-  const partnersByCategory: { [category: string]: Partner[] } = {}
-  partners.forEach(
-    (p) =>
-      (partnersByCategory[p.category] = [
-        ...(partnersByCategory[p.category] ?? []),
-        p,
-      ])
-  )
+  const partnersByCategory: { [category: string]: Partner[] } = {};
+
+  if (partners) {
+    partners.forEach(
+      (p) =>
+        (partnersByCategory[p.category] = [
+          ...(partnersByCategory[p.category] ?? []),
+          p,
+        ])
+    );
+  }
   const router = useRouter()
 
   const meta_title = 'Find an Integration'
