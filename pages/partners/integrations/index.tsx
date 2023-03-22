@@ -40,6 +40,32 @@ export const Layout = ({
   )
 }
 
+// export async function getStaticProps() {
+//   try {
+//     const { data: partners } = await supabase
+//       .from('partners')
+//       .select('*')
+//       .eq('approved', true)
+//       .eq('type', 'technology')
+//       .order('category')
+//       .order('title')
+
+//     return {
+//       props: {
+//         partners,
+//       },
+//       revalidate: 18000,
+//     }
+//   } catch (error) {
+//     console.error('Error fetching partners:', error);
+//     return {
+//       props: {
+//         partners: [],
+//       },
+//       revalidate: 18000,
+//     }
+//   }
+// }
 export async function getStaticProps() {
   try {
     const { data: partners } = await supabase
@@ -52,7 +78,7 @@ export async function getStaticProps() {
 
     return {
       props: {
-        partners,
+        partners: partners || [], // Add this fallback to ensure an array is always returned
       },
       revalidate: 18000,
     }
