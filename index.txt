@@ -19,21 +19,27 @@ import { useTheme } from '@/components/theme'
 import Image from 'next/image'
 import Link from 'next/link'
 
+
+
 type LayoutProps = {
   hideHeader?: boolean
   hideFooter?: boolean
 }
 
+
+
+
+
 export const Layout = ({
-  hideHeader = false,
-  hideFooter = false,
+  hideHeader = true,
+  hideFooter = true,
   children,
 }: PropsWithChildren<LayoutProps>) => {
 
 
   return (
     <>
-      {!hideHeader }
+      {/* {!hideHeader && <Nav />} */}
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
         <main>{children}</main>
       </div>
@@ -41,6 +47,9 @@ export const Layout = ({
     </>
   )
 }
+
+
+
 
 export async function getStaticProps() {
   try {
@@ -72,6 +81,119 @@ export async function getStaticProps() {
 interface Props {
   partners: Partner[]
 }
+
+// function IntegrationPartnersPage(props: Props) {
+//   const { partners: initialPartners } = props
+//   const [partners, setPartners] = useState(initialPartners)
+
+//   const allCategories = Array.from(
+//     new Set(initialPartners.map((p) => p.category))
+//   )
+
+//   // const partnersByCategory: { [category: string]: Partner[] } = {};
+
+//   // if (partners) {
+//   //   partners.forEach(
+//   //     (p) =>
+//   //       (partnersByCategory[p.category] = [
+//   //         ...(partnersByCategory[p.category] ?? []),
+//   //         p,
+//   //       ])
+//   //   );
+//   // }
+  
+
+//   console.log("allCategories:", allCategories);
+//   console.log("partnersByCategory:", partnersByCategory);
+
+//   const router = useRouter()
+
+//   const meta_title = 'Find an Integration'
+//   const meta_description = `Integrate your favorite tools with the Domain.`
+
+//   const [search, setSearch] = useState('')
+//   const [debouncedSearchTerm] = useDebounce(search, 300)
+//   const [isSearching, setIsSearching] = useState(false)
+//   console.log('partnersByCategory:', partnersByCategory);
+
+//   // useEffect(() => {
+//   //   const searchPartners = async () => {
+//   //     setIsSearching(true)
+
+//   //     let query = supabase
+//   //       .from('partners')
+//   //       .select('*')
+//   //       .eq('approved', true)
+//   //       .order('category')
+//   //       .order('title')
+
+//   //     if (search.trim()) {
+//   //       query = query
+//   //         // @ts-ignore
+//   //         .textSearch('tsv', `${search.trim()}`, {
+//   //           type: 'websearch',
+//   //           config: 'english',
+//   //         })
+//   //     }
+
+//   //     const { data: partners } = await query
+
+//   //     return partners
+//   //   }
+
+//   //   if (search.trim() === '') {
+//   //     setIsSearching(false)
+//   //     setPartners(initialPartners)
+//   //     return
+//   //   }
+
+//   //   searchPartners().then((partners: any) => {
+//   //     if (partners) {
+//   //       setPartners(partners)
+//   //     }
+
+//   //     setIsSearching(false)
+//   //   })
+//   // }, [debouncedSearchTerm, router])
+//   useEffect(() => {
+//     const searchPartners = async () => {
+//       setIsSearching(true)
+  
+//       let query = supabase
+//         .from('partners')
+//         .select('*')
+//         .eq('approved', true)
+//         .order('category')
+//         .order('title')
+  
+//       if (search.trim()) {
+//         query = query
+//           // @ts-ignore
+//           .textSearch('tsv', `${search.trim()}`, {
+//             type: 'websearch',
+//             config: 'english',
+//           })
+//       }
+  
+//       const { data: partners } = await query
+  
+//       return partners
+//     }
+  
+//     if (search.trim() === '') {
+//       setIsSearching(false)
+//       setPartners(initialPartners)
+//       return
+//     }
+  
+//     searchPartners().then((partners: any) => {
+//       if (partners) {
+//         setPartners(partners)
+//       }
+  
+//       setIsSearching(false)
+//     })
+//   }, [debouncedSearchTerm, router, initialPartners, search])
 function IntegrationPartnersPage(props: Props) {
   const { partners: initialPartners } = props;
   const router = useRouter();
@@ -186,7 +308,41 @@ function IntegrationPartnersPage(props: Props) {
                 <div className="hidden lg:block">
                   <div className="mb-2 text-sm text-scale-900">Categories</div>
                   <div className="space-y-1">
-
+                  {/* {allCategories && allCategories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() =>
+                        router.push(`#${category.toLowerCase()}`)
+                      }
+                      className="block text-base text-scale-1100"
+                    >
+                      {category}
+                      </button>
+                    ))} */}
+                    {/* {allCategories && allCategories.length > 0 ? (
+                      allCategories.map((category) => (
+                        <button
+                          key={category}
+                          onClick={() => router.push(`#${category.toLowerCase()}`)}
+                          className="block text-base text-scale-1100"
+                        >
+                          {category}
+                        </button>
+                      ))
+                    ) : (
+                      <div>No categories found</div>
+                    )} */}
+                  {/* {allCategories && allCategories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() =>
+                        router.push(`#${category.toLowerCase()}`)
+                      }
+                      className="block text-base text-scale-1100"
+                    >
+                      {category}
+                    </button>
+                  ))} */}
                   {allCategories && allCategories.length > 0 && allCategories.map((category) => (
                     <button
                       key={category}
@@ -257,6 +413,21 @@ function IntegrationPartnersPage(props: Props) {
             <div className="lg:col-span-8 xl:col-span-9">
               {/* Partner Tiles */}
               <div className="grid space-y-10">
+                {/* {partners.length ? (
+                  <PartnerTileGrid partnersByCategory={partnersByCategory} />
+                ) : (
+                  <h2 className="h2">No Partners Found</h2>
+                )} */}
+              {/* {partnersByCategory && Object.keys(partnersByCategory).length > 0 ? (
+                <PartnerTileGrid partnersByCategory={partnersByCategory} />
+              ) : (
+                <h2 className="h2">No Partners Found</h2>
+              )} */}
+              {/* {partnersByCategory && Object.keys(partnersByCategory).length > 0 ? (
+                <PartnerTileGrid partnersByCategory={partnersByCategory} />
+              ) : (
+                <h2 className="h2">No Partners Found</h2>
+              )} */}
               {partnersByCategory ? (
                 Object.keys(partnersByCategory).length > 0 ? (
                   <PartnerTileGrid partnersByCategory={partnersByCategory} />
@@ -267,7 +438,9 @@ function IntegrationPartnersPage(props: Props) {
               </div>
             </div>
           </div>
+          {/* Become a partner form */}
         </SectionContainer>
+        {/* <BecomeAPartner supabase={supabase} /> */}
       </Layout>
     </>
   )
