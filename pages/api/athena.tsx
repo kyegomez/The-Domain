@@ -4,7 +4,7 @@ import { LLMChain, ChatVectorDBQAChain, loadQAChain } from 'langchain/chains';
 import { PineconeStore } from "langchain/vectorstores";
 import { PromptTemplate } from "langchain/dist";
 import { CallbackManager } from "langchain/dist/callbacks";
-import { PineconeClient } from '@pinecone-database/pinecone';
+// import { PineconeClient } from '@pinecone-database/pinecone';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
     AgentExecutor,
@@ -205,7 +205,7 @@ export const zeroShotAgent = new ZeroShotAgent({
 
 export const agentExecutor = AgentExecutor.fromAgentAndTools({
     agent: zeroShotAgent,
-    tools: [],
+    tools: tools,
 });
 
 console.log("loaded agent");
