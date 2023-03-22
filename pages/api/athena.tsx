@@ -189,13 +189,20 @@ const tools = [
     new DynamicTool({
         name: "3rd Party API Connector / Zapier",
         description: "Call this tool to execute an action over a 3rd party api",
-        func: async (task: string) => {
+        func: async (task: string): Promise<string> => {
             const zapier = new ZapierNLAWrapper();
-            const toolkit =  ZapierToolKit.fromZapierNLAWrapper(zapier);
-            return console.log(`${task}`);
+        
+            const toolkit = ZapierToolKit.fromZapierNLAWrapper(zapier);
+            console.log(`${task}`);
+          
+            // Return a string value (modify this based on your requirements)
+            return "Task completed";
         },
     }),
 ];
+
+
+
 
 // const executor = await initializeAgentExecutor(tools, model, "zero-shot-react-description");
 console.log("loaded agent");
