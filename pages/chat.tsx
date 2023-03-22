@@ -6,7 +6,7 @@ import styles from '../styles/Home.module.css'
 import Image from 'next/image';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
-import CircularProgress from '@mui/material/CircularProgress';
+import { CircularProgress } from '@mui/material';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 type Message = {
