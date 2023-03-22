@@ -23,6 +23,7 @@ import { StructuredOutputParser } from "langchain/output_parsers";
 import { Document } from 'langchain/dist/document';
 
 declare const chrome: any;
+declare const result: any;
 
 
 const template = `
