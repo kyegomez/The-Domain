@@ -2,8 +2,9 @@ import { OpenAI } from 'langchain/llms'
 import { OpenAIChat } from "langchain/llms";
 import { LLMChain, ChatVectorDBQAChain, loadQAChain } from 'langchain/chains';
 import { PineconeStore } from "langchain/vectorstores";
-import { PromptTemplate } from "langchain/dist";
-import { CallbackManager } from "langchain/dist/callbacks";
+import { PromptTemplate } from 'langchain/prompts';
+import { CallbackManager } from "langchain/callbacks";
+
 // import { PineconeClient } from '@pinecone-database/pinecone';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
@@ -15,12 +16,12 @@ import {
 import { ConversationChain } from "langchain/chains";
 import { ZeroShotAgent } from "langchain/agents";
 import { DynamicTool, ZapierNLAWrapper } from "langchain/tools";
-import { BufferMemory } from "langchain/dist/memory";
+import { BufferMemory } from "langchain/memory";
 
-import type { LLMResult } from "langchain/dist/schema";
+import type { LLMResult } from "langchain/schema";
 import { FewShotPromptTemplate } from "langchain/prompts";
 import { StructuredOutputParser } from "langchain/output_parsers";
-import { Document } from 'langchain/dist/document';
+import { Document } from 'langchain/document';
 
 declare const chrome: any;
 declare const result: any;
