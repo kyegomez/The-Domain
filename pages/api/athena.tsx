@@ -134,6 +134,7 @@ const tools = [
                   ({ headers, paragraphs, allText });
                 `,
                     },
+                        // @ts-ignore
                     ([result]) => {
                         resolve(JSON.stringify(result));
                     },
@@ -156,6 +157,8 @@ const tools = [
                             ({ clickableElements, typeableElements });
                         `,
                     },
+                    // @ts-ignore
+
                     ([result]) => {
                         resolve(JSON.stringify(result));
                     },
