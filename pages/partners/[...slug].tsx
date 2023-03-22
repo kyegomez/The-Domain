@@ -621,44 +621,103 @@ function Partner({ partner }: { partner: Partner }) {
 //   }
 // }
 
+
+
+
+
+/////========================v4
+// This function gets called at build time
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const { data: slugs } = await supabase
+//     .from('partners')
+//     .select('slug')
+
+//   const paths = slugs?.map(({ slug }) => ({ params: { slug } })) ?? [];
+
+//   return {
+//     paths,
+//     fallback: 'blocking',
+//   };
+// };
+
+
+// // This also gets called at build time
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   const { slug } = params as { slug: string };
+
+//   const { data: partner } = await supabase
+//     .from('partners')
+//     .select('*')
+//     .eq('slug', slug)
+//     .single();
+
+//   if (!partner) {
+//     return {
+//       notFound: true,
+//     };
+//   }
+
+//   // Parse markdown
+//   partner.overview = marked.parse(partner.overview);
+
+//   return {
+//     props: { partner },
+//     revalidate: 18000, // In seconds - refresh every 5 hours
+//   };
+// };
+
+
+
+
 // This function gets called at build time
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data: slugs } = await supabase
     .from('partners')
     .select('slug')
 
-  const paths = slugs?.map(({ slug }) => ({ params: { slug } })) ?? [];
+  const paths =
+    slugs?.map(({ slug }) => ({
+      params: {
+        slug: [slug], // Provide the slug as an array
+      },
+    })) ?? []
 
   return {
     paths,
     fallback: 'blocking',
-  };
-};
-
+  }
+}
 
 // This also gets called at build time
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { slug } = params as { slug: string };
+  // Extract the first slug from the slug array
+  const slug = params!.slug instanceof Array ? params!.slug[0] : params!.slug;
 
-  const { data: partner } = await supabase
+  let { data: partner } = await supabase
     .from('partners')
     .select('*')
-    .eq('slug', slug)
-    .single();
+    .eq('slug', slug as string)
+    .single()
 
   if (!partner) {
     return {
       notFound: true,
-    };
+    }
   }
 
   // Parse markdown
-  partner.overview = marked.parse(partner.overview);
+  partner.overview = marked.parse(partner.overview)
 
   return {
     props: { partner },
     revalidate: 18000, // In seconds - refresh every 5 hours
-  };
-};
+  }
+}
 
-export default Partner
+
+
+
+
+
+
+export default Partner;
