@@ -123,27 +123,6 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.topnav}>
-        <div className = {styles.navlogo}>
-          <Link href="/">LangChain</Link>
-        </div>
-        <div className = {styles.navlinks}>
-          <a
-            href="https://langchain.readthedocs.io/en/latest/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Docs
-          </a>
-          <a
-            href="https://github.com/zahidkhawaja/langchain-chat-nextjs"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-          </a>
-        </div>
-      </div>
       <main className={styles.main}>
         <div className={styles.cloud}>
           <div ref={messageListRef} className={styles.messagelist}>
