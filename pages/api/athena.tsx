@@ -22,6 +22,7 @@ import { FewShotPromptTemplate } from "langchain/prompts";
 import { StructuredOutputParser } from "langchain/output_parsers";
 import { Document } from 'langchain/dist/document';
 
+declare const chrome: any;
 
 
 const template = `
@@ -122,6 +123,7 @@ const tools = [
             "Scrapes all the headers, paragraphs, and text from the current webpage",
         func: async (page: any) => {
             return new Promise<string>((resolve) => {
+                // @ts-ignore
                 chrome.tabs.executeScript(
                     {
                         code: `
@@ -144,6 +146,7 @@ const tools = [
             "Call this tool to analyze the users active DOM elements so you can then inject javascript using the ID of the elements to manipulate the GUI",
         func: async (page: any) => {
             return new Promise<string>((resolve) => {
+                // @ts-ignore
                 chrome.tabs.executeScript(
                     {
                         code: `
@@ -167,8 +170,8 @@ const tools = [
             const params = JSON.parse(dom);
             return new Promise((resolve, reject) => {
                 const elm = document.createElement("script");
-                const targetElement = document[params.where]
-                    ? document[params.where]
+                const targetElement = document.body
+                    ? document
                     : document.head;
                 targetElement.appendChild(elm);
                 elm.onload = () => {
