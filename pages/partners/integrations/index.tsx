@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/jsx-no-undef */
 import { IconLoader, IconSearch, Input } from '@supabase/ui'
 import Head from 'next/head'
@@ -81,25 +82,126 @@ interface Props {
   partners: Partner[]
 }
 
+// function IntegrationPartnersPage(props: Props) {
+//   const { partners: initialPartners } = props
+//   const [partners, setPartners] = useState(initialPartners)
+
+//   const allCategories = Array.from(
+//     new Set(initialPartners.map((p) => p.category))
+//   )
+
+//   // const partnersByCategory: { [category: string]: Partner[] } = {};
+
+//   // if (partners) {
+//   //   partners.forEach(
+//   //     (p) =>
+//   //       (partnersByCategory[p.category] = [
+//   //         ...(partnersByCategory[p.category] ?? []),
+//   //         p,
+//   //       ])
+//   //   );
+//   // }
+  
+
+//   console.log("allCategories:", allCategories);
+//   console.log("partnersByCategory:", partnersByCategory);
+
+//   const router = useRouter()
+
+//   const meta_title = 'Find an Integration'
+//   const meta_description = `Integrate your favorite tools with the Domain.`
+
+//   const [search, setSearch] = useState('')
+//   const [debouncedSearchTerm] = useDebounce(search, 300)
+//   const [isSearching, setIsSearching] = useState(false)
+//   console.log('partnersByCategory:', partnersByCategory);
+
+//   // useEffect(() => {
+//   //   const searchPartners = async () => {
+//   //     setIsSearching(true)
+
+//   //     let query = supabase
+//   //       .from('partners')
+//   //       .select('*')
+//   //       .eq('approved', true)
+//   //       .order('category')
+//   //       .order('title')
+
+//   //     if (search.trim()) {
+//   //       query = query
+//   //         // @ts-ignore
+//   //         .textSearch('tsv', `${search.trim()}`, {
+//   //           type: 'websearch',
+//   //           config: 'english',
+//   //         })
+//   //     }
+
+//   //     const { data: partners } = await query
+
+//   //     return partners
+//   //   }
+
+//   //   if (search.trim() === '') {
+//   //     setIsSearching(false)
+//   //     setPartners(initialPartners)
+//   //     return
+//   //   }
+
+//   //   searchPartners().then((partners: any) => {
+//   //     if (partners) {
+//   //       setPartners(partners)
+//   //     }
+
+//   //     setIsSearching(false)
+//   //   })
+//   // }, [debouncedSearchTerm, router])
+//   useEffect(() => {
+//     const searchPartners = async () => {
+//       setIsSearching(true)
+  
+//       let query = supabase
+//         .from('partners')
+//         .select('*')
+//         .eq('approved', true)
+//         .order('category')
+//         .order('title')
+  
+//       if (search.trim()) {
+//         query = query
+//           // @ts-ignore
+//           .textSearch('tsv', `${search.trim()}`, {
+//             type: 'websearch',
+//             config: 'english',
+//           })
+//       }
+  
+//       const { data: partners } = await query
+  
+//       return partners
+//     }
+  
+//     if (search.trim() === '') {
+//       setIsSearching(false)
+//       setPartners(initialPartners)
+//       return
+//     }
+  
+//     searchPartners().then((partners: any) => {
+//       if (partners) {
+//         setPartners(partners)
+//       }
+  
+//       setIsSearching(false)
+//     })
+//   }, [debouncedSearchTerm, router, initialPartners, search])
 function IntegrationPartnersPage(props: Props) {
-  const { partners: initialPartners } = props
-  const [partners, setPartners] = useState(initialPartners)
-
-  // const allCategories = Array.from(
-  //   new Set(initialPartners.map((p) => p.category))
-  // )
-
-  // const partnersByCategory: { [category: string]: Partner[] } = {};
-
-  // if (partners) {
-  //   partners.forEach(
-  //     (p) =>
-  //       (partnersByCategory[p.category] = [
-  //         ...(partnersByCategory[p.category] ?? []),
-  //         p,
-  //       ])
-  //   );
-  // }
+  const { partners: initialPartners } = props;
+  const router = useRouter();
+  const [search, setSearch] = useState("");
+  const [debouncedSearchTerm] = useDebounce(search, 300);
+  const [isSearching, setIsSearching] = useState(false);
+  const meta_title = 'Find an Integration'
+  const meta_description = `Integrate your favorite tools with the Domain.`
 
 
   if (!initialPartners) {
@@ -112,6 +214,7 @@ function IntegrationPartnersPage(props: Props) {
   );
 
   const partnersByCategory: { [category: string]: Partner[] } = {};
+  const [partners, setPartners] = useState(initialPartners);
   partners.forEach(
     (p) =>
       (partnersByCategory[p.category] = [
@@ -123,94 +226,47 @@ function IntegrationPartnersPage(props: Props) {
   console.log("allCategories:", allCategories);
   console.log("partnersByCategory:", partnersByCategory);
 
-  const router = useRouter()
-
-  const meta_title = 'Find an Integration'
-  const meta_description = `Integrate your favorite tools with the Domain.`
-
-  const [search, setSearch] = useState('')
-  const [debouncedSearchTerm] = useDebounce(search, 300)
-  const [isSearching, setIsSearching] = useState(false)
-  console.log('partnersByCategory:', partnersByCategory);
-
-  // useEffect(() => {
-  //   const searchPartners = async () => {
-  //     setIsSearching(true)
-
-  //     let query = supabase
-  //       .from('partners')
-  //       .select('*')
-  //       .eq('approved', true)
-  //       .order('category')
-  //       .order('title')
-
-  //     if (search.trim()) {
-  //       query = query
-  //         // @ts-ignore
-  //         .textSearch('tsv', `${search.trim()}`, {
-  //           type: 'websearch',
-  //           config: 'english',
-  //         })
-  //     }
-
-  //     const { data: partners } = await query
-
-  //     return partners
-  //   }
-
-  //   if (search.trim() === '') {
-  //     setIsSearching(false)
-  //     setPartners(initialPartners)
-  //     return
-  //   }
-
-  //   searchPartners().then((partners: any) => {
-  //     if (partners) {
-  //       setPartners(partners)
-  //     }
-
-  //     setIsSearching(false)
-  //   })
-  // }, [debouncedSearchTerm, router])
   useEffect(() => {
     const searchPartners = async () => {
-      setIsSearching(true)
-  
+      setIsSearching(true);
+
       let query = supabase
-        .from('partners')
-        .select('*')
-        .eq('approved', true)
-        .order('category')
-        .order('title')
-  
+        .from("partners")
+        .select("*")
+        .eq("approved", true)
+        .order("category")
+        .order("title");
+
       if (search.trim()) {
         query = query
           // @ts-ignore
-          .textSearch('tsv', `${search.trim()}`, {
-            type: 'websearch',
-            config: 'english',
-          })
+          .textSearch("tsv", `${search.trim()}`, {
+            type: "websearch",
+            config: "english",
+          });
       }
-  
-      const { data: partners } = await query
-  
-      return partners
+
+      const { data: partners } = await query;
+
+      return partners;
+    };
+
+    if (search.trim() === "") {
+      setIsSearching(false);
+      setPartners(initialPartners);
+      return;
     }
-  
-    if (search.trim() === '') {
-      setIsSearching(false)
-      setPartners(initialPartners)
-      return
-    }
-  
+
     searchPartners().then((partners: any) => {
       if (partners) {
-        setPartners(partners)
+        setPartners(partners);
       }
-  
-      setIsSearching(false)
-    })
-  }, [debouncedSearchTerm, router, initialPartners, search])
+
+      setIsSearching(false);
+    });
+  }, [debouncedSearchTerm, router, initialPartners, search]);
+
+
 
   return (
     <>
