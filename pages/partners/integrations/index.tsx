@@ -98,17 +98,56 @@ function IntegrationPartnersPage(props: Props) {
   const [isSearching, setIsSearching] = useState(false)
   console.log('partnersByCategory:', partnersByCategory);
 
+  // useEffect(() => {
+  //   const searchPartners = async () => {
+  //     setIsSearching(true)
+
+  //     let query = supabase
+  //       .from('partners')
+  //       .select('*')
+  //       .eq('approved', true)
+  //       .order('category')
+  //       .order('title')
+
+  //     if (search.trim()) {
+  //       query = query
+  //         // @ts-ignore
+  //         .textSearch('tsv', `${search.trim()}`, {
+  //           type: 'websearch',
+  //           config: 'english',
+  //         })
+  //     }
+
+  //     const { data: partners } = await query
+
+  //     return partners
+  //   }
+
+  //   if (search.trim() === '') {
+  //     setIsSearching(false)
+  //     setPartners(initialPartners)
+  //     return
+  //   }
+
+  //   searchPartners().then((partners: any) => {
+  //     if (partners) {
+  //       setPartners(partners)
+  //     }
+
+  //     setIsSearching(false)
+  //   })
+  // }, [debouncedSearchTerm, router])
   useEffect(() => {
     const searchPartners = async () => {
       setIsSearching(true)
-
+  
       let query = supabase
         .from('partners')
         .select('*')
         .eq('approved', true)
         .order('category')
         .order('title')
-
+  
       if (search.trim()) {
         query = query
           // @ts-ignore
@@ -117,26 +156,26 @@ function IntegrationPartnersPage(props: Props) {
             config: 'english',
           })
       }
-
+  
       const { data: partners } = await query
-
+  
       return partners
     }
-
+  
     if (search.trim() === '') {
       setIsSearching(false)
       setPartners(initialPartners)
       return
     }
-
+  
     searchPartners().then((partners: any) => {
       if (partners) {
         setPartners(partners)
       }
-
+  
       setIsSearching(false)
     })
-  }, [debouncedSearchTerm, router])
+  }, [debouncedSearchTerm, router, initialPartners, search])
 
   return (
     <>
