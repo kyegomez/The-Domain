@@ -447,14 +447,14 @@ function IntegrationPartnersPage(props: Props) {
   useEffect(() => {
     const searchPartners = async () => {
       setIsSearching(true)
-
+  
       let query = supabase
-        .from<Partner>('partners')
+        .from('partners')
         .select('*')
         .eq('approved', true)
         .order('category')
         .order('title')
-
+  
       if (search.trim()) {
         query = query
           // @ts-ignore
@@ -463,23 +463,26 @@ function IntegrationPartnersPage(props: Props) {
             config: 'english',
           })
       }
-
-      const { data: partners } = await query
-
+  
+      const { data } = await query
+  
+      // Cast the data to the Partner[] type
+      const partners: Partner[] = data as Partner[];
+  
       return partners
     }
-
+  
     if (search.trim() === '') {
       setIsSearching(false)
       setPartners(initialPartners)
       return
     }
-
+  
     searchPartners().then((partners) => {
       if (partners) {
         setPartners(partners)
       }
-
+  
       setIsSearching(false)
     })
   }, [debouncedSearchTerm, router])
