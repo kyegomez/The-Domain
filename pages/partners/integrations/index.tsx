@@ -100,6 +100,10 @@ function IntegrationPartnersPage(props: Props) {
         ])
     );
   }
+
+  console.log("allCategories:", allCategories);
+  console.log("partnersByCategory:", partnersByCategory);
+  
   const router = useRouter()
 
   const meta_title = 'Find an Integration'
@@ -253,7 +257,18 @@ function IntegrationPartnersPage(props: Props) {
                     ) : (
                       <div>No categories found</div>
                     )} */}
-                  {allCategories && allCategories.map((category) => (
+                  {/* {allCategories && allCategories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() =>
+                        router.push(`#${category.toLowerCase()}`)
+                      }
+                      className="block text-base text-scale-1100"
+                    >
+                      {category}
+                    </button>
+                  ))} */}
+                  {allCategories && allCategories.length > 0 && allCategories.map((category) => (
                     <button
                       key={category}
                       onClick={() =>
