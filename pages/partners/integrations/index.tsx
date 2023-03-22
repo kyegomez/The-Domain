@@ -85,25 +85,44 @@ function IntegrationPartnersPage(props: Props) {
   const { partners: initialPartners } = props
   const [partners, setPartners] = useState(initialPartners)
 
+  // const allCategories = Array.from(
+  //   new Set(initialPartners.map((p) => p.category))
+  // )
+
+  // const partnersByCategory: { [category: string]: Partner[] } = {};
+
+  // if (partners) {
+  //   partners.forEach(
+  //     (p) =>
+  //       (partnersByCategory[p.category] = [
+  //         ...(partnersByCategory[p.category] ?? []),
+  //         p,
+  //       ])
+  //   );
+  // }
+
+
+  if (!initialPartners) {
+    console.error("initialPartners is null or undefined");
+    return null; // Or render an error message or a loading state
+  }
+
   const allCategories = Array.from(
     new Set(initialPartners.map((p) => p.category))
-  )
+  );
 
   const partnersByCategory: { [category: string]: Partner[] } = {};
-
-  if (partners) {
-    partners.forEach(
-      (p) =>
-        (partnersByCategory[p.category] = [
-          ...(partnersByCategory[p.category] ?? []),
-          p,
-        ])
-    );
-  }
+  partners.forEach(
+    (p) =>
+      (partnersByCategory[p.category] = [
+        ...(partnersByCategory[p.category] ?? []),
+        p,
+      ])
+  );
 
   console.log("allCategories:", allCategories);
   console.log("partnersByCategory:", partnersByCategory);
-  
+
   const router = useRouter()
 
   const meta_title = 'Find an Integration'
