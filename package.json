@@ -33,6 +33,7 @@
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.10",
     "@types/swiper": "^6.0.0",
+    "@types/ws": "^8.5.4",
     "@vercel/analytics": "^0.1.6",
     "@vercel/og": "^0.0.26",
     "classnames": "^2.3.2",
