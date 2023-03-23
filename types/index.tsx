@@ -3,10 +3,12 @@ export interface OpenAIModel {
     name: string;
   }
   
-  export enum OpenAIModelID {
-    GPT_3_5 = "gpt-3.5-turbo",
-    GPT_4 = "gpt-4"
-  }
+
+export enum OpenAIModelID {
+  GPT_3_5 = "gpt-3.5-turbo",
+  GPT_4 = "gpt-4",
+  _3_5 = "_3_5"
+}
   
   export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
     [OpenAIModelID.GPT_3_5]: {
