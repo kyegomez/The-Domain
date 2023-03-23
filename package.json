@@ -1,5 +1,5 @@
 {
-  "name": "precedent",
+  "name": "the-domain",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@blueprintjs/icons": "^4.14.4",
+    "@dqbd/tiktoken": "^1.0.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@headlessui/react": "^1.7.13",
@@ -33,6 +34,7 @@
     "@radix-ui/react-tooltip": "^1.0.5",
     "@supabase/supabase-js": "^2.11.0",
     "@supabase/ui": "^0.36.5",
+    "@tabler/icons-react": "^2.11.0",
     "@types/marked": "^4.0.8",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
@@ -57,7 +59,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-markdown": "^8.0.4",
+    "react-syntax-highlighter": "^15.5.0",
     "react-wrap-balancer": "^0.3.0",
+    "remark-gfm": "^3.0.1",
     "supabase": "^1.42.7",
     "swiper": "^9.1.1",
     "typescript": "4.9.4",
