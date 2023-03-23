@@ -1,4 +1,4 @@
-import { Conversation } from "@/types";
+import { Conversation } from "types/index";
 
 export const exportConversations = () => {
   const history = localStorage.getItem("conversationHistory");

@@ -1,4 +1,4 @@
-import { Conversation } from "@/types";
+import { Conversation } from "types/index";
 import { IconFileExport, IconMoon, IconSun } from "@tabler/icons-react";
 import { FC } from "react";
 import { ClearConversations } from "./ClearConversations";
