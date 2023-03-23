@@ -1,6 +1,7 @@
 import { IconCheck, IconKey, IconX } from "@tabler/icons-react";
 import { FC, KeyboardEvent, useState } from "react";
 import { SidebarButton } from "./SidebarButton";
+import { IconDatabase } from "@tabler/icons-react";
 
 interface Props {
   apiKey: string;
@@ -36,7 +37,7 @@ export const Key: FC<Props> = ({ apiKey, onApiKeyChange }) => {
       />
 
       <div className="flex w-[40px]">
-        <IconCheck
+        <IconDatabase
           className="ml-auto min-w-[20px] text-neutral-400 hover:text-neutral-100"
           size={18}
           onClick={(e) => {

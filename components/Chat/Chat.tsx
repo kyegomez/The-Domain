@@ -38,7 +38,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
       {modelError ? (
         <div className="flex flex-col justify-center mx-auto h-full w-[300px] sm:w-[500px] space-y-6">
           <div className="text-center text-red-500">Error fetching models.</div>
-          <div className="text-center text-red-500">Make sure your OpenAI API key is set in the bottom left of the sidebar or in a .env.local file and refresh.</div>
+          <div className="text-center text-red-500">Make sure your Athena API key is set in the bottom left of the sidebar or in a .env.local file and refresh.</div>
           <div className="text-center text-red-500">If you completed this step, OpenAI may be experiencing issues.</div>
         </div>
       ) : (
