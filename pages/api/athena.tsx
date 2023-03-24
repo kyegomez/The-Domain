@@ -71,7 +71,7 @@ const formatInstructions = parser.getFormatInstructions();
 
 const prompt = new PromptTemplate({
     template: template,
-    inputVariables: ["dom", "javascript",],
+    inputVariables: [ "task", "history", "context" ],
     partialVariables: { format_instructions: formatInstructions },
 });
 
@@ -119,54 +119,7 @@ const chain = new ConversationChain({
 
 // Define the tools
 const tools = [
-    new DynamicTool({
-        name: "Indexor",
-        description:
-            "Scrapes all the headers, paragraphs, and text from the current webpage",
-        func: async (page: any) => {
-            return new Promise<string>((resolve) => {
-                // @ts-ignore
-                chrome.tabs.executeScript(
-                    {
-                        code: `
-                  const headers = Array.from(document.querySelectorAll("h1, h2, h3, h4, h5, h6")).map((header) => header.textContent);
-                  const paragraphs = Array.from(document.querySelectorAll("p")).map((p) => p.textContent);
-                  const allText = Array.from(document.querySelectorAll("body *")).map((el) => el.textContent).filter(Boolean).join(" ");
-                  ({ headers, paragraphs, allText });
-                `,
-                    },
-                        // @ts-ignore
-                    ([result]) => {
-                        resolve(JSON.stringify(result));
-                    },
-                );
-            });
-        },
-    }),
-    new DynamicTool({
-        name: "Dom Analyzer",
-        description:
-            "Call this tool to analyze the users active DOM elements so you can then inject javascript using the ID of the elements to manipulate the GUI",
-        func: async (page: any) => {
-            return new Promise<string>((resolve) => {
-                // @ts-ignore
-                chrome.tabs.executeScript(
-                    {
-                        code: `
-                            const clickableElements = Array.from(document.querySelectorAll("a, button, input[type='button'], input[type='submit']")).map((element) => element.outerHTML);
-                            const typeableElements = Array.from(document.querySelectorAll("input[type='text'], input[type='email'], input[type='password'], input[type='search'], input[type='tel'], input[type='url'], input[type='number'], input[type='date'], input[type='time'], input[type='week'], input[type='month'], input[type='datetime'], input[type='datetime-local'], textarea")).map((element) => element.outerHTML);
-                            ({ clickableElements, typeableElements });
-                        `,
-                    },
-                    // @ts-ignore
 
-                    ([result]) => {
-                        resolve(JSON.stringify(result));
-                    },
-                );
-            });
-        },
-    }),
     new DynamicTool({
         name: "InjectScript",
         description:
@@ -213,7 +166,7 @@ console.log("loaded agent");
 
 export const zeroShotAgent = new ZeroShotAgent({
     llmChain: chain,
-    allowedTools: ["Indexor", "Dom Analyzer", "Javascript injector", "Zapier"],
+    allowedTools: ["Javascript injector", "Zapier"],
 });
 
 // const agentExecutor = new AgentExecutor(zeroShotAgent);
@@ -226,223 +179,6 @@ export const agentExecutor = AgentExecutor.fromAgentAndTools({
 console.log("loaded agent");
 
 
-////////////////////////===============+> split 
-
-
-
-
-
-// import { OpenAI } from "langchain/llms";
-// import { LLMChain, ChatVectorDBQAChain, loadQAChain } from "langchain/chains";
-// import { HNSWLib } from "langchain/vectorstores";
-// import { PromptTemplate } from "langchain/prompts";
-
-// const CONDENSE_PROMPT = PromptTemplate.fromTemplate(`Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
-// Chat History:
-// {chat_history}
-// Follow Up Input: {question}
-// Standalone question:`);
-
-// const QA_PROMPT = PromptTemplate.fromTemplate(
-//   `You are an AI assistant for the open source library LangChain. The documentation is located at https://langchain.readthedocs.io.
-// You are given the following extracted parts of a long document and a question. Provide a conversational answer with a hyperlink to the documentation.
-// You should only use hyperlinks that are explicitly listed as a source in the context. Do NOT make up a hyperlink that is not listed.
-// If the question includes a request for code, provide a code block directly from the documentation.
-// If you don't know the answer, just say "Hmm, I'm not sure." Don't try to make up an answer.
-// If the question is not about LangChain, politely inform them that you are tuned to only answer questions about LangChain.
-// Question: {question}
-// =========
-// {context}
-// =========
-// Answer in Markdown:`);
-
-// export const makeChain = (vectorstore: HNSWLib, onTokenStream?: (token: string) => void) => {
-//   const questionGenerator = new LLMChain({
-//     llm: new OpenAI({ temperature: 0 }),
-//     prompt: CONDENSE_PROMPT,
-//   });
-//   const docChain = loadQAChain(
-//     new OpenAI({
-//       temperature: 0,
-//       streaming: Boolean(onTokenStream),
-//       callbackManager: {
-//         handleNewToken: onTokenStream,
-//       }
-//     }),
-//     { prompt: QA_PROMPT },
-//   );
-
-//   return new ChatVectorDBQAChain({
-//     vectorstore,
-//     combineDocumentsChain: docChain,
-//     questionGeneratorChain: questionGenerator,
-//   });
-// }
-
-
-
-
-
-
-
-//=========================
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-// import type { NextApiRequest, NextApiResponse } from "next";
-// import path from "path";
-// import { HNSWLib } from "langchain/vectorstores";
-// import { OpenAIEmbeddings } from "langchain/embeddings";
-
-// export default async function handler(
-//   req: NextApiRequest,
-//   res: NextApiResponse
-// ) {
-//   const body = req.body;
-//   const dir = path.resolve(process.cwd(), "data");
-
-//   const vectorstore = await HNSWLib.load(dir, new OpenAIEmbeddings());
-//   res.writeHead(200, {
-//     "Content-Type": "text/event-stream",
-//     // Important to set no-transform to avoid compression, which will delay
-//     // writing response chunks to the client.
-//     // See https://github.com/vercel/next.js/issues/9965
-//     "Cache-Control": "no-cache, no-transform",
-//     Connection: "keep-alive",
-//   });
-
-//   const sendData = (data: string) => {
-//     res.write(`data: ${data}\n\n`);
-//   };
-
-//   sendData(JSON.stringify({ data: "" }));
-//   const chain = makeChain(vectorstore, (token: string) => {
-//     sendData(JSON.stringify({ data: token }));
-//   });
-
-//   try {
-//     await chain.call({
-//       question: body.question,
-//       chat_history: body.history,
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     // Ignore error
-//   } finally {
-//     sendData("[DONE]");
-//     res.end();
-//   }
-// }
-
-// function makeChain(vectorstore: HNSWLib, arg1: (token: string) => void) {
-//     throw new Error("Function not implemented.");
-// }
-
-
-
-// export type Message = {
-//     type: 'apiMessage' | 'userMessage';
-//     message: string;
-//     isStreaming?: boolean;
-//     sourceDocs?: Document[];
-// };
-
-// if (!process.env.OPENAI_API_KEY) {
-//     throw new Error('Missing OpenAI credentials');
-// }
-
-// export const openai = new OpenAI({
-//     temperature: 0
-// })
-
-
-// export const PINECONE_INDEX_NAME = "DOM-data";
-
-// export const PINECONE_NAME_SPACE = "DOM-test";
-
-
-// const CONDENSE_PROMPT =
-//   PromptTemplate.fromTemplate(`Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
-// Chat History:
-// {chat_history}
-// Follow Up Input: {question}
-// Standalone question:`);
-
-// const QA_PROMPT = PromptTemplate.fromTemplate(
-//   `You are an AI assistant providing helpful advice. You are given the following extracted parts of a long document and a question. Provide a conversational answer based on the context provided.
-// You should only provide hyperlinks that reference the context below. Do NOT make up hyperlinks.
-// If you can't find the answer in the context below, just say "Hmm, I'm not sure." Don't try to make up an answer.
-// If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context.
-// Question: {question}
-// =========
-// {context}
-// =========
-// Answer in Markdown:`,
-// );
-
-
-
-// export const makeChain = (
-//     vectorstore: PineconeStore,
-//     onTokenStream?: (token: string) => void,
-//   ) => {
-//     const questionGenerator = new LLMChain({
-//       llm: new OpenAIChat({ temperature: 0 }),
-//       prompt: CONDENSE_PROMPT,
-//     });
-//     const docChain = loadQAChain(
-//       new OpenAIChat({
-//         temperature: 0,
-//         modelName: 'gpt-4', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
-//         streaming: Boolean(onTokenStream),
-//         callbackManager: onTokenStream
-//           ? CallbackManager.fromHandlers({
-//               async handleLLMNewToken(token) {
-//                 onTokenStream(token);
-//                 console.log(token);
-//               },
-//             })
-//           : undefined,
-//       }),
-//       { prompt: QA_PROMPT },
-//     );
-
-//     return new ChatVectorDBQAChain({
-//         vectorstore,
-//         combineDocumentsChain: docChain,
-//         questionGeneratorChain: questionGenerator,
-//         returnSourceDocuments: true,
-//         k: 2, //number of source documents to return
-//       });
-//     };
-
-
-// if (!process.env.PINECONE_ENVIRONMENT || !process.env.PINECONE_API_KEY) {
-//     throw new Error('pinecone environment or api key vars missing');
-// }
-
-// async function initPinecone() {
-//     try {
-//         const pinecone = new PineconeClient();
-
-//         await pinecone.init({
-//             environment: process.env.PINECONE_ENVIRONMENT ?? '',
-//             apiKey: process.env.PINECONE_API_KEY ?? '',
-//         });
-
-//         return pinecone;
-//     } catch (error) {
-//         console.log('error', error);
-//         throw new Error('failed to initlize Pinecone Client');
-//     }
-// }
-
-// export const pinecone = await initPinecone();
-
-
-
-
-
-
-
 
 
 //========================================> this is where the request is parsed for dom, task, history 
@@ -450,7 +186,7 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse,
 ) {
-    const { dom, task, history, index } = req.body;
+    const { indexor, dom, task, history } = req.body;
 
     console.log(`request bodyyy: ${req.body}`);
 
@@ -463,7 +199,7 @@ export default async function handler(
     console.log(`sanitized task: ${sanitizedTask}`);
 
     // Pass the extracted data to the agentExecutor and retrieve the response
-    const agentResponse = await agentExecutor.call({task: sanitizedTask, history: history, dom: dom, index: index});
+    const agentResponse = await agentExecutor.call({sanitizedTask});
 
     console.log(`agent response: ${agentResponse}`);
 
