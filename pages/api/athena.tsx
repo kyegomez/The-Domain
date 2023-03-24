@@ -79,7 +79,7 @@ const fewShotPrompt = new FewShotPromptTemplate({
     examplePrompt: prompt,
     prefix: "When prompted click or type on the most likely div element related to the user's goal",
     suffix: "Begin! Remember to generate the javascript needed to manipulate the DOM page by first analyzing the page's current DOM div elements and then manipulating them",
-    inputVariables: ["dom", "javascript", "indexor", "task", "history", "context" ],
+    inputVariables: [ "javascript", "task", "history", "context" ],
     exampleSeparator: "\n\n",
     templateFormat: "f-string",
 });
@@ -186,7 +186,10 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse,
 ) {
-    const { indexor, dom, task, history } = req.body;
+    // const { indexor, dom, task, history } = req.body;
+
+    const {task} = req.body;
+    
 
     console.log(`request bodyyy: ${req.body}`);
 
