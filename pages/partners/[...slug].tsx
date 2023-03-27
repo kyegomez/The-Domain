@@ -279,6 +279,16 @@
 // // }
 // export default PartnerPage;
 
+//////////////=====================================================> v2 [MAIN]
+
+
+
+
+
+
+
+
+
 import { IconChevronLeft, IconExternalLink } from '@supabase/ui'
 import { marked } from 'marked'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -289,9 +299,61 @@ import SectionContainer from '@/components/SectionContainer'
 import supabase from '@/lib/supabase'
 import { PropsWithChildren } from 'react'
 import * as Slider from '@radix-ui/react-slider';
-
+import * as Dialog from '@radix-ui/react-dialog';
+import { Cross2Icon } from '@radix-ui/react-icons';
 // import { Swiper, SwiperSlide} from "swiper/react";
 // import * as Slider from '@radix-ui/react-slider';
+import * as Toast from '@radix-ui/react-toast';
+
+
+
+
+
+// export interface SelectOption {
+//   value: string;
+//   label: string;
+//   imageBase64: string;
+//   configFields: ConfigField[]
+// }
+
+// export interface DatasourcePanelState {
+//  selectOptions: SelectOption[] 
+//  isAdding: boolean
+//  selectedDataSource: SelectOption
+//  isAddingLoading: boolean
+// }
+
+// export interface DataSourcePanelProps {
+//   dataSourceTypesDict: { [key: string]: DataSourceType}
+//   connectedDataSources: string[]
+//   onAdded: (dataSourceType: string) => void
+//   onClose: () => void
+// }
+
+
+
+// const slackManifest = {
+//   "display_information": {
+//      "name": "GerevAI"
+//   },
+//   "features": {
+//      "bot_user": {
+//         "display_name": "GerevAIBot"
+//      }
+//   },
+//   "oauth_config": {
+//      "scopes": {
+//         "bot": [
+//            "channels:history",
+//            "channels:join",
+//            "channels:read",
+//            "users:read"
+//         ]
+//      }
+//   }
+// }
+
+
 
 import { Transition } from '@headlessui/react';
 import React from 'react'
@@ -341,7 +403,7 @@ export const Layout = ({
 
   return (
     <>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
         <main>{children}</main>
       </div>
     </>
@@ -352,27 +414,34 @@ export const Layout = ({
 
 function Partner({ partner }: { partner: Partner }) {
   const [activeImage, setActiveImage] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+  const timerRef = React.useRef(0);
+
+
 
   const handleSliderChange = (event: React.FormEvent<HTMLDivElement>) => {
     const value = (event.target as HTMLInputElement).valueAsNumber;
     setActiveImage(value);
   };
-  
+
+  React.useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
+
   return <>
     <Head>
-      <title>{partner.title} | Supabase Partner Gallery Example</title>
+      <title>{partner.title} | Athena Integration</title>
       <meta name="description" content={partner.description}></meta>
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
     <Layout>
       <SectionContainer>
-        <div className="col-span-12 mx-auto mb-2 max-w-5xl space-y-12 lg:col-span-2">
+        <div className="col-span-12 mx-auto mb-2 max-w-5xl space-y-12 lg:col-span-2 ">
           {/* Back button */}
           <Link
-            href={`/partners/${
-              partner.type === 'technology' ? 'integrations' : 'experts'
-            }`}
+            href={`/partners/${partner.type === 'technology' ? 'integrations' : 'experts'
+              }`}
             className="flex cursor-pointer items-center text-scale-1200 transition-colors hover:text-scale-1000">
 
             <IconChevronLeft style={{ padding: 0 }} />Back
@@ -392,70 +461,116 @@ function Partner({ partner }: { partner: Partner }) {
             </h1>
           </div>
 
+          {/* ============================================== Add integration button  */}
+          <div className="flex items-center space-x-4">
+            <Dialog.Root open={open} onOpenChange={setOpen}>
+
+              <Dialog.Trigger asChild>
+                <button className="text-violet11 border-solid border-2 border-sky-500 hover:bg-mauve3 inline-flex h-[35px] items-center justify-center rounded-[4px] bg-white px-[15px] font-medium leading-none focus:outline-none">
+                  Add Integration
+                </button>
+              </Dialog.Trigger>
+              <Dialog.Portal>
+                <Dialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0" />
+                <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+                  <Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
+                    Edit profile
+                  </Dialog.Title>
+                  <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal">
+                    Make changes to your profile here. Click save when you're done.
+                  </Dialog.Description>
+                  <fieldset className="mb-[15px] flex items-center gap-5">
+                    <label className="text-violet11 w-[90px] text-right text-[15px]" htmlFor="name">
+                      Name
+                    </label>
+                    <input
+                      className="text-violet11 shadow-violet7 focus:shadow-violet8 inline-flex h-[35px] w-full flex-1 items-center justify-center rounded-[4px] px-[10px] text-[15px] leading-none shadow-[0_0_0_1px] outline-none focus:shadow-[0_0_0_2px]"
+                      id="name"
+                      defaultValue="Pedro Duarte"
+                    />
+                  </fieldset>
+                  <fieldset className="mb-[15px] flex items-center gap-5">
+                    <label className="text-violet11 w-[90px] text-right text-[15px]" htmlFor="username">
+                      Username
+                    </label>
+                    <input
+                      className="text-violet11 shadow-violet7 focus:shadow-violet8 inline-flex h-[35px] w-full flex-1 items-center justify-center rounded-[4px] px-[10px] text-[15px] leading-none shadow-[0_0_0_1px] outline-none focus:shadow-[0_0_0_2px]"
+                      id="username"
+                      defaultValue="@peduarte"
+                    />
+                  </fieldset>
+                  <div className="mt-[25px] flex justify-end">
+                    <Dialog.Close asChild>
+                      <button className="bg-green4 border-solid border-2 border-sky-500 text-green11 hover:bg-green5 focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
+                      onClick={() => {
+                        setOpen(false);
+                        setOpen(true);
+                        setOpen(false)
+                        
+                      }}
+                      
+                      >
+                        Save changes
+
+                      </button>
+                    </Dialog.Close>
+                  </div>
+                  <Dialog.Close asChild>
+                    <button
+                      className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
+                      aria-label="Close"
+                    >
+                      <Cross2Icon />
+                    </button>
+                  </Dialog.Close>
+                </Dialog.Content>
+              </Dialog.Portal>
+            </Dialog.Root>
+          </div>
+
+
+
+
+          {/* ===============================================> Notification when integration added or now */}
+
+          <Toast.Provider swipeDirection="right">
+            <Toast.Root
+              className="bg-white rounded-md shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] p-[15px] grid [grid-template-areas:_'title_action'_'description_action'] grid-cols-[auto_max-content] gap-x-[15px] items-center data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut"
+              open={open}
+              onOpenChange={setOpen}
+            >
+              <Toast.Title className="[grid-area:_title] mb-[5px] font-medium text-slate12 text-[15px]">
+                Integration: Status
+              </Toast.Title>
+              <Toast.Description asChild>
+                Integrated 
+              </Toast.Description>
+              <Toast.Action className="[grid-area:_action]" asChild altText="Goto schedule to undo">
+                <button className="inline-flex items-center justify-center rounded font-medium text-xs px-[10px] leading-[25px] h-[25px] bg-green2 text-green11 shadow-[inset_0_0_0_1px] shadow-green7 hover:shadow-[inset_0_0_0_1px] hover:shadow-green8 focus:shadow-[0_0_0_2px] focus:shadow-green8">
+                  Undo
+                </button>
+              </Toast.Action>
+            </Toast.Root>
+            <Toast.Viewport className="[--viewport-padding:_25px] fixed bottom-0 right-0 flex flex-col p-[var(--viewport-padding)] gap-[10px] w-[390px] max-w-[100vw] m-0 list-none z-[2147483647] outline-none" />
+          </Toast.Provider>
+
+
+
+
+
+
+
+
           <div
-            className="bg-scale-300 py-6" style={{ marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',}}
+            className="bg-scale-300 py-6" style={{ marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', }}
           >
 
-            {/* <Swiper
-              initialSlide={0}
-              spaceBetween={0}
-              slidesPerView={4}
-              speed={300}
-              // slidesOffsetBefore={300}
-              centerInsufficientSlides={true}
-              breakpoints={{
-                320: {
-                  slidesPerView: 1,
-                },
-                720: {
-                  slidesPerView: 2,
-                },
-                920: {
-                  slidesPerView: 3,
-                },
-                1024: {
-                  slidesPerView: 4,
-                },
-                1208: {
-                  slidesPerView: 5,
-                },
-              }}
-            > */}
-              {/* {partner.images.map((image: any, i: number) => {
-                return (
-                  <SwiperSlide key={i}>
-                    <div className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md">
-                      <Image
-                        layout="responsive"
-                        objectFit="contain"
-                        width={1460}
-                        height={960}
-                        src={image}
-                        alt={partner.title}
-                      />
-                    </div>
-                  </SwiperSlide>
-                )
-              })} */}
-              {/* {partner.images && partner.images.map((image: any, i: number) => {
-                return (
-                  <SwiperSlide key={i}>
-                    <div className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md">
-                      <Image src={image} alt={`Partner Image ${i + 1}`} width={800} height={450} layout="responsive" />
-                    </div>
-                  </SwiperSlide>
-                )
-              })} */}
-              {/* {partner.images && partner.images.map((image: any, i: number) => {
-                return (
-                  <SwiperSlide key={i}>
-                    <div className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md">
-                      <Image src={image} alt={`Partner Image ${i + 1}`} width={800} height={450} layout="responsive" />
-                    </div>
-                  </SwiperSlide>
-                )
-              })}
-            </Swiper> */}
+
+
+
+
+
+
             {partner.images && partner.images.map((image: any, i: number) => {
               return (
                 <Transition
@@ -529,11 +644,10 @@ function Partner({ partner }: { partner: Partner }) {
                 <div className="flex items-center justify-between py-2">
                   <span className="text-scale-900">Category</span>
                   <Link
-                    href={`/partners/${
-                      partner.type === 'technology'
-                        ? 'integrations'
-                        : 'experts'
-                    }#${partner.category.toLowerCase()}`}
+                    href={`/partners/${partner.type === 'technology'
+                      ? 'integrations'
+                      : 'experts'
+                      }#${partner.category.toLowerCase()}`}
                     className="text-brand-900 transition-colors hover:text-brand-800">
 
                     {partner.category}
