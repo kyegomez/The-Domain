@@ -424,9 +424,7 @@ function Partner({ partner }: { partner: Partner }) {
     setActiveImage(value);
   };
 
-  React.useEffect(() => {
-    return () => clearTimeout(timerRef.current);
-  }, []);
+
 
   return <>
     <Head>
@@ -477,7 +475,7 @@ function Partner({ partner }: { partner: Partner }) {
                     Edit profile
                   </Dialog.Title>
                   <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal">
-                    Make changes to your profile here. Click save when you're done.
+                    Make changes to your profile here. Click save when you are done.
                   </Dialog.Description>
                   <fieldset className="mb-[15px] flex items-center gap-5">
                     <label className="text-violet11 w-[90px] text-right text-[15px]" htmlFor="name">
