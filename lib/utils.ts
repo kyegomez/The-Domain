@@ -1,5 +1,5 @@
 import ms from "ms";
-
+import * as Sentry from "@sentry/nextjs";
 export const timeAgo = (timestamp: Date, timeOnly?: boolean): string => {
   if (!timestamp) return "never";
   return `${ms(Date.now() - new Date(timestamp).getTime())}${
@@ -20,6 +20,8 @@ export async function fetcher<JSON = any>(
         status: number;
       };
       error.status = res.status;
+      Sentry.captureException(error);
+
       throw error;
     } else {
       throw new Error("An unexpected error occurred");

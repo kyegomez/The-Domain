@@ -3,7 +3,6 @@ import { IconFileExport, IconMoon, IconSun } from "@tabler/icons-react";
 import { FC } from "react";
 import { ClearConversations } from "./ClearConversations";
 import { Import } from "./Import";
-import { Key } from "./Key";
 import { SidebarButton } from "./SidebarButton";
 import { useRouter } from "next/router";
 import { IconTopologyStar3} from "@tabler/icons-react";
@@ -52,10 +51,7 @@ export const SidebarSettings: FC<Props> = ({ lightMode, apiKey, onToggleLightMod
 
 
 
-      <Key
-        apiKey={apiKey}
-        onApiKeyChange={onApiKeyChange}
-      />
+
     </div>
   );
 };
