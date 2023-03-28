@@ -12,11 +12,11 @@ export enum OpenAIModelID {
   export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
     [OpenAIModelID.GPT_3_5]: {
       id: OpenAIModelID.GPT_3_5,
-      name: "Default (GPT-3.5)"
+      name: "Default Athena v1"
     },
     [OpenAIModelID.GPT_4]: {
       id: OpenAIModelID.GPT_4,
-      name: "GPT-4"
+      name: "Athena+"
     }
   };
   
