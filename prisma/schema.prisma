@@ -1,57 +1,411 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  relationMode = "prisma"
-
+  schemas  = ["auth", "partners", "public"]
 }
 
-generator client {
-  provider        = "prisma-client-js"
+model audit_log_entries {
+  instance_id String?   @db.Uuid
+  id          String    @id @db.Uuid
+  payload     Json?     @db.Json
+  created_at  DateTime? @db.Timestamptz(6)
+  ip_address  String    @default("") @db.VarChar(64)
+
+  @@index([instance_id], map: "audit_logs_instance_id_idx")
+  @@schema("auth")
 }
 
-model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+model identities {
+  id              String
+  user_id         String    @db.Uuid
+  identity_data   Json
+  provider        String
+  last_sign_in_at DateTime? @db.Timestamptz(6)
+  created_at      DateTime? @db.Timestamptz(6)
+  updated_at      DateTime? @db.Timestamptz(6)
+  email           String?   @default(dbgenerated("lower((identity_data ->> 'email'::text))"))
+  users           users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@index([userId])
+  @@id([provider, id])
+  @@index([email])
+  @@index([user_id])
+  @@schema("auth")
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  @@index([userId])
+model instances {
+  id              String    @id @db.Uuid
+  uuid            String?   @db.Uuid
+  raw_base_config String?
+  created_at      DateTime? @db.Timestamptz(6)
+  updated_at      DateTime? @db.Timestamptz(6)
+
+  @@schema("auth")
 }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+model mfa_amr_claims {
+  session_id            String   @db.Uuid
+  created_at            DateTime @db.Timestamptz(6)
+  updated_at            DateTime @db.Timestamptz(6)
+  authentication_method String
+  id                    String   @id(map: "amr_id_pk") @db.Uuid
+  sessions              sessions @relation(fields: [session_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([session_id, authentication_method], map: "mfa_amr_claims_session_id_authentication_method_pkey")
+  @@schema("auth")
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+model mfa_challenges {
+  id          String      @id @db.Uuid
+  factor_id   String      @db.Uuid
+  created_at  DateTime    @db.Timestamptz(6)
+  verified_at DateTime?   @db.Timestamptz(6)
+  ip_address  String      @db.Inet
+  mfa_factors mfa_factors @relation(fields: [factor_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "mfa_challenges_auth_factor_id_fkey")
 
-  @@unique([identifier, token])
+  @@schema("auth")
+}
+
+model mfa_factors {
+  id             String           @id @db.Uuid
+  user_id        String           @db.Uuid
+  friendly_name  String?
+  factor_type    factor_type
+  status         factor_status
+  created_at     DateTime         @db.Timestamptz(6)
+  updated_at     DateTime         @db.Timestamptz(6)
+  secret         String?
+  mfa_challenges mfa_challenges[]
+  users          users            @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id, created_at], map: "factor_id_created_at_idx")
+  @@schema("auth")
+}
+
+model refresh_tokens {
+  instance_id String?   @db.Uuid
+  id          BigInt    @id @default(autoincrement())
+  token       String?   @unique(map: "refresh_tokens_token_unique") @db.VarChar(255)
+  user_id     String?   @db.VarChar(255)
+  revoked     Boolean?
+  created_at  DateTime? @db.Timestamptz(6)
+  updated_at  DateTime? @db.Timestamptz(6)
+  parent      String?   @db.VarChar(255)
+  session_id  String?   @db.Uuid
+  sessions    sessions? @relation(fields: [session_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([session_id], map: "refresh_token_session_id")
+  @@index([instance_id])
+  @@index([instance_id, user_id])
+  @@index([parent])
+  @@index([session_id, revoked])
+  @@index([token])
+  @@schema("auth")
+}
+
+model saml_providers {
+  id                String        @id @db.Uuid
+  sso_provider_id   String        @db.Uuid
+  entity_id         String        @unique
+  metadata_xml      String
+  metadata_url      String?
+  attribute_mapping Json?
+  created_at        DateTime?     @db.Timestamptz(6)
+  updated_at        DateTime?     @db.Timestamptz(6)
+  sso_providers     sso_providers @relation(fields: [sso_provider_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([sso_provider_id])
+  @@schema("auth")
+}
+
+model saml_relay_states {
+  id              String        @id @db.Uuid
+  sso_provider_id String        @db.Uuid
+  request_id      String
+  for_email       String?
+  redirect_to     String?
+  from_ip_address String?       @db.Inet
+  created_at      DateTime?     @db.Timestamptz(6)
+  updated_at      DateTime?     @db.Timestamptz(6)
+  sso_providers   sso_providers @relation(fields: [sso_provider_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([for_email])
+  @@index([sso_provider_id])
+  @@schema("auth")
+}
+
+model schema_migrations {
+  version String @id @db.VarChar(255)
+
+  @@schema("auth")
+}
+
+model sessions {
+  id             String           @id @db.Uuid
+  user_id        String           @db.Uuid
+  created_at     DateTime?        @db.Timestamptz(6)
+  updated_at     DateTime?        @db.Timestamptz(6)
+  factor_id      String?          @db.Uuid
+  aal            aal_level?
+  not_after      DateTime?        @db.Timestamptz(6)
+  mfa_amr_claims mfa_amr_claims[]
+  refresh_tokens refresh_tokens[]
+  users          users            @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id])
+  @@index([user_id, created_at], map: "user_id_created_at_idx")
+  @@schema("auth")
+}
+
+model sso_domains {
+  id              String        @id @db.Uuid
+  sso_provider_id String        @db.Uuid
+  domain          String
+  created_at      DateTime?     @db.Timestamptz(6)
+  updated_at      DateTime?     @db.Timestamptz(6)
+  sso_providers   sso_providers @relation(fields: [sso_provider_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([sso_provider_id])
+  @@schema("auth")
+}
+
+model sso_providers {
+  id                String              @id @db.Uuid
+  resource_id       String?
+  created_at        DateTime?           @db.Timestamptz(6)
+  updated_at        DateTime?           @db.Timestamptz(6)
+  saml_providers    saml_providers[]
+  saml_relay_states saml_relay_states[]
+  sso_domains       sso_domains[]
+
+  @@schema("auth")
+}
+
+model users {
+  instance_id                 String?         @db.Uuid
+  id                          String          @id @db.Uuid
+  aud                         String?         @db.VarChar(255)
+  role                        String?         @db.VarChar(255)
+  email                       String?         @db.VarChar(255)
+  encrypted_password          String?         @db.VarChar(255)
+  email_confirmed_at          DateTime?       @db.Timestamptz(6)
+  invited_at                  DateTime?       @db.Timestamptz(6)
+  confirmation_token          String?         @db.VarChar(255)
+  confirmation_sent_at        DateTime?       @db.Timestamptz(6)
+  recovery_token              String?         @db.VarChar(255)
+  recovery_sent_at            DateTime?       @db.Timestamptz(6)
+  email_change_token_new      String?         @db.VarChar(255)
+  email_change                String?         @db.VarChar(255)
+  email_change_sent_at        DateTime?       @db.Timestamptz(6)
+  last_sign_in_at             DateTime?       @db.Timestamptz(6)
+  raw_app_meta_data           Json?
+  raw_user_meta_data          Json?
+  is_super_admin              Boolean?
+  created_at                  DateTime?       @db.Timestamptz(6)
+  updated_at                  DateTime?       @db.Timestamptz(6)
+  phone                       String?         @unique
+  phone_confirmed_at          DateTime?       @db.Timestamptz(6)
+  phone_change                String?         @default("")
+  phone_change_token          String?         @default("") @db.VarChar(255)
+  phone_change_sent_at        DateTime?       @db.Timestamptz(6)
+  confirmed_at                DateTime?       @default(dbgenerated("LEAST(email_confirmed_at, phone_confirmed_at)")) @db.Timestamptz(6)
+  email_change_token_current  String?         @default("") @db.VarChar(255)
+  email_change_confirm_status Int?            @default(0) @db.SmallInt
+  banned_until                DateTime?       @db.Timestamptz(6)
+  reauthentication_token      String?         @default("") @db.VarChar(255)
+  reauthentication_sent_at    DateTime?       @db.Timestamptz(6)
+  is_sso_user                 Boolean         @default(false)
+  deleted_at                  DateTime?       @db.Timestamptz(6)
+  identities                  identities[]
+  mfa_factors                 mfa_factors[]
+  sessions                    sessions[]
+  customers                   customers?
+  subscriptions               subscriptions[]
+  users                       public_users?
+
+  @@index([instance_id])
+  @@schema("auth")
+}
+
+model customers {
+  id                 String  @id @db.Uuid
+  stripe_customer_id String?
+  users              users   @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@schema("public")
+}
+
+model partner_contacts {
+  id         BigInt       @id @default(autoincrement())
+  type       partner_type
+  company    String
+  country    String
+  details    String?
+  email      String       @unique
+  first      String
+  last       String
+  phone      String?
+  size       Int?
+  title      String?
+  website    String
+  created_at DateTime     @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  partners   partners[]
+
+  @@schema("public")
+}
+
+model partners {
+  id               BigInt                   @id @default(autoincrement())
+  slug             String                   @unique
+  type             partner_type
+  category         String
+  developer        String
+  title            String
+  description      String
+  logo             String
+  images           String[]
+  overview         String
+  website          String
+  docs             String
+  contact          BigInt
+  approved         Boolean?                 @default(false)
+  created_at       DateTime                 @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  tsv              Unsupported("tsvector")? @default(dbgenerated("((((setweight(to_tsvector('english'::regconfig, title), 'A'::\"char\") || setweight(to_tsvector('english'::regconfig, description), 'B'::\"char\")) || setweight(to_tsvector('english'::regconfig, overview), 'C'::\"char\")) || setweight(to_tsvector('english'::regconfig, category), 'D'::\"char\")) || setweight(to_tsvector('english'::regconfig, slug), 'D'::\"char\"))"))
+  partner_contacts partner_contacts         @relation(fields: [contact], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@schema("public")
+}
+
+model prices {
+  id                String                 @id
+  product_id        String?
+  active            Boolean?
+  description       String?
+  unit_amount       BigInt?
+  currency          String?
+  type              pricing_type?
+  interval          pricing_plan_interval?
+  interval_count    Int?
+  trial_period_days Int?
+  metadata          Json?
+  products          products?              @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subscriptions     subscriptions[]
+
+  @@schema("public")
+}
+
+model products {
+  id          String   @id
+  active      Boolean?
+  name        String?
+  description String?
+  image       String?
+  metadata    Json?
+  prices      prices[]
+
+  @@schema("public")
+}
+
+model subscriptions {
+  id                   String               @id
+  user_id              String               @db.Uuid
+  status               subscription_status?
+  metadata             Json?
+  price_id             String?
+  quantity             Int?
+  cancel_at_period_end Boolean?
+  created              DateTime             @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  current_period_start DateTime             @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  current_period_end   DateTime             @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  ended_at             DateTime?            @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  cancel_at            DateTime?            @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  canceled_at          DateTime?            @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  trial_start          DateTime?            @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  trial_end            DateTime?            @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  prices               prices?              @relation(fields: [price_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users                users                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@schema("public")
+}
+
+model usage {
+  id         BigInt    @id @default(autoincrement())
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  usgae      String?   @default("") @db.VarChar
+
+  @@schema("public")
+}
+
+model public_users {
+  id              String  @id @db.Uuid
+  full_name       String?
+  avatar_url      String?
+  billing_address Json?
+  payment_method  Json?
+  app_secret      String? @default("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")
+  users           users   @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("users")
+  @@schema("public")
+}
+
+enum aal_level {
+  aal1
+  aal2
+  aal3
+
+  @@schema("auth")
+}
+
+enum factor_status {
+  unverified
+  verified
+
+  @@schema("auth")
+}
+
+enum factor_type {
+  totp
+  webauthn
+
+  @@schema("auth")
+}
+
+enum partner_type {
+  technology
+  expert
+
+  @@schema("public")
+}
+
+enum pricing_plan_interval {
+  day
+  week
+  month
+  year
+
+  @@schema("public")
+}
+
+enum pricing_type {
+  one_time
+  recurring
+
+  @@schema("public")
+}
+
+enum subscription_status {
+  trialing
+  active
+  canceled
+  incomplete
+  incomplete_expired
+  past_due
+  unpaid
+
+  @@schema("public")
 }

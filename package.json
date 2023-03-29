@@ -36,6 +36,7 @@
     "@sentry/nextjs": "^7.45.0",
     "@sentry/node": "^7.45.0",
     "@sentry/tracing": "^7.45.0",
+    "@supabase/supabase-auth-helpers": "^1.4.2",
     "@supabase/supabase-js": "^2.11.0",
     "@supabase/ui": "^0.36.5",
     "@tabler/icons-react": "^2.11.0",

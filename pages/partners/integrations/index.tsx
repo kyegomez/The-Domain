@@ -1,3 +1,4 @@
+
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/jsx-no-undef */
@@ -16,12 +17,17 @@ import { PropsWithChildren } from 'react'
 import { useTheme } from '@/components/theme'
 import Image from 'next/image'
 import Link from 'next/link'
+import { PrismaClient } from '@prisma/client'
+import { prisma } from'@/lib/prisma'
 
+import { Prisma } from '@prisma/client'
 
 type LayoutProps = {
   hideHeader?: boolean
   hideFooter?: boolean
 }
+
+
 
 export const Layout = ({
   children,
@@ -65,19 +71,58 @@ export const Layout = ({
 //     }
 //   }
 // }
+
+
+
+
+//===================//===================//===================//===================//=================== working
+// export async function getStaticProps() {
+//   try {
+//     const { data: partners } = await supabase
+//       .from('partners')
+//       .select('*')
+//       .eq('approved', true)
+//       .eq('type', 'technology')
+//       .order('category')
+//       .order('title')
+
+//     return {
+//       props: {
+//         partners: partners || [], //Add this fallback to ensure an array is always returned
+//       },
+//       revalidate: 18000,
+//     }
+//   } catch (error) {
+//     console.error('Error fetching partners:', error);
+//     return {
+//       props: {
+//         partners: [],
+//       },
+//       revalidate: 18000,
+//     }
+//   }
+// }
+
+//===================//===================//===================//===================//=================== working
+
 export async function getStaticProps() {
+  const prisma = new PrismaClient()
+
   try {
-    const { data: partners } = await supabase
-      .from('partners')
-      .select('*')
-      .eq('approved', true)
-      .eq('type', 'technology')
-      .order('category')
-      .order('title')
+    const partners = await prisma.partners.findMany({
+      where: {
+        approved: true,
+        type: 'technology',
+      },
+      orderBy: [
+        { category: 'asc' },
+        { title: 'asc' },
+      ],
+    });
 
     return {
       props: {
-        partners: partners || [], //Add this fallback to ensure an array is always returned
+        partners: partners || [],
       },
       revalidate: 18000,
     }
@@ -91,6 +136,11 @@ export async function getStaticProps() {
     }
   }
 }
+
+
+
+
+
 
 interface Props {
   partners: Partner[]
@@ -127,33 +177,143 @@ function IntegrationPartnersPage(props: Props) {
   console.log("allCategories:", allCategories);
   console.log("partnersByCategory:", partnersByCategory);
 
+  // useEffect(() => {
+  //   const searchPartners = async () => {
+  //     setIsSearching(true);
+
+  //     let query = supabase
+  //       .from("partners")
+  //       .select("*")
+  //       .eq("approved", true)
+  //       .order("category")
+  //       .order("title");
+
+  //     if (search.trim()) {
+  //       query = query
+  //         //@ts-ignore
+  //         .textSearch("tsv", `${search.trim()}`, {
+  //           type: "websearch",
+  //           config: "english",
+  //         });
+  //     }
+
+  //     const { data: partners } = await query;
+
+  //     return partners;
+  //   };
+
+  //   if (search.trim() === "") {
+  //     setIsSearching(false);
+  //     setPartners(initialPartners);
+  //     return;
+  //   }
+
+  //   searchPartners().then((partners: any) => {
+  //     if (partners) {
+  //       setPartners(partners);
+  //     }
+
+  //     setIsSearching(false);
+  //   });
+  // }, [debouncedSearchTerm, router, initialPartners, search]);
+
+
+
+//================================================ V2 Prisma
+  // useEffect(() => {
+  //   const searchPartners = async () => {
+  //     // const prisma = new PrismaClient()
+
+      
+
+  //     setIsSearching(true);
+  
+  //     // let partners;
+
+  //     const searchQuery = search.trim();
+
+  //     if (searchQuery) {
+  //       // partners = await prisma.partners.findMany({
+  //       //   where: {
+  //       //     approved: true,
+  //       //     tsv: {
+  //       //       search: `${search.trim()}`,
+  //       //     },
+  //       //   },
+  //       //   orderBy: [
+  //       //     { category: 'asc' },
+  //       //     { title: 'asc' },
+  //       //   ],
+  //       // });
+
+  //       // partners = await prisma.$queryRaw(Prisma.sql`
+  //       //   SELECT * FROM partners
+  //       //   WHERE approved = true
+  //       //   AND to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, '')) @@ plainto_tsquery('english', ${search.trim()})
+  //       //   ORDER BY category ASC, title ASC
+  //       // `);
+
+
+  //       partners = await prisma.partners.findMany({
+  //         where: {
+  //           approved: true,
+  //           ...(searchQuery && {
+  //             tsv: {
+  //               search: searchQuery,
+  //             },
+  //           }),
+  //         },
+  //         orderBy: [
+  //           { category: 'asc' },
+  //           { title: 'asc' },
+  //         ],
+  //       });
+
+        
+  //     } else {
+  //       partners = await prisma.partners.findMany({
+  //         where: {
+  //           approved: true,
+  //         },
+  //         orderBy: [
+  //           { category: 'asc' },
+  //           { title: 'asc' },
+  //         ],
+  //       });
+  //     }
+  
+  //     return partners;
+  //   };
+  
+  //   if (search.trim() === "") {
+  //     setIsSearching(false);
+  //     setPartners(initialPartners);
+  //     return;
+  //   }
+  
+  //   searchPartners().then((partners: any) => {
+  //     if (partners) {
+  //       setPartners(partners);
+  //     }
+  
+  //     setIsSearching(false);
+  //   });
+  // }, [debouncedSearchTerm, router, initialPartners, search]);
+//================================================ V2 Prisma
+
   useEffect(() => {
     const searchPartners = async () => {
       setIsSearching(true);
 
-      let query = supabase
-        .from("partners")
-        .select("*")
-        .eq("approved", true)
-        .order("category")
-        .order("title");
+      const response = await fetch(`/api/searchPartners?search=${search.trim()}`);
+      const partners = await response.json();
 
-      if (search.trim()) {
-        query = query
-          //@ts-ignore
-          .textSearch("tsv", `${search.trim()}`, {
-            type: "websearch",
-            config: "english",
-          });
-      }
-
-      const { data: partners } = await query;
-
-      return partners;
-    };
-
-    if (search.trim() === "") {
       setIsSearching(false);
+      return partners;
+    }
+
+    if (search.trim() === '') {
+      setIsSearching(false)
       setPartners(initialPartners);
       return;
     }
@@ -162,8 +322,6 @@ function IntegrationPartnersPage(props: Props) {
       if (partners) {
         setPartners(partners);
       }
-
-      setIsSearching(false);
     });
   }, [debouncedSearchTerm, router, initialPartners, search]);
 
