@@ -98,7 +98,7 @@ interface Props {
 function IntegrationPartnersPage(props: Props) {
   const { partners: initialPartners } = props
   const [partners, setPartners] = useState(initialPartners)
-  const { SignInModal, setShowSignInModal } = useSignInModal();
+  // const { SignInModal, setShowSignInModal } = useSignInModal();
 
 
   const allCategories = Array.from(
@@ -172,7 +172,7 @@ function IntegrationPartnersPage(props: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <SignInModal />
+        {/* <SignInModal /> */}
         <SectionContainer className="space-y-16">
           <div>
             <h1 className="h1">{meta_title}</h1>
