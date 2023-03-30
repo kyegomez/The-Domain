@@ -20,6 +20,7 @@ import {Logo} from '@/components/signUI/Logo'
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 import type { Database } from "types/types_db";
+import { getURL } from "utils/helpers";
 
 const supa_url: any = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supa_key: any = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -67,6 +68,7 @@ const SignInModal = ({
               supabaseClient={supabaseClient}
               providers={['google']}
               magicLink={true}
+              redirectTo={getURL()}
               appearance={{
                 theme: ThemeSupa,
                 variables: {

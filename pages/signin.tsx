@@ -3,22 +3,15 @@ import { useEffect } from 'react';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
-
 // import LoadingDots from '@/components/signUI/LoadingDots';
 import LoadingDots from '@/components/signUI/LoadingDots';
-
-
-
 // import Logo from '@/components/icons/Logo';
 import { Logo } from '@/components/signUI/Logo';
-
-
 // import { getURL } from '@/utils/helpers';
 import { getURL } from 'utils/helpers';
-import { createClient } from '@supabase/supabase-js';
 
-const supa_url: any = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supa_key: any = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+
 
 const SignIn = () => {
   const router = useRouter();
