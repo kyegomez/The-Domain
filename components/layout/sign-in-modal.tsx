@@ -7,11 +7,14 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { LoadingDots, Google } from "@/components/shared/icons";
+// import { LoadingDots, Google } from "@/components/shared/icons";
+import LoadingDots from "../signUI/LoadingDots";
 import Image from "next/image";
 
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+
+import { ThemeSupa } from '@supabase/auth-ui-shared';
 
 
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
@@ -25,7 +28,6 @@ const SignInModal = ({
   showSignInModal: boolean;
   setShowSignInModal: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [signInClicked, setSignInClicked] = useState(false);
   const router = useRouter();
   const user = useUser();
   const supabaseClient = useSupabaseClient();
@@ -36,8 +38,7 @@ const SignInModal = ({
     }
   }, [user, router]);
 
-
- if(!user) 
+  if (!user)
     return (
       <Modal showModal={showSignInModal} setShowModal={setShowSignInModal}>
         <div className="w-full overflow-hidden shadow-xl md:max-w-md md:rounded-2xl md:border md:border-gray-200">
@@ -59,37 +60,33 @@ const SignInModal = ({
           </div>
 
           <div className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 md:px-16">
-            <button
-              disabled={signInClicked}
-              className={`${
-                signInClicked
-                  ? "cursor-not-allowed border-gray-200 bg-gray-100"
-                  : "border border-gray-200 bg-white text-black hover:bg-gray-50"
-              } flex h-10 w-full items-center justify-center space-x-3 rounded-md border text-sm shadow-sm transition-all duration-75 focus:outline-none`}
-              onClick={() => {
-                setSignInClicked(true);
-                signIn("google");
+            <Auth
+              supabaseClient={supabaseClient}
+              providers={['google']}
+              magicLink={true}
+              appearance={{
+                theme: ThemeSupa,
+                variables: {
+                  default: {
+                    colors: {
+                      brand: '#404040',
+                      brandAccent: '#52525b'
+                    }
+                  }
+                }
               }}
-            >
-              {signInClicked ? (
-                <LoadingDots color="#808080" />
-              ) : (
-                <>
-                  <Google className="h-5 w-5" />
-                  <p>Sign In with Google</p>
-                </>
-              )}
-            </button>
+              theme="dark"
+            />
           </div>
         </div>
       </Modal>
     );
-  
-    return (
-      <div className='m-6'>
-        <LoadingDots />
-      </div>
-    )
+
+  return (
+    <div className="m-6">
+      <LoadingDots />
+    </div>
+  );
 };
 
 export function useSignInModal() {
