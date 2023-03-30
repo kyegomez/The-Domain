@@ -13,7 +13,7 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "types/types_db";
-
+import { MyUserContextProvider } from "utils/useUser";
 
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
@@ -55,16 +55,19 @@ export default function MyApp({ Component, pageProps: {session, ...pageProps} }:
   return (
     <div className="bg-black">
       <SessionContextProvider supabaseClient={supabaseClient}>
-        <SessionProvider session={session}>
+        <MyUserContextProvider>
+          <SessionProvider session={session}>
 
-          <RWBProvider>
-          <div className={cx(sfPro.variable, inter.variable)}>
-            <Component {...pageProps} />
-          </div>
-          </RWBProvider>
-          <Analytics />
+            <RWBProvider>
+              <div className={cx(sfPro.variable, inter.variable)}>
+                <Component {...pageProps} />
+              </div>
+            </RWBProvider>
+            
+            <Analytics />
 
-        </SessionProvider>
+          </SessionProvider>
+        </MyUserContextProvider>
       </SessionContextProvider>
     </div>
   );
