@@ -75,21 +75,21 @@ export const Layout = ({
 }
 export async function getStaticProps() {
   const { data: partners } = await supabase
-  //@ts-ignore
+    //@ts-ignore
     .from<Partner>('partners')
     .select('*')
     .eq('approved', true)
     .eq('type', 'technology')
     .order('category')
-    .order('title')
+    .order('title');
 
   return {
     props: {
-      partners,
+      partners: partners || [], // Ensure partners is always an array
     },
     // TODO: consider using Next.js' On-demand Revalidation with Supabase function hooks instead
     revalidate: 18000, // In seconds - refresh every 5 hours
-  }
+  };
 }
 
 interface Props {
