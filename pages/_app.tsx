@@ -56,6 +56,7 @@ export default function MyApp({ Component, pageProps: {session, ...pageProps} }:
     <div className="bg-black">
       <SessionContextProvider supabaseClient={supabaseClient}>
         <MyUserContextProvider>
+          
           <SessionProvider session={session}>
 
             <RWBProvider>
@@ -67,6 +68,7 @@ export default function MyApp({ Component, pageProps: {session, ...pageProps} }:
             <Analytics />
 
           </SessionProvider>
+
         </MyUserContextProvider>
       </SessionContextProvider>
     </div>

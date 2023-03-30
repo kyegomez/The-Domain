@@ -53,7 +53,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
 function Card({ title, description, footer, children }: Props) {
   return (
-    <div className="border border-zinc-700	max-w-3xl w-full p rounded-md m-auto my-8">
+    <div className="border border-sky-700	max-w-3xl w-full p rounded-md m-auto my-8">
       <div className="px-5 py-4">
         <h3 className="text-2xl mb-1 font-medium">{title}</h3>
         <p className="text-zinc-300">{description}</p>
@@ -86,7 +86,7 @@ export default function Account({ user }: { user: User }) {
 
 
   return (
-    <section className="bg-black mb-32">
+    <section className="bg-gradient-to-br from-indigo-50 via-white to-cyan-100 mb-32">
       <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
           <h1 className="text-4xl font-extrabold text-white sm:text-center sm:text-6xl">

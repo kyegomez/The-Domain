@@ -28,7 +28,7 @@ const SignIn = () => {
 
   if (!user)
     return (
-      <div className="flex justify-center height-screen-helper">
+      <div className="flex bg-gradient-to-br from-indigo-50 via-white to-cyan-100 justify-center height-screen-helper">
         <div className="flex flex-col justify-between max-w-lg p-3 m-auto w-80 ">
           <div className="flex justify-center pb-12 ">
             <Logo width="64px" height="64px" />
