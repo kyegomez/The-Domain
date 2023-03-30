@@ -1,7 +1,3 @@
-
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react/jsx-no-undef */
 import { IconLoader, IconSearch, Input } from '@supabase/ui'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -11,7 +7,7 @@ import PartnerLinkBox from '@/components/PartnerLinkBox'
 import PartnerTileGrid from '@/components/PartnerTileGrid'
 import SectionContainer from '@/components/SectionContainer'
 import supabase from '@/lib/supabase'
-import { Partner } from 'types/partners'
+// import Partner from '@/types/partners'
 import Footer from '@/components/Footer'
 import { PropsWithChildren } from 'react'
 import { useTheme } from '@/components/theme'
@@ -19,14 +15,47 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { PrismaClient } from '@prisma/client'
 import { prisma } from'@/lib/prisma'
-
 import { Prisma } from '@prisma/client'
+
+export interface Partner {
+  id: number
+  slug: string
+  type: 'technology' | 'expert'
+  category: string
+  developer: string
+  title: string
+  description: string
+  logo: string
+  images: string[]
+  overview: string
+  website: string
+  docs: string
+  approved: boolean
+}
+
+export interface PartnerContact {
+  type: 'technology' | 'expert'
+  company: string
+  country: string
+  details?: string
+  email: string
+  first: string
+  last: string
+  phone?: string
+  size?: number
+  title?: string
+  website: string
+}
+
 
 type LayoutProps = {
   hideHeader?: boolean
   hideFooter?: boolean
 }
 
+// interface Props {
+//   partners: Partner[]
+// }
 
 
 export const Layout = ({
@@ -44,290 +73,97 @@ export const Layout = ({
     </>
   )
 }
-
-// export async function getStaticProps() {
-//   try {
-//     const { data: partners } = await supabase
-//       .from('partners')
-//       .select('*')
-//       .eq('approved', true)
-//       .eq('type', 'technology')
-//       .order('category')
-//       .order('title')
-
-//     return {
-//       props: {
-//         partners,
-//       },
-//       revalidate: 18000,
-//     }
-//   } catch (error) {
-//     console.error('Error fetching partners:', error);
-//     return {
-//       props: {
-//         partners: [],
-//       },
-//       revalidate: 18000,
-//     }
-//   }
-// }
-
-
-
-
-//===================//===================//===================//===================//=================== working
-// export async function getStaticProps() {
-//   try {
-//     const { data: partners } = await supabase
-//       .from('partners')
-//       .select('*')
-//       .eq('approved', true)
-//       .eq('type', 'technology')
-//       .order('category')
-//       .order('title')
-
-//     return {
-//       props: {
-//         partners: partners || [], //Add this fallback to ensure an array is always returned
-//       },
-//       revalidate: 18000,
-//     }
-//   } catch (error) {
-//     console.error('Error fetching partners:', error);
-//     return {
-//       props: {
-//         partners: [],
-//       },
-//       revalidate: 18000,
-//     }
-//   }
-// }
-
-//===================//===================//===================//===================//=================== working
-
 export async function getStaticProps() {
-  const prisma = new PrismaClient()
+  const { data: partners } = await supabase
+  //@ts-ignore
+    .from<Partner>('partners')
+    .select('*')
+    .eq('approved', true)
+    .eq('type', 'technology')
+    .order('category')
+    .order('title')
 
-  try {
-    const partners = await prisma.partners.findMany({
-      where: {
-        approved: true,
-        type: 'technology',
-      },
-      orderBy: [
-        { category: 'asc' },
-        { title: 'asc' },
-      ],
-    });
-
-    return {
-      props: {
-        partners: partners || [],
-      },
-      revalidate: 18000,
-    }
-  } catch (error) {
-    console.error('Error fetching partners:', error);
-    return {
-      props: {
-        partners: [],
-      },
-      revalidate: 18000,
-    }
+  return {
+    props: {
+      partners,
+    },
+    // TODO: consider using Next.js' On-demand Revalidation with Supabase function hooks instead
+    revalidate: 18000, // In seconds - refresh every 5 hours
   }
 }
-
-
-
-
-
 
 interface Props {
   partners: Partner[]
 }
+
 function IntegrationPartnersPage(props: Props) {
-  const { partners: initialPartners } = props;
-  const router = useRouter();
-  const [search, setSearch] = useState("");
-  const [debouncedSearchTerm] = useDebounce(search, 300);
-  const [isSearching, setIsSearching] = useState(false);
-  const meta_title = 'Find an Integration'
-  const meta_description = `Integrate your favorite tools with the Domain.`
-
-
-  if (!initialPartners) {
-    console.error("initialPartners is null or undefined");
-    return null; // Or render an error message or a loading state
-  }
+  const { partners: initialPartners } = props
+  const [partners, setPartners] = useState(initialPartners)
 
   const allCategories = Array.from(
     new Set(initialPartners.map((p) => p.category))
-  );
+  )
 
-  const partnersByCategory: { [category: string]: Partner[] } = {};
-  const [partners, setPartners] = useState(initialPartners);
+  const partnersByCategory: { [category: string]: Partner[] } = {}
   partners.forEach(
     (p) =>
       (partnersByCategory[p.category] = [
         ...(partnersByCategory[p.category] ?? []),
         p,
       ])
-  );
+  )
+  const router = useRouter()
 
-  console.log("allCategories:", allCategories);
-  console.log("partnersByCategory:", partnersByCategory);
+  const meta_title = 'Find an Integration'
+  const meta_description = `Use your favorite tools with athena.`
 
-  // useEffect(() => {
-  //   const searchPartners = async () => {
-  //     setIsSearching(true);
-
-  //     let query = supabase
-  //       .from("partners")
-  //       .select("*")
-  //       .eq("approved", true)
-  //       .order("category")
-  //       .order("title");
-
-  //     if (search.trim()) {
-  //       query = query
-  //         //@ts-ignore
-  //         .textSearch("tsv", `${search.trim()}`, {
-  //           type: "websearch",
-  //           config: "english",
-  //         });
-  //     }
-
-  //     const { data: partners } = await query;
-
-  //     return partners;
-  //   };
-
-  //   if (search.trim() === "") {
-  //     setIsSearching(false);
-  //     setPartners(initialPartners);
-  //     return;
-  //   }
-
-  //   searchPartners().then((partners: any) => {
-  //     if (partners) {
-  //       setPartners(partners);
-  //     }
-
-  //     setIsSearching(false);
-  //   });
-  // }, [debouncedSearchTerm, router, initialPartners, search]);
-
-
-
-//================================================ V2 Prisma
-  // useEffect(() => {
-  //   const searchPartners = async () => {
-  //     // const prisma = new PrismaClient()
-
-      
-
-  //     setIsSearching(true);
-  
-  //     // let partners;
-
-  //     const searchQuery = search.trim();
-
-  //     if (searchQuery) {
-  //       // partners = await prisma.partners.findMany({
-  //       //   where: {
-  //       //     approved: true,
-  //       //     tsv: {
-  //       //       search: `${search.trim()}`,
-  //       //     },
-  //       //   },
-  //       //   orderBy: [
-  //       //     { category: 'asc' },
-  //       //     { title: 'asc' },
-  //       //   ],
-  //       // });
-
-  //       // partners = await prisma.$queryRaw(Prisma.sql`
-  //       //   SELECT * FROM partners
-  //       //   WHERE approved = true
-  //       //   AND to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, '')) @@ plainto_tsquery('english', ${search.trim()})
-  //       //   ORDER BY category ASC, title ASC
-  //       // `);
-
-
-  //       partners = await prisma.partners.findMany({
-  //         where: {
-  //           approved: true,
-  //           ...(searchQuery && {
-  //             tsv: {
-  //               search: searchQuery,
-  //             },
-  //           }),
-  //         },
-  //         orderBy: [
-  //           { category: 'asc' },
-  //           { title: 'asc' },
-  //         ],
-  //       });
-
-        
-  //     } else {
-  //       partners = await prisma.partners.findMany({
-  //         where: {
-  //           approved: true,
-  //         },
-  //         orderBy: [
-  //           { category: 'asc' },
-  //           { title: 'asc' },
-  //         ],
-  //       });
-  //     }
-  
-  //     return partners;
-  //   };
-  
-  //   if (search.trim() === "") {
-  //     setIsSearching(false);
-  //     setPartners(initialPartners);
-  //     return;
-  //   }
-  
-  //   searchPartners().then((partners: any) => {
-  //     if (partners) {
-  //       setPartners(partners);
-  //     }
-  
-  //     setIsSearching(false);
-  //   });
-  // }, [debouncedSearchTerm, router, initialPartners, search]);
-//================================================ V2 Prisma
+  const [search, setSearch] = useState('')
+  const [debouncedSearchTerm] = useDebounce(search, 300)
+  const [isSearching, setIsSearching] = useState(false)
 
   useEffect(() => {
     const searchPartners = async () => {
-      setIsSearching(true);
+      setIsSearching(true)
 
-      const response = await fetch(`/api/searchPartners?search=${search.trim()}`);
-      const partners = await response.json();
+      let query = supabase
+        //@ts-ignore
+        .from<Partner>('partners')
+        .select('*')
+        .eq('approved', true)
+        .order('category')
+        .order('title')
 
-      setIsSearching(false);
-      return partners;
+      if (search.trim()) {
+        query = query
+          // @ts-ignore
+          .textSearch('tsv', `${search.trim()}`, {
+            type: 'websearch',
+            config: 'english',
+          })
+      }
+
+      const { data: partners } = await query
+
+      return partners
     }
 
     if (search.trim() === '') {
       setIsSearching(false)
-      setPartners(initialPartners);
-      return;
+      setPartners(initialPartners)
+      return
     }
 
-    searchPartners().then((partners: any) => {
+    searchPartners().then((partners) => {
       if (partners) {
-        setPartners(partners);
+          //@ts-ignore
+        setPartners(partners)
       }
-    });
-  }, [debouncedSearchTerm, router, initialPartners, search]);
 
+      setIsSearching(false)
+    })
+  }, [debouncedSearchTerm, router])
 
-
-  return (
+   return (
     <>
       <Head>
         <title>{meta_title} |Domain integrations</title>
@@ -367,7 +203,7 @@ function IntegrationPartnersPage(props: Props) {
                 <div className="hidden lg:block">
                   <div className="mb-2 text-sm text-scale-900">Categories</div>
                   <div className="space-y-1">
-
+{/* 
                   {allCategories && allCategories.length > 0 && allCategories.map((category) => (
                     <button
                       key={category}
@@ -378,7 +214,18 @@ function IntegrationPartnersPage(props: Props) {
                     >
                       {category}
                     </button>
-                  ))}
+                  ))} */}
+                   {allCategories.map((category) => (
+                      <button
+                        key={category}
+                        onClick={() =>
+                          router.push(`#${category.toLowerCase()}`)
+                        }
+                        className="block text-base text-scale-1100"
+                      >
+                        {category}
+                      </button>
+                    ))}
                   </div>
                 </div>
                 <div className="space-y-4">
@@ -438,13 +285,18 @@ function IntegrationPartnersPage(props: Props) {
             <div className="lg:col-span-8 xl:col-span-9">
               {/* Partner Tiles */}
               <div className="grid space-y-10">
-              {partnersByCategory ? (
+              {/* {partnersByCategory ? (
                 Object.keys(partnersByCategory).length > 0 ? (
                   <PartnerTileGrid partnersByCategory={partnersByCategory} />
                 ) : (
                   <h2 className="h2">No Partners Found</h2>
                 )
-              ) : null}
+              ) : null} */}
+              {partners.length ? (
+                  <PartnerTileGrid partnersByCategory={partnersByCategory} />
+                ) : (
+                  <h2 className="h2">No Partners Found</h2>
+                )}
               </div>
             </div>
           </div>
@@ -455,408 +307,3 @@ function IntegrationPartnersPage(props: Props) {
 }
 
 export default IntegrationPartnersPage
-
-
-
-
-
-
-
-
-
-
-
-
-// /////////////===========> divide
-
-
-
-
-
-// import { IconLoader, IconSearch, Input } from '@supabase/ui'
-// import Head from 'next/head'
-// import { useRouter } from 'next/router'
-// import React, { useEffect, useState } from 'react'
-// import { useDebounce } from 'use-debounce'
-// import PartnerLinkBox from '@/components/PartnerLinkBox'
-// import PartnerTileGrid from '@/components/PartnerTileGrid'
-// import SectionContainer from '@/components/SectionContainer'
-// import supabase from '@/lib/supabase'
-// import { Partner } from 'types/partners'
-// import Footer from '@/components/Footer'
-// import { PropsWithChildren } from 'react'
-// import { useTheme } from '@/components/theme'
-// import Image from 'next/image'
-// import Link from 'next/link'
-
-// import { IconLoader, IconSearch, Input } from '@supabase/ui'
-// import Head from 'next/head'
-// import { useRouter } from 'next/router'
-// import React, { useEffect, useState } from 'react'
-// import { useDebounce } from 'use-debounce'
-// import PartnerLinkBox from '@/components/PartnerLinkBox'
-// import PartnerTileGrid from '@/components/PartnerTileGrid'
-// import SectionContainer from '@/components/SectionContainer'
-// import supabase from '@/lib/supabase'
-// import { Partner } from 'types/partners'
-// import Footer from '@/components/Footer'
-// import { PropsWithChildren } from 'react'
-// import { useTheme } from '@/components/theme'
-// import Image from 'next/image'
-// import Link from 'next/link'
-
-// type LayoutProps = {
-//   hideHeader?: boolean
-//   hideFooter?: boolean
-// }
-
-// export const Layout = ({
-//   children,
-// }: PropsWithChildren<LayoutProps>) => {
-
-
-//   return (
-//     <>
-//       {/* {!hideHeader } */}
-//       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
-//         <main>{children}</main>
-//       </div>
-//       {/* {!hideFooter && <Footer />} */}
-//     </>
-//   )
-// }
-
-// export interface Partner {
-//   id: number
-//   slug: string
-//   type: 'technology' | 'expert'
-//   category: string
-//   developer: string
-//   title: string
-//   description: string
-//   logo: string
-//   images: string[]
-//   overview: string
-//   website: string
-//   docs: string
-//   approved: boolean
-// }
-
-// export interface PartnerContact {
-//   type: 'technology' | 'expert'
-//   company: string
-//   country: string
-//   details?: string
-//   email: string
-//   first: string
-//   last: string
-//   phone?: string
-//   size?: number
-//   title?: string
-//   website: string
-// }
-
-// export async function getStaticProps() {
-//   const { data } = await supabase
-//     .from('partners')
-//     .select('*')
-//     .eq('approved', true)
-//     .eq('type', 'technology')
-//     .order('category')
-//     .order('title')
-
-//   Cast the data to the Partner type
-//   const partners: Partner[] = data as Partner[];
-
-//   return {
-//     props: {
-//       partners,
-//     },
-//     TODO: consider using Next.js' On-demand Revalidation with Supabase function hooks instead
-//     revalidate: 18000, In seconds - refresh every 5 hours
-//   }
-// }
-// interface Props {
-//   partners: Partner[]
-// }
-
-
-// export async function getStaticProps() {
-//   try {
-//     const { data: partners } = await supabase
-//       .from('partners')
-//       .select('*')
-//       .eq('approved', true)
-//       .eq('type', 'technology')
-//       .order('category')
-//       .order('title')
-
-//     return {
-//       props: {
-//         partners,
-//       },
-//       revalidate: 18000,
-//     }
-//   } catch (error) {
-//     console.error('Error fetching partners:', error);
-//     return {
-//       props: {
-//         partners: [],
-//       },
-//       revalidate: 18000,
-//     }
-//   }
-// }
-
-// function IntegrationPartnersPage(props: Props) {
-//   const { partners: initialPartners } = props
-//   const [partners, setPartners] = useState(initialPartners)
-
-//   const allCategories = Array.from(
-//     new Set(initialPartners.map((p) => p.category))
-//   )
-
-//   const partnersByCategory: { [category: string]: Partner[] } = {}
-//   partners.forEach(
-//     (p) =>
-//       (partnersByCategory[p.category] = [
-//         ...(partnersByCategory[p.category] ?? []),
-//         p,
-//       ])
-//   )
-  
-//   if (!initialPartners) {
-//     console.error("initialPartners is null or undefined");
-//     return null; Or render an error message or a loading state
-//   }
-
-//   const allCategories = Array.from(
-//     new Set(initialPartners.map((p: { category: any }) => p.category))
-//   );
-
-//   const partnersByCategory: { [category: string]: Partner[] } = {};
-//   const [partners, setPartners] = useState(initialPartners);
-//   partners.forEach(
-//     (p: Partner) =>
-//       (partnersByCategory[p.category] = [
-//         ...(partnersByCategory[p.category] ?? []),
-//         p,
-//       ])
-//   );
-//   const router = useRouter()
-
-//   const meta_title = 'Find an Integration'
-//   const meta_description = `Use your favorite tools with Supabase.`
-
-//   const [search, setSearch] = useState('')
-//   const [debouncedSearchTerm] = useDebounce(search, 300)
-//   const [isSearching, setIsSearching] = useState(false)
-
-//   useEffect(() => {
-//     const searchPartners = async () => {
-//       setIsSearching(true)
-  
-//       let query = supabase
-//         .from('partners')
-//         .select('*')
-//         .eq('approved', true)
-//         .order('category')
-//         .order('title')
-  
-//       if (search.trim()) {
-//         query = query
-//           @ts-ignore
-//           .textSearch('tsv', `${search.trim()}`, {
-//             type: 'websearch',
-//             config: 'english',
-//           })
-//       }
-  
-//       const { data } = await query
-  
-//       Cast the data to the Partner[] type
-//       const partners: Partner[] = data as Partner[];
-  
-//       return partners
-//     }
-  
-//     if (search.trim() === '') {
-//       setIsSearching(false)
-//       setPartners(initialPartners)
-//       return
-//     }
-  
-//     searchPartners().then((partners) => {
-//       if (partners) {
-//         setPartners(partners)
-//       }
-  
-//       setIsSearching(false)
-//     })
-//   }, [debouncedSearchTerm, router])
-
-//   useEffect(() => {
-//     const searchPartners = async () => {
-//       setIsSearching(true);
-
-//       let query = supabase
-//         .from("partners")
-//         .select("*")
-//         .eq("approved", true)
-//         .order("category")
-//         .order("title");
-
-//       if (search.trim()) {
-//         query = query
-//           @ts-ignore
-//           .textSearch("tsv", `${search.trim()}`, {
-//             type: "websearch",
-//             config: "english",
-//           });
-//       }
-
-//       const { data: partners } = await query;
-
-//       return partners;
-//     };
-
-//     if (search.trim() === "") {
-//       setIsSearching(false);
-//       setPartners(initialPartners);
-//       return;
-//     }
-
-//     searchPartners().then((partners: any) => {
-//       if (partners) {
-//         setPartners(partners);
-//       }
-
-//       setIsSearching(false);
-//     });
-//   }, [debouncedSearchTerm, router, initialPartners, search]);
-
-//   return (
-//     <>
-//       <Head>
-//         <title>{meta_title} | Supabase Partner Gallery Example</title>
-//         <meta name="description" content={meta_description}></meta>
-//         <link rel="icon" href="/favicon.ico" />
-//       </Head>
-//       <Layout>
-//         <SectionContainer className="space-y-16">
-//           <div>
-//             <h1 className="h1">{meta_title}</h1>
-//             <h2 className="text-xl text-scale-900">{meta_description}</h2>
-//           </div>
-//           {/* Title */}
-//           <div className="grid space-y-12 md:gap-8 lg:grid-cols-12 lg:gap-16 lg:space-y-0 xl:gap-16">
-//             <div className="lg:col-span-4 xl:col-span-3">
-//               {/* Horizontal link menu */}
-//               <div className="space-y-6">
-//                 {/* Search Bar */}
-
-//                 <Input
-//                   size="small"
-//                   icon={<IconSearch />}
-//                   placeholder="Search..."
-//                   type="text"
-//                   className="md:w-1/2"
-//                   value={search}
-//                   onChange={(e) => setSearch(e.target.value)}
-//                   actions={
-//                     isSearching && (
-//                       <span className="mr-1 animate-spin text-white">
-//                         <IconLoader />
-//                       </span>
-//                     )
-//                   }
-//                 />
-//                 <div className="hidden lg:block">
-//                   <div className="mb-2 text-sm text-scale-900">Categories</div>
-//                   <div className="space-y-1">
-//                     {allCategories.map((category) => (
-//                       <button
-//                         key={category}
-//                         onClick={() =>
-//                           router.push(`#${category.toLowerCase()}`)
-//                         }
-//                         className="block text-base text-scale-1100"
-//                       >
-//                         {category}
-//                       </button>
-//                     ))}
-//                   </div>
-//                 </div>
-//                 <div className="space-y-4">
-//                   <div className="mb-2 text-sm text-scale-900">
-//                     Explore more
-//                   </div>
-//                   <div className="grid grid-cols-2 gap-8 lg:grid-cols-1">
-//                     <PartnerLinkBox
-//                       title="Experts"
-//                       color="blue"
-//                       description="Explore our certified Supabase agency experts that build with Supabase"
-//                       href={`/partners/experts`}
-//                       icon={
-//                         <svg
-//                           xmlns="http://www.w3.org/2000/svg"
-//                           className="h-6 w-6"
-//                           fill="none"
-//                           viewBox="0 0 24 24"
-//                           stroke="currentColor"
-//                           strokeWidth="1"
-//                         >
-//                           <path
-//                             strokeLinecap="round"
-//                             strokeLinejoin="round"
-//                             d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-//                           />
-//                         </svg>
-//                       }
-//                     />
-
-//                     <PartnerLinkBox
-//                       href={`/partners/integrations#become-a-partner`}
-//                       title="Become a partner"
-//                       color="brand"
-//                       description="Fill out a quick 30 second form to apply to become a partner"
-//                       icon={
-//                         <svg
-//                           xmlns="http://www.w3.org/2000/svg"
-//                           className="h-5 w-5"
-//                           fill="none"
-//                           viewBox="0 0 24 24"
-//                           stroke="currentColor"
-//                           strokeWidth="1"
-//                         >
-//                           <path
-//                             strokeLinecap="round"
-//                             strokeLinejoin="round"
-//                             d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-//                           />
-//                         </svg>
-//                       }
-//                     />
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//             <div className="lg:col-span-8 xl:col-span-9">
-//               {/* Partner Tiles */}
-//               <div className="grid space-y-10">
-//                 {partners.length ? (
-//                   <PartnerTileGrid partnersByCategory={partnersByCategory} />
-//                 ) : (
-//                   <h2 className="h2">No Partners Found</h2>
-//                 )}
-//               </div>
-//             </div>
-//           </div>
-//           {/* Become a partner form */}
-//         </SectionContainer>
-//       </Layout>
-//     </>
-//   )
-// }
-
-// export default IntegrationPartnersPage
