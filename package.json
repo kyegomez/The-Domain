@@ -69,6 +69,7 @@
     "react-dom": "18.2.0",
     "react-image": "^4.1.0",
     "react-markdown": "^8.0.4",
+    "react-merge-refs": "^2.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "react-wrap-balancer": "^0.3.0",
     "remark-gfm": "^3.0.1",
