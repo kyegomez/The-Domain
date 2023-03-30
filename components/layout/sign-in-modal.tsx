@@ -17,7 +17,9 @@ import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth } from '@supabase/auth-ui-react';
 import { createClient } from "@supabase/supabase-js";
 import {Logo} from '@/components/signUI/Logo'
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
+import type { Database } from "types/types_db";
 
 const supa_url: any = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supa_key: any = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -32,7 +34,10 @@ const SignInModal = ({
   const router = useRouter();
   const user = useUser();
   // const supabaseClient = createClient(supa_url, supa_key);
-  const supabaseClient = useSupabaseClient()
+  // const supabaseClient = useSupabaseClient()
+  const [supabaseClient] = useState(() =>
+  createBrowserSupabaseClient<Database>()
+);
 
   useEffect(() => {
     if (user) {

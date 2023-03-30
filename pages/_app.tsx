@@ -9,6 +9,12 @@ import localFont from "@next/font/local";
 import { Inter } from "@next/font/google";
 import 'swiper/swiper-bundle.min.css';
 
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { useEffect, useState } from "react";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "types/types_db";
+
+
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
   variable: "--font-sf",
@@ -19,18 +25,47 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-export default function MyApp({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps<{ session: Session }>) {
+// export default function MyApp({
+//   Component,
+//   pageProps: { session, ...pageProps },
+// }: AppProps<{ session: Session }>) {
+//   return (
+//     <SessionProvider session={session}>
+//       <RWBProvider>
+//         <div className={cx(sfPro.variable, inter.variable)}>
+//           <Component {...pageProps} />
+//         </div>
+//       </RWBProvider>
+//       <Analytics />
+//     </SessionProvider>
+//   );
+// }
+
+
+//===================================+> v2 
+
+export default function MyApp({ Component, pageProps: {session, ...pageProps} }: AppProps) {
+  const [supabaseClient] = useState(() =>
+    createBrowserSupabaseClient<Database>()
+  );
+  useEffect(() => {
+    document.body.classList?.remove('loading');
+  }, []);
+
   return (
-    <SessionProvider session={session}>
-      <RWBProvider>
-        <div className={cx(sfPro.variable, inter.variable)}>
-          <Component {...pageProps} />
-        </div>
-      </RWBProvider>
-      <Analytics />
-    </SessionProvider>
+    <div className="bg-black">
+      <SessionContextProvider supabaseClient={supabaseClient}>
+        <SessionProvider session={session}>
+
+          <RWBProvider>
+          <div className={cx(sfPro.variable, inter.variable)}>
+            <Component {...pageProps} />
+          </div>
+          </RWBProvider>
+          <Analytics />
+
+        </SessionProvider>
+      </SessionContextProvider>
+    </div>
   );
 }
