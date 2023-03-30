@@ -77,7 +77,7 @@ function Partner({ partner }: { partner: Partner }) {
   const [activeImage, setActiveImage] = React.useState(0);
   const [open, setOpen] = React.useState(false);
   const timerRef = React.useRef(0);
-  const { SignInModal, setShowSignInModal } = useSignInModal();
+  // const { SignInModal, setShowSignInModal } = useSignInModal();
 
 
 
