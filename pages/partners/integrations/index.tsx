@@ -128,6 +128,8 @@ function IntegrationPartnersPage(props: Props) {
         .from<Partner>('partners')
         .select('*')
         .order('title')
+        .order('category')
+
 
       if (search.trim()) {
         query = query
