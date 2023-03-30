@@ -161,7 +161,7 @@ function IntegrationPartnersPage(props: Props) {
 
       setIsSearching(false)
     })
-  }, [debouncedSearchTerm, router])
+  }, [debouncedSearchTerm, router, initialPartners, search])
 
    return (
     <>
