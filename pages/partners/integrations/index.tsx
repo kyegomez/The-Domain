@@ -127,8 +127,6 @@ function IntegrationPartnersPage(props: Props) {
         //@ts-ignore
         .from<Partner>('partners')
         .select('*')
-        .eq('approved', true)
-        .order('category')
         .order('title')
 
       if (search.trim()) {
