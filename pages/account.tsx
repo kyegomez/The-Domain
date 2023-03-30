@@ -84,13 +84,6 @@ export default function Account({ user }: { user: User }) {
   //   setLoading(false);
   // };
 
-  const subscriptionPrice =
-    subscription &&
-    new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: subscription?.prices?.currency,
-      minimumFractionDigits: 0
-    }).format((subscription?.prices?.unit_amount || 0) / 100);
 
   return (
     <section className="bg-black mb-32">
@@ -113,7 +106,7 @@ export default function Account({ user }: { user: User }) {
               : ''
           }
         >
-          <div className="text-xl mt-8 mb-4 font-semibold">
+          {/* <div className="text-xl mt-8 mb-4 font-semibold">
             {isLoading ? (
               <div className="h-12 mb-6">
                 <LoadingDots />
@@ -123,7 +116,7 @@ export default function Account({ user }: { user: User }) {
             ) : (
               <Link href="/">Choose your plan</Link>
             )}
-          </div>
+          </div> */}
         </Card>
         <Card
           title="Your Name"
