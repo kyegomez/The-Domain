@@ -7,10 +7,16 @@ import {Logo} from '@/components/signUI/Logo';
 import { useUser } from 'utils/useUser';
 
 import s from './Navbar.module.css';
+import { createClient } from '@supabase/supabase-js';
+
+
+const supa_url: any = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supa_key: any = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
 
 const Navbar = () => {
   const router = useRouter();
-  const supabaseClient = useSupabaseClient();
+  const supabaseClient = createClient(supa_url, supa_key);
   const { user } = useUser();
 
   return (

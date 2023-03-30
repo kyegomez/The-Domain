@@ -10,16 +10,17 @@ import {
 // import { LoadingDots, Google } from "@/components/shared/icons";
 import LoadingDots from "../signUI/LoadingDots";
 import Image from "next/image";
-
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-
 import { ThemeSupa } from '@supabase/auth-ui-shared';
-
-
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth } from '@supabase/auth-ui-react';
+import { createClient } from "@supabase/supabase-js";
 
+
+
+const supa_url: any = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supa_key: any = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const SignInModal = ({
   showSignInModal,
@@ -30,7 +31,7 @@ const SignInModal = ({
 }) => {
   const router = useRouter();
   const user = useUser();
-  const supabaseClient = useSupabaseClient();
+  const supabaseClient = createClient(supa_url, supa_key);
 
   useEffect(() => {
     if (user) {
