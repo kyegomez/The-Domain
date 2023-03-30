@@ -92,7 +92,7 @@ export default function Account({ user }: { user: User }) {
           <h1 className="text-4xl font-extrabold text-sky-400 sm:text-center sm:text-6xl">
             Account
           </h1>
-          <p className="mt-5 text-xl text-zinc-200 sm:text-center sm:text-2xl max-w-2xl m-auto">
+          <p className="mt-5 text-xl text-sky-400 sm:text-center sm:text-2xl max-w-2xl m-auto">
             Welcome to your hub
           </p>
         </div>

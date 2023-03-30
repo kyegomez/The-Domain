@@ -16,7 +16,7 @@ import { Swiper, SwiperSlide} from "swiper/react";
 import * as Toast from '@radix-ui/react-toast';
 import { Transition } from '@headlessui/react';
 import React from 'react'
-import { useSignInModal } from '@/components/layout/sign-in-modal'
+// import { useSignInModal } from '@/components/layout/sign-in-modal'
 
 import Error404 from '../404';
 
@@ -99,7 +99,7 @@ function Partner({ partner }: { partner: Partner }) {
     </Head>
 
     <Layout>
-      <SignInModal />
+      {/* <SignInModal /> */}
       <SectionContainer>
         <div className="col-span-12 mx-auto mb-2 max-w-5xl space-y-12 lg:col-span-2 ">
           {/* Back button */}
