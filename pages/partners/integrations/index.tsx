@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { PrismaClient } from '@prisma/client'
 import { prisma } from'@/lib/prisma'
 import { Prisma } from '@prisma/client'
+import {useSignInModal} from '@/components/layout/sign-in-modal';
 
 export interface Partner {
   id: number
@@ -97,6 +98,8 @@ interface Props {
 function IntegrationPartnersPage(props: Props) {
   const { partners: initialPartners } = props
   const [partners, setPartners] = useState(initialPartners)
+  const { SignInModal, setShowSignInModal } = useSignInModal();
+
 
   const allCategories = Array.from(
     new Set(initialPartners.map((p) => p.category))
@@ -169,6 +172,7 @@ function IntegrationPartnersPage(props: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
+        <SignInModal />
         <SectionContainer className="space-y-16">
           <div>
             <h1 className="h1">{meta_title}</h1>
