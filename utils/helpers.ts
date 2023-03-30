@@ -12,3 +12,8 @@ export const getURL = () => {
     return url
 };
 
+
+export const redirectURL = () => {
+    let url = `https://domain.apac.ai`;
+    return url
+}
