@@ -16,7 +16,9 @@ const supa_key: any = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const Navbar = () => {
   const router = useRouter();
-  const supabaseClient = createClient(supa_url, supa_key);
+  // const supabaseClient = createClient(supa_url, supa_key);
+  const supabaseClient = useSupabaseClient();
+
   const { user } = useUser();
 
   return (

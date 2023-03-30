@@ -23,7 +23,9 @@ const supa_key: any = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const SignIn = () => {
   const router = useRouter();
   const user = useUser();
-  const supabaseClient = createClient(supa_url, supa_key);
+//   const supabaseClient = createClient(supa_url, supa_key);
+    const supabaseClient = useSupabaseClient();
+
 
   useEffect(() => {
     if (user) {

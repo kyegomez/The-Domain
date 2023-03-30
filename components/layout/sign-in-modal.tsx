@@ -35,9 +35,12 @@ const SignInModal = ({
   const user = useUser();
   // const supabaseClient = createClient(supa_url, supa_key);
   // const supabaseClient = useSupabaseClient()
-  const [supabaseClient] = useState(() =>
-  createBrowserSupabaseClient<Database>()
-);
+  // const [supabaseClient] = useState(() =>
+  // createBrowserSupabaseClient<Database>()
+  // );
+
+  const supabaseClient = useSupabaseClient();
+
 
   useEffect(() => {
     if (user) {
