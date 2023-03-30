@@ -86,10 +86,10 @@ export default function Account({ user }: { user: User }) {
 
 
   return (
-    <section className="bg-gradient-to-br from-indigo-50 via-white to-cyan-100 mb-32">
+    <section className="bg-gradient-to-br from-indigo-50 via-white to-cyan-100 mb-32 h-full ">
       <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
-          <h1 className="text-4xl font-extrabold text-white sm:text-center sm:text-6xl">
+          <h1 className="text-4xl font-extrabold text-sky-400 sm:text-center sm:text-6xl">
             Account
           </h1>
           <p className="mt-5 text-xl text-zinc-200 sm:text-center sm:text-2xl max-w-2xl m-auto">
