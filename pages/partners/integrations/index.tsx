@@ -78,8 +78,6 @@ export async function getStaticProps() {
     //@ts-ignore
     .from<Partner>('partners')
     .select('*')
-    .eq('approved', true)
-    .eq('type', 'technology')
     .order('category')
     .order('title');
 
