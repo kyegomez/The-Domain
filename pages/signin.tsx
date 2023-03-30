@@ -8,7 +8,7 @@ import LoadingDots from '@/components/signUI/LoadingDots';
 // import Logo from '@/components/icons/Logo';
 import { Logo } from '@/components/signUI/Logo';
 // import { getURL } from '@/utils/helpers';
-import { getURL } from 'utils/helpers';
+import { redirectURL } from 'utils/helpers';
 
 
 
@@ -37,7 +37,7 @@ const SignIn = () => {
             <Auth
               supabaseClient={supabaseClient}
               providers={['google']}
-              redirectTo={getURL()}
+              redirectTo={redirectURL()}
               magicLink={true}
               appearance={{
                 theme: ThemeSupa,
