@@ -19,7 +19,7 @@ import { createClient } from "@supabase/supabase-js";
 import {Logo} from '@/components/signUI/Logo'
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
-import type { Database } from "types/types_db";
+// import type { Database } from "types/types_db";
 import { redirectURL } from "utils/helpers";
 
 

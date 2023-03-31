@@ -29,27 +29,27 @@ interface Props {
 }
 
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-    const supabase = createServerSupabaseClient(ctx);
-    const {
-      data: { session }
-    } = await supabase.auth.getSession();
+// export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+//     const supabase = createServerSupabaseClient(ctx);
+//     const {
+//       data: { session }
+//     } = await supabase.auth.getSession();
   
-    if (!session)
-      return {
-        redirect: {
-          destination: '/signin',
-          permanent: false
-        }
-      };
+//     if (!session)
+//       return {
+//         redirect: {
+//           destination: '/signin',
+//           permanent: false
+//         }
+//       };
   
-    return {
-      props: {
-        initialSession: session,
-        user: session.user
-      }
-    };
-};
+//     return {
+//       props: {
+//         initialSession: session,
+//         user: session.user
+//       }
+//     };
+// };
 
 function Card({ title, description, footer, children }: Props) {
   return (
