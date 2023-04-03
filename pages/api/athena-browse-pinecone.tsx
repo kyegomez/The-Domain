@@ -210,7 +210,7 @@ import mongoose from "mongoose";
 import { Completion, ICompletion } from 'utils/models/athena-browser';
 
 // import Completion, { ICompletion } from "../../models/Completion";
-
+//mongodb+srv://athena-browser-extension:IMTFO9IADamGNwGW@a-t-h-e-n-a.ndnmw.mongodb.net/?retryWrites=true&w=majority
 // Connect to MongoDB if not already connected
 const mongo_url: any = process.env.MONGO_URL;
 
