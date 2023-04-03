@@ -17,13 +17,13 @@ import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 
 
-///sign in 
-import {
-    createServerSupabaseClient,
-    User
-} from '@supabase/auth-helpers-nextjs';
+// ///sign in 
+// import {
+//     createServerSupabaseClient,
+//     User
+// } from '@supabase/auth-helpers-nextjs';
 
-import { GetServerSidePropsContext } from 'next';
+// import { GetServerSidePropsContext } from 'next';
 
 
 
