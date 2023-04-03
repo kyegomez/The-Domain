@@ -210,13 +210,12 @@ import mongoose from "mongoose";
 import { Completion, ICompletion } from 'utils/models/athena-browser';
 
 // import Completion, { ICompletion } from "../../models/Completion";
-//mongodb+srv://athena-browser-extension:IMTFO9IADamGNwGW@a-t-h-e-n-a.ndnmw.mongodb.net/?retryWrites=true&w=majority
 // Connect to MongoDB if not already connected
 const mongo_url: any = process.env.MONGO_URL;
 
 if (mongoose.connection.readyState === 0) {
   mongoose
-    .connect(mongo_url)
+    .connect(`${mongo_url}/athena-browser-extension`)
     .catch((error) => console.error("Error connecting to MongoDB:", error));
 }
 

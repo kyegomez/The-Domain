@@ -22,4 +22,4 @@ const CompletionSchema: Schema = new Schema({
   timestamp: { type: Date, required: true },
 });
 
-export const Completion = mongoose.model<ICompletion>("Completion", CompletionSchema);
+export const Completion = mongoose.model<ICompletion>("completions", CompletionSchema);
