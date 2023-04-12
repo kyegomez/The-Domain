@@ -67,7 +67,7 @@ export default function Home() {
 
     const ctrl = new AbortController();
 
-    fetchEventSource('/api/chat', {
+    fetchEventSource('/api/chatMongo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

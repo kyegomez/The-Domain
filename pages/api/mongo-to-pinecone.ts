@@ -90,7 +90,7 @@ async function initializePineconeClient() {
       apiKey: process.env.PINECONE_API_KEY,
       environment: process.env.PINECONE_ENVIRONMENT,
     });
-    return pineconeClient.Index('athena-browser-workflows');
+    return pineconeClient.Index('test');
 }
   
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -138,13 +138,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         // pineconeIndex,
         // });
 
-        // const maxContentLength = 8191;
+        const maxContentLength = 8191;
+
+        // for (const doc of docs) {
+        //     console.log(`Doc: ${doc}`)
+        //     await PineconeStore.fromDocuments(docs, new OpenAIEmbeddings(), {
+        //         pineconeIndex,
+        //     });
+        // }
 
         for (const doc of docs) {
-            console.log(`Doc: ${doc}`)
-            await PineconeStore.fromDocuments(docs, new OpenAIEmbeddings(), {
-                pineconeIndex,
-            });
+            if (doc.pageContent.length <= maxContentLength) {
+                await PineconeStore.fromDocuments([doc], new OpenAIEmbeddings(), {
+                    pineconeIndex,
+                });
+            } else {
+                console.log(`Document too long skipping ${doc.toString()}`)
+            }
         }
 
 
@@ -152,7 +162,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).json({ message: 'Data transfer completed' });
 } catch (error: any) {
     console.error(error);
-    console.log(`error.response.data: ${JSON.stringify(error.response.data, null, 2)}`);
+    // console.log(`error.response.data: ${JSON.stringify(error.response.data, null, 2)}`);
+    if (error.response) {
+        console.log(`Error Response data: ${JSON.stringify(error.response.data, null, 2)}`);
+    } else {
+        console.log(`Error without API response ${error.message}`)
+    }
     res.status(500).json({ message: 'Internal server error' });
 }
 };

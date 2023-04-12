@@ -1,7 +1,10 @@
 import { Message, OpenAIModel } from "types/index";
 import { createParser, ParsedEvent, ReconnectInterval } from "eventsource-parser";
 
+const athenaPrompt = `You are Athena, a real-time collaborative AI created by APAC AI. Follow the user's instructions carefully. Respond using markdown.`;
 export const OpenAIStream = async (model: OpenAIModel, systemPrompt: string, key: string, messages: Message[]) => {
+  const prompt = `${athenaPrompt}: Goal: ${systemPrompt}`
+
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     headers: {
       "Content-Type": "application/json",
