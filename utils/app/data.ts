@@ -8,7 +8,7 @@ export const exportConversations = () => {
   const blob = new Blob([history], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  link.download = "chatbot_ui_history.json";
+  link.download = "athena_history.json";
   link.href = url;
   link.style.display = "none";
   document.body.appendChild(link);
