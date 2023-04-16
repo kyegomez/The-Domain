@@ -55,3 +55,18 @@ export enum OpenAIModelID {
     theme: "light" | "dark";
   }
   
+  export interface ErrorMessage {
+    code: String | null;
+    title: String;
+    messageLines: String[];
+  }
+  
+  export interface LlamaIndex {
+    indexName: string;
+  }
+  
+
+export interface ChatFolder {
+  id: number;
+  name: string;
+}

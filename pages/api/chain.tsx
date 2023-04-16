@@ -2,7 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 // import { createModel, extractArray, startGoalAgent } from "../../utils/chain";
 import { createModel, extractArray, startGoalAgent } from "utils/chain";
 
-export interface ChainAPIRequest extends NextApiRequest {
+const key = "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";
+
+export interface APIRequest extends NextApiRequest {
   body: {
     customApiKey: string;
     goal: string;
@@ -17,7 +19,7 @@ export default async function handler(
   req: ChainAPIRequest,
   res: ChainAPIResponse
 ) {
-  const model = createModel(req.body.customApiKey);
+  const model = createModel(key);
   const completion = await startGoalAgent(model, req.body.goal);
   console.log(completion.text);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

@@ -63,8 +63,23 @@ export default function Home() {
   const [messageError, setMessageError] = useState<boolean>(false);
   const [modelError, setModelError] = useState<boolean>(false);
   const stopConversationRef = useRef<boolean>(false);
+  
 
   const handleSend = async (message: Message, isResend: boolean) => {
+    const saveConversationsToDB = async (mainConversation: Conversation, allConversations: Conversation[]) => {
+      try {
+        await fetch('/api/saveConversations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ mainConversation, allConversations }),
+        });
+      } catch (error) {
+        console.error('Error saving conversations:', error);
+      }
+    };
+
     if (selectedConversation) {
       let updatedConversation: Conversation;
 
@@ -192,6 +207,9 @@ export default function Home() {
       saveConversations(updatedConversations);
 
       setMessageIsStreaming(false);
+
+      saveConversationsToDB(updatedConversation, updatedConversations);
+
     }
   };
 

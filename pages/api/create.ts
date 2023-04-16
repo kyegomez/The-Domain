@@ -7,7 +7,10 @@ import type { NextApiResponse } from "next";
 //   extractArray,
 // } from "../../utils/chain";
 
-import { createModel, executeCreateTaskAgent, extractArray } from "utils/chain";
+// import { createModel, executeCreateTaskAgent, extractArray } from "utils/chain";
+// import { createModel,  } from "../../utils/chain";
+import { createModel, executeCreateTaskAgent,  extractArray } from "utils/chain";
+const key = "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";
 
 export interface CreateTaskAPIRequest extends NextApiRequest {
   body: {
@@ -30,7 +33,7 @@ export default async function handler(
   res: CreateTaskAPIResponse
 ) {
   const completion = await executeCreateTaskAgent(
-    createModel(req.body.customApiKey),
+    createModel(key),
     req.body.goal,
     req.body.tasks,
     req.body.lastTask,

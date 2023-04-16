@@ -1,6 +1,7 @@
 import type { NextApiRequest } from "next";
 import type { NextApiResponse } from "next";
 // import { createModel, executeTaskAgent } from "../../utils/chain";
+// import { createModel, executeTaskAgent } from "utils/chain";
 import { createModel, executeTaskAgent } from "utils/chain";
 
 export interface ExecuteAPIRequest extends NextApiRequest {
@@ -21,8 +22,10 @@ export default async function handler(
   req: ExecuteAPIRequest,
   res: ExecuteAPIResponse
 ) {
+  const key = "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";
+
   const completion = await executeTaskAgent(
-    createModel(req.body.customApiKey),
+    createModel(key),
     req.body.goal,
     req.body.task
   );

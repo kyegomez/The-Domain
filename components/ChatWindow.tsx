@@ -52,7 +52,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
   return (
     <div
       className={
-        "border-translucent flex w-full flex-col rounded-3xl border-2 border-white/20 bg-zinc-900 text-white shadow-2xl drop-shadow-lg " +
+        "border-translucent flex w-full flex-col rounded-3xl border-2 border-white/20 bg-cyan-900 text-white shadow-2xl drop-shadow-lg " +
         (className ?? "")
       }
     >
@@ -74,14 +74,7 @@ const ChatWindow = ({ messages, children, className }: ChatWindowProps) => {
               message={{
                 type: "system",
                 value:
-                  "> Create an agent by adding a name / goal, and hitting deploy!",
-              }}
-            />
-            <ChatMessage
-              message={{
-                type: "system",
-                value:
-                  "📢 Please first provide your own OpenAI API key via the settings tab!",
+                  "> Create an Athena Swarm by adding a Workflow / goal, and hitting deploy!",
               }}
             />
           </Expand>
@@ -135,7 +128,7 @@ const MacWindowHeader = () => {
         onClick={(): void => saveElementAsImage(messageListId)}
       >
         <FaSave size={12} />
-        <p className="font-mono">Save</p>
+        <p className="font-sans">Save</p>
       </div>
     </div>
   );
@@ -161,7 +154,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
   }, [copied]);
   return (
     <div
-      className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-1 font-mono text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base"
+      className="mx-2 my-1 rounded-lg border-[2px] border-white/10 bg-white/20 p-1 font-sans text-sm hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base"
       onMouseEnter={() => setShowCopy(true)}
       onMouseLeave={() => setShowCopy(false)}
       onClick={handleCopyClick}
