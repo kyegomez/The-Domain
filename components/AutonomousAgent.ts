@@ -120,7 +120,6 @@ class AutonomousAgent {
       customApiKey: this.customApiKey,
       goal: this.goal,
     });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.tasks as string[];
   }
 
@@ -135,7 +134,6 @@ class AutonomousAgent {
       lastTask: currentTask,
       result: result,
     });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     return res.data.tasks as string[];
   }
 
@@ -145,7 +143,6 @@ class AutonomousAgent {
       goal: this.goal,
       task: task,
     });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     return res.data.response as string;
   }
 

@@ -40,6 +40,5 @@ export default async function handler(
     req.body.result
   );
   console.log(completion.text);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return res.status(200).json({ tasks: extractArray(completion.text) });
 }
