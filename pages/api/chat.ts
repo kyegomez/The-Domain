@@ -14,6 +14,36 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { model, messages, key, prompt } = (await req.json()) as ChatBody;
 
+    if (model.id === 'athena_plus_v') {
+      const response = await fetch('http://ec2-100-25-255-225.compute-1.amazonaws.com:8000/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          text: messages[messages.length - 1].content,
+          lang: 'en',
+        }),
+      });
+
+    const athenaResponse = await response.json();
+    const imageUrl = athenaResponse.image_url;
+
+    const stream = new ReadableStream({
+      start(controller) {
+        const message = {
+          content: athenaResponse.state,
+          imageUrl: imageUrl,
+        };
+        controller.enqueue(new TextEncoder().encode(JSON.stringify(message)));
+        controller.close();
+      },
+    });
+
+    return new Response(stream);
+  }
+
+
     await init((imports) => WebAssembly.instantiate(wasm, imports));
     const encoding = new Tiktoken(tiktokenModel.bpe_ranks, tiktokenModel.special_tokens, tiktokenModel.pat_str);
 

@@ -1,7 +1,14 @@
+// pages/models/index.ts
 import { OpenAIModel, OpenAIModelID, OpenAIModels } from "types";
+import axios from 'axios';
 
 export const config = {
   runtime: "edge"
+};
+
+const athenaPlusVModel = {
+  id: 'athena_plus_v',
+  name: 'Athena+[V]'
 };
 
 const handler = async (req: Request): Promise<Response> => {
@@ -23,7 +30,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const json = await response.json();
 
-    const models: OpenAIModel[] = json.data
+    const openAIModels: OpenAIModel[] = json.data
       .map((model: any) => {
         for (const [key, value] of Object.entries(OpenAIModelID)) {
           if (value === model.id) {
@@ -35,6 +42,9 @@ const handler = async (req: Request): Promise<Response> => {
         }
       })
       .filter(Boolean);
+
+    // Include the Athena+[V] model in the models array
+    const models = [...openAIModels, athenaPlusVModel];
 
     return new Response(JSON.stringify(models), { status: 200 });
   } catch (error) {

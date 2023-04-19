@@ -1,7 +1,10 @@
+import connectDB from '@/lib/mongoose';
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 import ConversationModel from 'utils/models/converstion';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  await connectDB();
   if (req.method === 'POST') {
     const conversations = req.body.conversations;
 

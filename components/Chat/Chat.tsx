@@ -18,6 +18,7 @@ interface Props {
   onSend: (message: Message, isResend: boolean) => void;
   onUpdateConversation: (conversation: Conversation, data: KeyValuePair) => void;
   stopConversationRef: MutableRefObject<boolean>;
+  imageUrl?: any;
 }
 
 export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, modelError, messageError, loading, lightMode, onSend, onUpdateConversation, stopConversationRef }) => {
@@ -27,6 +28,20 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  };
+
+  const isJsonString = (str: string) => {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  };
+
+  const constructImageUrl = (relativeUrl: string) => {
+    const host = "http://ec2-100-25-255-225.compute-1.amazonaws.com:8000";
+    return `${host}/image/${relativeUrl}`;
   };
 
   useEffect(() => {
@@ -69,14 +84,33 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
               <>
                 <div className="flex justify-center py-2 text-neutral-500 bg-neutral-100 dark:bg-[#091E2F] dark:text-neutral-200 text-sm border border-b-neutral-300 dark:border-none">Model: {conversation.model.name}</div>
 
-                {conversation.messages.map((message, index) => (
-                  <ChatMessage
-                    key={index}
-                    message={message}
-                    lightMode={lightMode}
-                  />
-                ))}
-
+                {conversation.messages.map((message, index) => {
+                  let imageUrl;
+                  if (isJsonString(message.content)) {
+                    const parsedMessage = JSON.parse(message.content);
+                    if (Array.isArray(parsedMessage.content)) {
+                      message.content = parsedMessage.content[0][1];
+                    } else {
+                      message.content = parsedMessage.content;
+                    }
+                    imageUrl = parsedMessage.imageUrl;
+                  } else {
+                    const imageRegex = /(?:Its file name is|png\.)\s*(image\/.+?\.png)/g;
+                    const match = imageRegex.exec(message.content);
+                    if (match && match[1]) {
+                      imageUrl = constructImageUrl(match[1].trim());
+                      message.content = message.content.replace(imageRegex, '').trim();
+                    }
+                  }
+                  return (
+                    <ChatMessage
+                      key={index}
+                      message={message}
+                      lightMode={lightMode}
+                      imageUrl={imageUrl}
+                    />
+                  );
+                })}
                 {loading && <ChatLoader />}
 
                 <div

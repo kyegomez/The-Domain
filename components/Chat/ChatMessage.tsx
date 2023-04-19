@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ChatBody, Conversation, KeyValuePair, Message, OpenAIModel, OpenAIModelID, OpenAIModels } from "types/index";
 
 import { FC } from "react";
@@ -8,9 +9,10 @@ import { CodeBlock } from "../Markdown/CodeBlock";
 interface Props {
   message: Message;
   lightMode: "light" | "dark";
+  imageUrl?: string;
 }
 
-export const ChatMessage: FC<Props> = ({ message, lightMode }) => {
+export const ChatMessage: FC<Props> = ({ message, lightMode, imageUrl }) => {
   return (
     <div
       className={`group ${message.role === "assistant" ? "text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#030E19]" : "text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-white dark:bg-[#091E2F]"}`}
@@ -59,6 +61,7 @@ export const ChatMessage: FC<Props> = ({ message, lightMode }) => {
               {message.content}
             </ReactMarkdown>
           )}
+          {imageUrl && <img src={imageUrl} alt="Generated image" className="mt-4" />}
         </div>
       </div>
     </div>
