@@ -2,6 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
 import  Interaction, { IInteraction } from 'utils/models/athena-browser-writely';
+import cors from 'nextjs-cors';
 
 
 const mongo_url: any = process.env.MONGO_URL;
@@ -12,7 +13,20 @@ if (mongoose.connection.readyState === 0) {
     .catch((error) => console.error('Error connecting to MongoDB:', error));
 }
 
+
+if (mongoose.connection.readyState === 0) {
+  mongoose
+    .connect(`${mongo_url}`)
+    .catch((error) => console.error('Error connecting to MongoDB:', error));
+}
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await cors(req, res, {
+    methods: ['POST'],
+    origin: '*', // Update this to restrict the allowed origins
+    optionsSuccessStatus: 200,
+  });
+
   if (req.method === 'POST') {
     try {
       const interactionData: IInteraction = new Interaction(req.body);
@@ -26,5 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } else {
     res.status(405).json({ message: 'Method not allowed' });
+    res.status(405).json({ message: 'Method not allowed' });
+
   }
 };

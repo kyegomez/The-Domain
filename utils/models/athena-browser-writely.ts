@@ -1,12 +1,3 @@
-// import mongoose from 'mongoose';
-
-// const interactionSchema = new mongoose.Schema({
-//   task: String,
-//   prompt: String,
-//   output: String,
-//   timestamp: Date,
-// });
-
 
 
 import mongoose, { Document, Schema } from 'mongoose';
