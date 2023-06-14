@@ -88,6 +88,20 @@ https://user-images.githubusercontent.com/28986134/212368288-12f41e37-aa8c-4e0a-
 
 - [Vercel Analytics](https://vercel.com/analytics) – Track unique visitors, pageviews, and more in a privacy-friendly way
 
-## Author
 
-- Steven Tey ([@steventey](https://twitter.com/steventey))
+# To do:
+
+* Establish save to database write with error handling
+
+* Integrate Ocean db, the multi-modality native database 
+
+* Add Tools like Google Drive, Asana, Github, etc tools you use,
+
+* Create integration layer where you can connect any model with tool data 
+
+* Dynamically scale up Ocean instances based on how much data you have
+
+* Integrate the ability to use any model from Huggingface
+
+* Integrate AUTOGPT agent with goals
+
