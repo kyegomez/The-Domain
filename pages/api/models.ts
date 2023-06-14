@@ -8,7 +8,7 @@ export const config = {
 
 const athenaPlusVModel = {
   id: 'athena_plus_v',
-  name: 'Athena+[V]'
+
 };
 
 const handler = async (req: Request): Promise<Response> => {
@@ -44,7 +44,7 @@ const handler = async (req: Request): Promise<Response> => {
       .filter(Boolean);
 
     // Include the Athena+[V] model in the models array
-    const models = [...openAIModels, athenaPlusVModel];
+    const models = [...openAIModels];
 
     return new Response(JSON.stringify(models), { status: 200 });
   } catch (error) {
