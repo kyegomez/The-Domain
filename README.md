@@ -119,4 +119,6 @@ https://user-images.githubusercontent.com/28986134/212368288-12f41e37-aa8c-4e0a-
 
 * Automate any workflow with just text,
 
+* Create marketplace to share datasets for free or buy them, or share finetuned models
 
+* Allow for easy finetuning of models, ask for money before payment is acquired
