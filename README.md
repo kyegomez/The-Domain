@@ -105,3 +105,18 @@ https://user-images.githubusercontent.com/28986134/212368288-12f41e37-aa8c-4e0a-
 
 * Integrate AUTOGPT agent with goals
 
+* Integrate file upload with pdfs, csvs, any folder
+
+* Change stylings, make it more light blue or Neon blue
+
+* Upload Images, videos, sensor data, imf, etc etc and use ocean db instance to talk with it
+
+* Create Anything, images, videos, music, etc
+
+* Share with friends links
+
+* Subscription plan selection
+
+* Automate any workflow with just text,
+
+
