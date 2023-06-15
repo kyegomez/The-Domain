@@ -16,13 +16,12 @@ import { redirectURL } from 'utils/helpers';
 const SignIn = () => {
   const router = useRouter();
   const user = useUser();
-//   const supabaseClient = createClient(supa_url, supa_key);
-    const supabaseClient = useSupabaseClient();
+  const supabaseClient = useSupabaseClient();
 
 
   useEffect(() => {
     if (user) {
-      router.replace('/account');
+      router.replace('/home');
     }
   }, [user, router]);
 

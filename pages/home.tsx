@@ -15,6 +15,12 @@ import { exportConversations, importConversations } from "utils/app/data";
 import { IconArrowBarLeft, IconArrowBarRight } from '@tabler/icons-react';
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
+import { withAuthRequired, User } from '@supabase/supabase-auth-helpers/nextjs';
+
+
+export const getServerSideProps = withAuthRequired({ redirectTo: '/signin' });
+
+
 
 export default function Home() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
