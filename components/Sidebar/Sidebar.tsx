@@ -66,7 +66,7 @@ export const Sidebar: FC<Props> = ({ loading, conversations, lightMode, selected
         />
       )}
 
-      <div className="flex-grow overflow-auto bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900">
+      <div className="flex-grow overflow-auto">
         <Conversations
           loading={loading}
           conversations={filteredConversations}
