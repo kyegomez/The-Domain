@@ -141,7 +141,7 @@ const features = [
     demo: <WebVitals />,
   },
   {
-    title: "Multi-Modal WorkPlace Searcb",
+    title: "Multi-Modal WorkPlace Search",
     description: "Search through company documents from dozens of apps and data types seamlessly.",
     demo: <WebVitals />,
   },
