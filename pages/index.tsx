@@ -14,7 +14,6 @@ export default function Home() {
       <motion.div
         className="max-w-xl px-5 xl:px-0"
         initial="hidden"
-        whileInView="show"
         animate="show"
         viewport={{ once: true }}
         variants={{
@@ -28,14 +27,14 @@ export default function Home() {
       >
         <motion.a
           variants={FADE_DOWN_ANIMATION_VARIANTS}
-          href="https://twitter.com/kyegomez"
+          href="https://twitter.com/TheDomainAI"
           target="_blank"
           rel="noreferrer"
           className="mx-auto mb-5 flex max-w-fit items-center justify-center space-x-2 overflow-hidden rounded-full bg-blue-100 px-7 py-2 transition-colors hover:bg-blue-200"
         >
           <Twitter className="h-5 w-5 text-[#1d9bf0]" />
           <p className="text-sm font-semibold text-[#1d9bf0]">
-            Introducing The Domain
+            Explore The Domain
           </p>
         </motion.a>
         <motion.h1
@@ -80,7 +79,7 @@ export default function Home() {
           </a>
           <a
             className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800"
-            href="https://github.com/kyegomez/The-Domain"
+            href="https://github.com/TheDomainAI/The-Domain"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -89,20 +88,13 @@ export default function Home() {
           </a>
         </motion.div>
       </motion.div>
-      {/* here we are animating with Tailwind instead of Framer Motion because Framer Motion messes up the z-index for child components */}
       <div className="my-10 grid w-full max-w-screen-xl animate-[slide-down-fade_0.5s_ease-in-out] grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0">
         {features.map(({ title, description, demo, large }) => (
           <Card
             key={title}
             title={title}
             description={description}
-            demo={
-              title === "Beautiful, reusable components" ? (
-                <ComponentGrid />
-              ) : (
-                demo
-              )
-            }
+            demo={demo}
             large={large}
           />
         ))}
@@ -113,21 +105,19 @@ export default function Home() {
 
 const features = [
   {
-    title: "Connect 100s of apps",
-    description:
-      "Rapid app integration via hundreds of connectors and APIs",
+    title: "Seamless Data Interaction",
+    description: "Use simple conversation to interact with your data and tools - no complex syntax needed!",
+    demo: <WebVitals />,
     large: true,
   },
   {
-    title: "10x faster insights",
-    description:
-      "querying data conversationally versus manual analysis",
+    title: "10x Faster Insights",
+    description: "Experience lightning-fast results by querying data conversationally, making your decision-making process more efficient.",
     demo: <WebVitals />,
   },
   {
     title: "One-click Deploy",
-    description:
-      "Jumpstart your next project by deploying Precedent to [Vercel](https://vercel.com/) in one click.",
+    description: "Jumpstart your next project by deploying The Domain to Vercel in one click.",
     demo: (
       <a href={DEPLOY_URL}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -140,29 +130,18 @@ const features = [
     ),
   },
   {
-    title: "Multi-Modal",
-    description:
-      "The Domain is designed to process any form of digital data like images, videos, and audio",
+    title: "Multi-Modal AI Tools",
+    description: "Leverage advanced AI tools without the need for complex coding skills.",
     demo: (
       <div className="flex items-center justify-center space-x-20">
-        <Image alt="Auth.js logo" src="/authjs.webp" width={50} height={50} />
-        <Image alt="Prisma logo" src="/prisma.svg" width={50} height={50} />
+        <Image alt="AI logo" src="/ai.webp" width={50} height={50} />
+        <Image alt="ML logo" src="/ml.svg" width={50} height={50} />
       </div>
     ),
   },
   {
-    title: "Hooks, utilities, and more",
-    description:
-      "Precedent offers a collection of hooks, utilities, and `@vercel/og`",
-    demo: (
-      <div className="grid grid-flow-col grid-rows-3 gap-10 p-10">
-        <span className="font-mono font-semibold">useIntersectionObserver</span>
-        <span className="font-mono font-semibold">useLocalStorage</span>
-        <span className="font-mono font-semibold">useScroll</span>
-        <span className="font-mono font-semibold">nFormatter</span>
-        <span className="font-mono font-semibold">capitalize</span>
-        <span className="font-mono font-semibold">truncate</span>
-      </div>
-    ),
+    title: "Extensive App Integration",
+    description: "Quickly link up hundreds of apps via connectors and APIs, making your work more streamlined.",
+    demo: <ComponentGrid />,
   },
 ];
