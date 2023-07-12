@@ -126,6 +126,11 @@ const features = [
     demo: <WebVitals />,
   },
   {
+    title: "Swarms",
+    description: "Unleash the power of multiple agents working together seamlessly to complete your ambitious tasks!",
+    demo: <WebVitals />,
+  },
+  {
     title: "Open-Source",
     description: "Deploy in 1 click and contribute!",
     demo: (
