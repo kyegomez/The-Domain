@@ -61,11 +61,11 @@ export default function Layout({
         A free template by{" "}
         <a
           className="font-medium text-gray-800 underline transition-colors"
-          href="https://twitter.com/steventey"
+          href="https://twitter.com/kyegomez"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Steven Tey
+          Kye Gomez
         </a>
       </p>
     </div>
