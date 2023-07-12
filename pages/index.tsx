@@ -131,6 +131,21 @@ const features = [
     demo: <WebVitals />,
   },
   {
+    title: "100s of tools",
+    description: "Integrate your favorite apps and ingest data to The Domain and allow Swarms and Friends to automate your activities for you!",
+    demo: <WebVitals />,
+  },
+  {
+    title: "Deep Personalization",
+    description: "Models on The Domain are fine-tuned on your own data to deliver a seamless and personalized experience.",
+    demo: <WebVitals />,
+  },
+  {
+    title: "Multi-Modal WorkPlace Searcb",
+    description: "Search through company documents from dozens of apps and data types seamlessly.",
+    demo: <WebVitals />,
+  },
+  {
     title: "Open-Source",
     description: "Deploy in 1 click and contribute!",
     demo: (
