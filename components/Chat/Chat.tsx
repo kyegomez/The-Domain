@@ -49,7 +49,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
   }, [conversation.messages]);
 
   return (
-    <div className="relative flex-1 overflow-none dark:bg-[#091E2F] bg-white">
+    <div className="relative flex-1 overflow-none dark:bg-[#0ac1e5] bg-white">
       {modelError ? (
         <div className="flex flex-col justify-center mx-auto h-full w-[300px] sm:w-[500px] space-y-6">
           <div className="text-center text-red-500">Error fetching models.</div>
