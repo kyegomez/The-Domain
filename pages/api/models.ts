@@ -6,10 +6,10 @@ export const config = {
   runtime: "edge"
 };
 
-const athenaPlusVModel = {
-  id: 'athena_plus_v',
+// const athenaPlusVModel = {
+//   id: 'athena_plus_v',
 
-};
+// };
 
 const handler = async (req: Request): Promise<Response> => {
   try {
