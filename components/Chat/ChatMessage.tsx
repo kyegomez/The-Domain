@@ -15,7 +15,7 @@ interface Props {
 export const ChatMessage: FC<Props> = ({ message, lightMode, imageUrl }) => {
   return (
     <div
-      className={`group ${message.role === "assistant" ? "text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gray-50 bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-sky-400 to-blue-800" : "text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-white bg-gradient-to-r from-sky-400 to-blue-500"}`}
+      className={`group ${message.role === "assistant" ? "text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gradient-to-r from-rose-100 to-teal-100 " : "text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-white bg-gradient-to-r from-sky-400 to-blue-500"}`}
       style={{ overflowWrap: "anywhere" }}
     >
       <div className="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-2xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto">
