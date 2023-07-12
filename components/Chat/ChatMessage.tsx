@@ -21,7 +21,7 @@ export const ChatMessage: FC<Props> = ({ message, lightMode, imageUrl }) => {
       <div className="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-2xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto">
         <div className="font-bold min-w-[40px]">{message.role === "assistant" ? "Athena:" : "You:"}</div>
 
-        <div className="prose dark:prose-invert mt-[-2px]">
+        <div className="prose dark:prose-invert mt-[-2px] text-gray-800">
           {message.role === "user" ? (
             <div className="prose dark:prose-invert whitespace-pre-wrap">{message.content}</div>
           ) : (
