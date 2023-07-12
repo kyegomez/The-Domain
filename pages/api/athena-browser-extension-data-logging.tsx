@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import mongoose from "mongoose";
-import { Completion, ICompletion } from 'utils/models/-browser';
+// import { Completion, ICompletion } from 'utils/models/-browser';
+import { Completion, ICompletion } from "utils/models/athena-browser";
 
 // import Completion, { ICompletion } from "../../models/Completion";
 // Connect to MongoDB if not already connected
