@@ -49,7 +49,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
   }, [conversation.messages]);
 
   return (
-    <div className="relative flex-1 overflow-none dark:bg-[#0ac1e5] bg-white">
+    <div className="relative flex-1 overflow-none bg-gradient-to-r from-gray-100 to-gray-300 bg-white">
       {modelError ? (
         <div className="flex flex-col justify-center mx-auto h-full w-[300px] sm:w-[500px] space-y-6">
           <div className="text-center text-red-500">Error fetching models.</div>
@@ -82,7 +82,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
               </>
             ) : (
               <>
-                <div className="flex justify-center py-2 text-neutral-500 bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 dark:text-neutral-200 text-sm border border-b-neutral-300 dark:border-none">Model: {conversation.model.name}</div>
+                <div className="flex justify-center py-2 text-neutral-500 bg-gradient-to-r from-gray-100 to-gray-300 dark:text-neutral-200 text-sm border border-b-neutral-300 dark:border-none">Model: {conversation.model.name}</div>
 
                 {conversation.messages.map((message, index) => {
                   let imageUrl;
