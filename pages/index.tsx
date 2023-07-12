@@ -116,6 +116,11 @@ const features = [
     demo: <WebVitals />,
   },
   {
+    title: "Data Security",
+    description: "We prioritize your data's security. The Domain is built with top-notch security features to protect your data.",
+    demo: <WebVitals />,
+  },
+  {
     title: "One-click Deploy",
     description: "Jumpstart your next project by deploying The Domain to Vercel in one click.",
     demo: (

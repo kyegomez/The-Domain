@@ -13,6 +13,7 @@ if (mongoose.connection.readyState === 0) {
     .catch((error) => console.error("Error connecting to MongoDB:", error));
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     try {
