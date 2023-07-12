@@ -82,7 +82,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
               </>
             ) : (
               <>
-                <div className="flex justify-center py-2 text-neutral-500 bg-neutral-100 dark:bg-[#091E2F] dark:text-neutral-200 text-sm border border-b-neutral-300 dark:border-none">Model: {conversation.model.name}</div>
+                <div className="flex justify-center py-2 text-neutral-500 bg-gradient-to-r from-gray-100 to-gray-300 dark:text-neutral-200 text-sm border border-b-neutral-300 dark:border-none">Model: {conversation.model.name}</div>
 
                 {conversation.messages.map((message, index) => {
                   let imageUrl;
@@ -114,7 +114,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
                 {loading && <ChatLoader />}
 
                 <div
-                  className="bg-white dark:bg-[#091E2F] h-[162px]"
+                  className="bg-white bg-gradient-to-r from-gray-100 to-gray-300 h-[162px]"
                   ref={messagesEndRef}
                 />
               </>
