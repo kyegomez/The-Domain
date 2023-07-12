@@ -114,7 +114,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
                 {loading && <ChatLoader />}
 
                 <div
-                  className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 h-[162px]"
+                  className="h-[162px]"
                   ref={messagesEndRef}
                 />
               </>
