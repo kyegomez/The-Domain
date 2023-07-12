@@ -35,7 +35,7 @@ export default function Home() {
         >
           <Twitter className="h-5 w-5 text-[#1d9bf0]" />
           <p className="text-sm font-semibold text-[#1d9bf0]">
-            Introducing The dOMAIN
+            Introducing The Domain
           </p>
         </motion.a>
         <motion.h1
@@ -113,15 +113,15 @@ export default function Home() {
 
 const features = [
   {
-    title: "Beautiful, reusable components",
+    title: "Connect 100s of apps",
     description:
-      "Pre-built beautiful, a11y-first components, powered by [Tailwind CSS](https://tailwindcss.com/), [Radix UI](https://www.radix-ui.com/), and [Framer Motion](https://framer.com/motion)",
+      "Rapid app integration via hundreds of connectors and APIs",
     large: true,
   },
   {
-    title: "Performance first",
+    title: "10x faster insights",
     description:
-      "Built on [Next.js](https://nextjs.org/) primitives like `@next/font` and `next/image` for stellar performance.",
+      "querying data conversationally versus manual analysis",
     demo: <WebVitals />,
   },
   {
@@ -140,9 +140,9 @@ const features = [
     ),
   },
   {
-    title: "Built-in Auth + Database",
+    title: "Multi-Modal",
     description:
-      "Precedent comes with authentication and database via [Auth.js](https://authjs.dev/) + [Prisma](https://prisma.io/)",
+      "The Domain is designed to process any form of digital data like images, videos, and audio",
     demo: (
       <div className="flex items-center justify-center space-x-20">
         <Image alt="Auth.js logo" src="/authjs.webp" width={50} height={50} />

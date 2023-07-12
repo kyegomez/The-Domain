@@ -18,7 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import { withAuthRequired, User } from '@supabase/supabase-auth-helpers/nextjs';
 
 
-export const getServerSideProps = withAuthRequired({ redirectTo: '/signin' });
+// export const getServerSideProps = withAuthRequired({ redirectTo: '/signin' });
 
 
 
