@@ -51,7 +51,7 @@ export const ChatMessage: FC<Props> = ({ message, lightMode, imageUrl }) => {
                   return <table className="border-collapse border border-black dark:border-white py-1 px-3">{children}</table>;
                 },
                 th({ children }) {
-                  return <th className="border border-black dark:border-white break-words py-1 px-3 bg-gray-500 text-white">{children}</th>;
+                  return <th className="border border-black dark:border-white break-words py-1 px-3 bg-gray-500 text-gray-800">{children}</th>;
                 },
                 td({ children }) {
                   return <td className="border border-black dark:border-white break-words py-1 px-3">{children}</td>;
