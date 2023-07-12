@@ -121,8 +121,13 @@ const features = [
     demo: <WebVitals />,
   },
   {
-    title: "One-click Deploy",
-    description: "Jumpstart your next project by deploying The Domain to Vercel in one click.",
+    title: "All-New Multi-Modality Models",
+    description: "The Domain isn't restricted to just textual models, The Domain offers models that can understand images, videos, audio and much more",
+    demo: <WebVitals />,
+  },
+  {
+    title: "Open-Source",
+    description: "Deploy in 1 click and contribute!",
     demo: (
       <a href={DEPLOY_URL}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
