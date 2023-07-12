@@ -11,8 +11,8 @@
 </p>
 
 <p align="center">
-  <a href="https://twitter.com/steventey">
-    <img src="https://img.shields.io/twitter/follow/steventey?style=flat&label=steventey&logo=twitter&color=0bf&logoColor=fff" alt="Steven Tey Twitter follower count" />
+  <a href="https://twitter.com/kyegomez">
+    <img src="https://img.shields.io/twitter/follow/kyegomez?style=flat&label=kyegomez&logo=twitter&color=0bf&logoColor=fff" alt="Steven Tey Twitter follower count" />
   </a>
   <a href="https://github.com/steven-tey/thedomain">
     <img src="https://img.shields.io/github/stars/steven-tey/thedomain?label=steven-tey%2Fthedomain" alt="The Domain repo star count" />
