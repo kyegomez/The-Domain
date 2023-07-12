@@ -34,12 +34,41 @@ export enum OpenAIModelID {
   
   export interface Conversation {
     id: number;
+    // user_id: string;
     name: string;
     messages: Message[];
     model: OpenAIModel;
     prompt: string;
+    // create_time: number;
+    // update_time: number;
+    // mapping: Record<string, Mapping>;
+    // moderation_results: any[];
+    // current_node: string;
+    // plugin_ids: any;
+    // title: string | null;
   }
-  
+
+  // export interface Mapping {
+  //   id: string;
+  //   message: MessageNode;
+  //   parent: string | null;
+  //   children: string[];
+  // }
+
+  // export interface MessageNode {
+  //   id: string;
+  //   author: { role: string; name: string | null; metadata: any };
+  //   create_time: number;
+  //   update_time: number | null;
+  //   content: { content_type: string; parts: string[]; sentiment: string; request_type: string };
+  //   status: string;
+  //   end_turn: boolean;
+  //   weight: number;
+  //   metadata: any;
+  //   recipient: string;
+  //   confidence: number;
+  // }
+
   export interface ChatBody {
     model: OpenAIModel;
     messages: Message[];
