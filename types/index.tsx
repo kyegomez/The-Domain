@@ -26,8 +26,9 @@ export enum OpenAIModelID {
   };
   
   export interface Message {
-    role: Role;
+    role: string;
     content: string;
+    image?: string;
   }
   
   export type Role = "assistant" | "user";

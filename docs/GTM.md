@@ -85,3 +85,5 @@ With this Go-To-Market strategy, we will establish The Domain as a leading conve
 * Integrate Andromeda
 
 * Integrate Kosmos
+
+* There should be an universal vectorstore for all of a users data account wide

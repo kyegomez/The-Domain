@@ -15,7 +15,7 @@ interface Props {
 export const ChatMessage: FC<Props> = ({ message, lightMode, imageUrl }) => {
   return (
     <div
-      className={`group ${message.role === "assistant" ? "text-gray-800 dark:text-gray-900 border-b border-black/10 dark:border-gray-900/50 bg-gradient-to-r from-gray-100 to-gray-300" : "text-gray-800 dark:text-gray-800 border-b border-black/10 dark:border-gray-900/50 bg-[#FAFBFF]"}`}
+      className={`group ${message.role === "assistant" ? "text-gray-800 dark:text-gray-900 border-black-200 dark:border-gray-400 bg-gradient-to-r  bg-[#F7F7F8]" : "text-gray-800 dark:text-gray-800 border-b border-black-100 dark:border-black-300 bg-[#FAFBFF]"}`}
       style={{ overflowWrap: "anywhere" }}
     >
       <div className="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-2xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto">
@@ -23,7 +23,7 @@ export const ChatMessage: FC<Props> = ({ message, lightMode, imageUrl }) => {
 
         <div className="prose dark:prose-invert mt-[-2px] text-gray-800">
           {message.role === "user" ? (
-            <div className="prose dark:prose-invert whitespace-pre-wrap">{message.content}</div>
+            <div className="text-gray-900 prose dark:prose-invert whitespace-pre-wrap">{message.content}</div>
           ) : (
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
@@ -48,7 +48,7 @@ export const ChatMessage: FC<Props> = ({ message, lightMode, imageUrl }) => {
                   );
                 },
                 table({ children }) {
-                  return <table className="border-collapse border border-black dark:border-white py-1 px-3">{children}</table>;
+                  return <table className="border-collapse border border-black dark:border-black-400 py-1 px-3">{children}</table>;
                 },
                 th({ children }) {
                   return <th className="border border-black dark:border-white break-words py-1 px-3 bg-gray-500 text-gray-800">{children}</th>;
@@ -61,7 +61,7 @@ export const ChatMessage: FC<Props> = ({ message, lightMode, imageUrl }) => {
               {message.content}
             </ReactMarkdown>
           )}
-          {imageUrl && <img src={imageUrl} alt="Generated image" className="mt-4" />}
+          {message.image && <img src={message.image} alt="Uploaded image" className="mt-4" />}
         </div>
       </div>
     </div>

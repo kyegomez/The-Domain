@@ -49,7 +49,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
   }, [conversation.messages]);
 
   return (
-    <div className="relative flex-1 overflow-none bg-gradient-to-r from-gray-100 to-gray-300 bg-white">
+    <div className="relative flex-1 overflow-none bg-gradient-to-r bg-[#FFFFFF]">
       {modelError ? (
         <div className="flex flex-col justify-center mx-auto h-full w-[300px] sm:w-[500px] space-y-6">
           <div className="text-center text-red-500">Error fetching models.</div>
@@ -65,7 +65,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
                   <div className="text-4xl font-semibold text-center text-gray-800 dark:text-gray-900">{models.length === 0 ? "Loading..." : "The Domain"}</div>
 
                   {models.length > 0 && (
-                    <div className="flex flex-col h-full space-y-4 border p-4 rounded border-neutral-500">
+                    <div className="flex flex-col h-full space-y-4 border p-4 rounded border-neutral-200">
                       <ModelSelect
                         model={conversation.model}
                         models={models}
@@ -82,8 +82,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
               </>
             ) : (
               <>
-                <div className="flex justify-center py-2 text-neutral-500 bg-gradient-to-r from-gray-100 to-gray-300 dark:text-neutral-200 text-sm border border-b-neutral-300 dark:border-none">Model: {conversation.model.name}</div>
-
+                <div className="flex justify-center py-2 text-neutral-500 bg-[#F7F7F8] dark:text-neutral-600 text-sm border border-b-neutral-300 dark:border-none">Model: {conversation.model.name}</div>
                 {conversation.messages.map((message, index) => {
                   let imageUrl;
                   if (isJsonString(message.content)) {
