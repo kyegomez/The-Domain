@@ -123,7 +123,7 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
       <div className="stretch mx-2 md:mt-[52px] mt-4 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-3xl">
         {messageIsStreaming && (
           <button
-            className="absolute -top-2 md:top-0 left-0 right-0 mx-auto bg-[#000000] border w-fit border-gray-500 py-2 px-4 rounded text-white hover:bg-purple-600 hover:text-white"
+            className="absolute -top-2 md:top-0 left-0 right-0 mx-auto bg-sky-500 border w-fit border-gray-500 py-2 px-4 rounded text-white hover:bg-purple-600 hover:text-white"
             onClick={handleStopConversation}
           >
             <IconPlayerStop
@@ -133,7 +133,7 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
             Stop Generating
           </button>
         )}
-        <div className="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white bg-gradient-to-r from-sky-400 to-blue-500 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]">
+        <div className="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-cyan-500 dark:border-gray-900/50 dark:text-white bg-gradient-to-r from-sky-400 to-blue-500 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]">
           {imagePreview && (
             <div className="flex justify-between items-center mb-2">
               <Image src={imagePreview} alt="Preview" width={40} height={40} className="rounded" />
@@ -164,7 +164,7 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="focus:outline-none text-neutral-800 hover:text-neutral-900 dark:text-neutral-100 dark:hover:text-neutral-700 dark:bg-opacity-50 hover:bg-neutral-200 p-1 rounded-sm"
+              className="focus:outline-none text-neutral-800 hover:text-violet-900 dark:text-neutral-100 dark:hover:text-cyan-700 dark:bg-violet-500 hover:bg-violet-600 p-1 rounded-sm"
             >
               <ImageIcon
                 className="opacity-60 h-5 w-5"
@@ -179,7 +179,7 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="focus:outline-none text-neutral-800 hover:text-purple-600 dark:text-neutral-100 dark:hover:text-neutral-700 dark:bg-opacity-50 hover:bg-neutral-200 p-1 rounded-sm"
+              className="focus:outline-none text-neutral-800 hover:text-purple-600 dark:text-purple-300 dark:hover:text-violet-700 dark:bg-sky-400 hover:bg-violet-700 p-1 rounded-sm"
               onClick={handleSend}
             >
               <IconSend
