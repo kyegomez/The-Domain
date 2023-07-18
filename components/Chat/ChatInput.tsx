@@ -164,27 +164,27 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="focus:outline-none text-neutral-800 hover:text-violet-900 dark:text-neutral-100 dark:hover:text-cyan-700 dark:bg-violet-500 hover:bg-violet-600 p-1 rounded-sm"
+              className="focus:outline-none text-white bg-white hover:text-violet-900 dark:text-white dark:hover:text-cyan-700 dark:bg-violet-500 hover:bg-sky-600 p-1 rounded-sm"
             >
               <ImageIcon
-                className="opacity-60 h-5 w-5"
+                className="h-5 w-5 bg-"
               />
               <input
                 type="file"
                 accept="image/*"
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer bg-white"
                 onChange={handleImageChange}
               />
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="focus:outline-none text-neutral-800 hover:text-purple-600 dark:text-purple-300 dark:hover:text-violet-700 dark:bg-sky-400 hover:bg-violet-700 p-1 rounded-sm"
+              className="focus:outline-none text-white hover:text-purple-600 dark:text-white dark:hover:text-violet-700 dark:bg-sky-400 hover:bg-violet-700 p-1 rounded-sm"
               onClick={handleSend}
             >
               <IconSend
                 size={16}
-                className="opacity-60"
+                className=""
               />
             </motion.button>
           </div>

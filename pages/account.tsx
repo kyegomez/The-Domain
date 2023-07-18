@@ -6,17 +6,9 @@ import {
     User
 } from '@supabase/auth-helpers-nextjs';
   
-
-
-// import LoadingDots from '@/components/ui/LoadingDots';
 import LoadingDots from '@/components/signUI/LoadingDots';
-// import Button from '@/components/ui/Button';
 import Button from '@/components/signUI/Button';
-
-// import { useUser } from '@/utils/useUser';
 import { useUser } from 'utils/useUser';
-
-// import { postData } from '@/utils/helpers';
 
 
 
@@ -71,20 +63,6 @@ export default function Account({ user }: { user: User }) {
   const [loading, setLoading] = useState(false);
   const { isLoading, subscription, userDetails } = useUser();
 
-  // const redirectToCustomerPortal = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const { url, error } = await postData({
-  //       url: '/api/create-portal-link'
-  //     });
-  //     window.location.assign(url);
-  //   } catch (error) {
-  //     if (error) return alert((error as Error).message);
-  //   }
-  //   setLoading(false);
-  // };
-
-
   return (
     <section className="bg-gradient-to-br from-indigo-50 via-white to-cyan-100 mb-32 h-full ">
       <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
@@ -106,17 +84,6 @@ export default function Account({ user }: { user: User }) {
               : ''
           }
         >
-          {/* <div className="text-xl mt-8 mb-4 font-semibold">
-            {isLoading ? (
-              <div className="h-12 mb-6">
-                <LoadingDots />
-              </div>
-            ) : subscription ? (
-              `${subscriptionPrice}/${subscription?.prices?.interval}`
-            ) : (
-              <Link href="/">Choose your plan</Link>
-            )}
-          </div> */}
         </Card>
         <Card
           title="Your Name"

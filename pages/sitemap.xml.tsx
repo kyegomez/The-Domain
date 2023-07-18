@@ -38,13 +38,6 @@ export async function getServerSideProps({
 }) {
   const hostname = `https://precedent.dev`;
 
-  // Generate dynamic data for the sitemap
-  //   const users = await prisma.user.findMany({
-  //     select: {
-  //       username: true,
-  //     },
-  //   });
-
   // We generate the XML sitemap with the posts data
   const sitemap = generateSiteMap({
     hostname,

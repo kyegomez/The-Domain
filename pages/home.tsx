@@ -2,24 +2,14 @@ import { Chat } from "@/components/Chat/Chat";
 import { Navbar } from "@/components/Mobile/Navbar";
 import { Sidebar } from "@/components/Sidebar/Sidebar";
 import { ChatBody, Conversation, KeyValuePair, Message, OpenAIModel, OpenAIModelID, OpenAIModels } from "types/index";
-// import { cleanConversationHistory, cleanSelectedConversation } from "/utils/app/clean"I
 import { cleanConversationHistory, cleanSelectedConversation } from "utils/app/clean";
-// import { DEFAULT_SYSTEM_PROMPT } from "@/utils/app/const";
 import { DEFAULT_SYSTEM_PROMPT } from "utils/app/const";
-// import { saveConversation, saveConversations, updateConversation } from "@/utils/app/conversation";
 import { saveConversation, saveConversations, updateConversation } from "utils/app/conversation";
-// import { exportConversations, importConversations } from "@/utils/app/data";
 import { exportConversations, importConversations } from "utils/app/data";
-// import { IconArrowBarLeft, IconArrowBarRight } from "tabler/icons-react";
-//@ts-ignore
 import { IconArrowBarLeft, IconArrowBarRight } from '@tabler/icons-react';
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import { withAuthRequired, User } from '@supabase/supabase-auth-helpers/nextjs';
-
-
-// export const getServerSideProps = withAuthRequired({ redirectTo: '/signin' });
-
 
 
 export default function Home() {

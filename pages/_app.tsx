@@ -25,24 +25,6 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-// export default function MyApp({
-//   Component,
-//   pageProps: { session, ...pageProps },
-// }: AppProps<{ session: Session }>) {
-//   return (
-//     <SessionProvider session={session}>
-//       <RWBProvider>
-//         <div className={cx(sfPro.variable, inter.variable)}>
-//           <Component {...pageProps} />
-//         </div>
-//       </RWBProvider>
-//       <Analytics />
-//     </SessionProvider>
-//   );
-// }
-
-
-//===================================+> v2 
 
 export default function MyApp({ Component, pageProps: {session, ...pageProps} }: AppProps) {
   const [supabaseClient] = useState(() =>
