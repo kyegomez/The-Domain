@@ -23,6 +23,7 @@ export const Conversations: FC<Props> = ({ loading, conversations, selectedConve
     }
   };
 
+  //
   const handleRename = (conversation: Conversation) => {
     onRenameConversation(conversation, renameValue);
     setRenameValue("");
