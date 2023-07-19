@@ -23,14 +23,27 @@ The Domain embodies the frontier of digital communication: a hyper-intelligent c
 
 ## Installation
 
-Embarking on the journey with The Domain is a breeze. You can deploy in any environment in no time:
+Setting up The Domain is easy and requires only a few steps. You can deploy it in any environment swiftly:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsteven-tey%2Fthedomain&project-name=thedomain&repository-name=thedomain&demo-title=The%20Domain&demo-description=A%20super%20intelligent%20conversational%20interface%20that%20allows%20seamless%20interaction%20with%20any%20digital%20data.&demo-url=https%3A%2F%2Fthedomain.ai&demo-image=https%3A%2F%2Fthedomain.ai%2Fapi%2Fog&env=DATABASE_URL,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,NEXTAUTH_SECRET&envDescription=How%20to%2Fget%20these%20env%20variables%3A&envLink=https%3A%2F%2Fgithub.com%2Fsteven-tey%2Fthedomain%2Fblob%2Fmain%2F.env.example)
+Deploy with Vercel
 
-Or take control and clone & install The Domain locally:
+Alternatively, take the reins and clone & install The Domain locally using yarn:
 
-```bash
-yarn create next-app thedomain --example "https://github.com/steven-tey/thedomain"
+```shell
+# Clone the repository
+git clone https://github.com/kyegomez/thedomain.git
+
+# Go to the domain directory
+cd thedomain
+
+# Install the dependencies
+yarn install
+
+# Build the project
+yarn build
+
+# Start the server
+yarn run dev
 ```
 
 ## Tech Stack + Features
