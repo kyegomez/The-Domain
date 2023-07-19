@@ -43,7 +43,7 @@ export const Conversations: FC<Props> = ({ loading, conversations, selectedConve
       {conversations.map((conversation, index) => (
         <button
           key={index}
-          className={`flex gap-3 items-center p-3 text-sm rounded-lg hover:bg-[#343541]/90 transition-colors duration-200 cursor-pointer ${loading ? "disabled:cursor-not-allowed" : ""} ${selectedConversation.id === conversation.id ? "bg-[#343541]/90" : ""}`}
+          className={`flex gap-3 items-center p-3 text-sm rounded-lg  hover:bg-gradient-to-r from-blue-500 to-blue-600 transition-colors duration-200 cursor-pointer ${loading ? "disabled:cursor-not-allowed" : ""} ${selectedConversation.id === conversation.id ? "bg-[#2563eb]/90" : ""}`}
           onClick={() => onSelectConversation(conversation)}
           disabled={loading}
         >
