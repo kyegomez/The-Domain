@@ -21,7 +21,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ icon, url }) => {
   return (
     <button
       onClick={handleClick}
-      className="cursor-pointer p-4 bg-white rounded-md border-none appearance-none focus:outline-none"
+      className="cursor-pointer p-4 bg-black rounded-md border-none appearance-none focus:outline-none"
     >
       {icon}
     </button>
