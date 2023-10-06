@@ -105,7 +105,7 @@ export const Chat: FC<Props> = ({ conversation, models, messageIsStreaming, mode
                     <ChatMessage
                       key={index}
                       message={message}
-                      lightMode={lightMode}
+                      lightMode={"dark"}
                       imageUrl={imageUrl}
                     />
                   );
