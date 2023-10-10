@@ -34,7 +34,7 @@ Alternatively, take the reins and clone & install The Domain locally using yarn:
 git clone https://github.com/kyegomez/The-Domain.git
 
 # Go to the domain directory
-cd thedomain
+cd The-Domain
 
 # Install the dependencies
 yarn install
