@@ -31,7 +31,7 @@ Alternatively, take the reins and clone & install The Domain locally using yarn:
 
 ```shell
 # Clone the repository
-git clone https://github.com/kyegomez/thedomain.git
+git clone https://github.com/kyegomez/The-Domain.git
 
 # Go to the domain directory
 cd thedomain
